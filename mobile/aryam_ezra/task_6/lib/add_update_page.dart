@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:task_6/home_page.dart';
 import 'package:task_6/image_container.dart';
 import 'dart:io';
 import 'package:task_6/upload_image.dart';
-import 'product.dart'; 
+import 'product.dart';
 
 class AddUpdatePage extends StatefulWidget {
   const AddUpdatePage({Key? key}) : super(key: key);
@@ -32,7 +31,8 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new, color: Color.fromARGB(255, 54, 104, 255), size: 20),
+          icon: Icon(Icons.arrow_back_ios_new,
+              color: Color.fromARGB(255, 54, 104, 255), size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text('Add Product'),
@@ -47,7 +47,7 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
               SizedBox(height: 16),
               ImageUploadWidget(
                 onImagePicked: _handleImagePicked,
-              ), 
+              ),
               SizedBox(height: 16),
               Text('Name', style: TextStyle(fontSize: 16)),
               SizedBox(height: 16),
@@ -150,15 +150,17 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
                 height: 50,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {final product = Product(
-    name: _name.text,
-    category: _category.text,
-    price: int.tryParse(_price.text) ?? 0,
-    description: _description.text,
-    imageFile: _selectedImage,
-  );
+                  onPressed: () {
+                    final product = Product(
+                      name: _name.text,
+                      category: _category.text,
+                      price: int.tryParse(_price.text) ?? 0,
+                      description: _description.text,
+                      imageFile: _selectedImage,
+                    );
 
-  Navigator.pop(context, product);},
+                    Navigator.pop(context, product);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 54, 104, 255),
                     foregroundColor: Colors.white,
@@ -194,4 +196,3 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
     );
   }
 }
-

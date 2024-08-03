@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  
   List<Product> _products = [];
 
   void _addProduct(Product product) {
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('yMMMMd').format(DateTime.now());
-
+    
     return Scaffold(
       appBar: AppBar(
         title: Padding(

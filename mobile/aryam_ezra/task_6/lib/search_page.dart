@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:task_6/image_container.dart';
 import 'package:task_6/range_slidder.dart';
+import 'product.dart';
+import 'product_provider.dart';
+import 'package:provider/provider.dart';
+import 'product_provider.dart';
+import 'image_container.dart';
 
 class SearchPage extends StatelessWidget {
+  List<Product> _products = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,12 +62,23 @@ class SearchPage extends StatelessWidget {
             SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return 
-                    const ImageContainer();
-                },
-              ),
+                  itemCount: _products.length,
+                  itemBuilder: (context, index) {
+                    final product = _products[index];
+                    return GestureDetector(
+                      onTap: () {
+                        // You can navigate to a detail page here if needed
+                      },
+                      child: ImageContainer(
+                        name: product.name,
+                        category: product.category,
+                        price: product.price,
+                        description: product.description,
+                        imageFile: product.imageFile,
+                      ),
+                    );
+                  },
+                ),
             ),
             SizedBox(height:20),
             Row(
