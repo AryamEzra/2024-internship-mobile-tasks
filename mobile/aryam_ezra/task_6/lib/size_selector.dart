@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SizeSelector extends StatefulWidget {
+  const SizeSelector({super.key});
+
   @override
   _SizeSelectorState createState() => _SizeSelectorState();
 }
@@ -30,7 +32,7 @@ class _SizeSelectorState extends State<SizeSelector> {
                 ),
                 selected: _selectedSize == size,
                 showCheckmark: false,
-                selectedColor:  Color.fromARGB(255, 54, 104, 255), 
+                selectedColor:  const Color.fromARGB(255, 54, 104, 255), 
                 onSelected: (selected) {
                   setState(() {
                     _selectedSize = size; 

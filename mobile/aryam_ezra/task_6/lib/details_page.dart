@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:task_6/size_selector.dart';
-import 'package:task_6/add_update_page.dart';
-import 'product.dart';
+
+import 'size_selector.dart';
 
 class DetailsPage extends StatelessWidget {
-  final Product product;
-
-  DetailsPage({required this.product});
+  const DetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +24,7 @@ class DetailsPage extends StatelessWidget {
                 child: const Icon(
                   size: 15,
                   Icons.arrow_back_ios_new,
-                  color: Color.fromARGB(255, 54, 104, 255),
+                  color:  Color.fromARGB(255, 54, 104, 255),
                 )),
           ),
         ),
@@ -43,17 +40,15 @@ class DetailsPage extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    height: 200.0,
+                    height: 200.0, 
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                       ),
                       image: DecorationImage(
-                        image: product.imageFile != null
-                            ? FileImage(product.imageFile!)
-                            : AssetImage('assets/placeholder.png') as ImageProvider,
+                        image: AssetImage('images/image.png'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -67,7 +62,7 @@ class DetailsPage extends StatelessWidget {
                           bottomRight: Radius.circular(10),
                         ),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
@@ -77,7 +72,7 @@ class DetailsPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    product.category,
+                                    'Men\'s shoe',
                                     style: TextStyle(
                                       fontSize: 13,
                                       color: Color.fromARGB(255, 210, 205, 205),
@@ -85,7 +80,7 @@ class DetailsPage extends StatelessWidget {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    product.name,
+                                    'Derby Leather',
                                     style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black,
@@ -102,12 +97,14 @@ class DetailsPage extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Icon(Icons.star, color: Colors.yellow, size: 16),
+                                    Icon(Icons.star,
+                                        color: Colors.yellow, size: 16),
                                     Text(
                                       '(4.0)',
                                       style: TextStyle(
                                         fontSize: 13,
-                                        color: Color.fromARGB(255, 210, 205, 205),
+                                        color:
+                                            Color.fromARGB(255, 210, 205, 205),
                                       ),
                                     ),
                                   ],
@@ -116,7 +113,7 @@ class DetailsPage extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      '  \$${product.price}',
+                                      '  \$120',
                                       style: TextStyle(
                                         fontSize: 16,
                                       ),
@@ -133,52 +130,50 @@ class DetailsPage extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
               child: Text('Size:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
             ),
-            SizeSelector(), // Replace with SizeSelector widget
+            const SizeSelector(), // Replace with SizeSelector widget
             const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
               child: Text(
-                product.description,
+                'A derby leather shoe is a classic and versatile footwear option characterized by its open lacing system, where the shoelace eyelets are sewn on top of the vamp (the upper part of the shoe). This design feature provides a more relaxed and casual look compared to the closed lacing system of oxford shoes. Derby shoes are typically made of high-quality leather, known for its durability and elegance, making them suitable for both formal and casual occasions. With their timeless style and comfortable fit, derby leather shoes are a staple in any well-rounded wardrobe.',
                 style: TextStyle(fontSize: 14, color: Color.fromRGBO(102, 102, 102, 1)),
               ),
             ),
             const SizedBox(height: 16),
             Container(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment:
+                    MainAxisAlignment.center, 
                 children: [
                   const SizedBox(height: 30),
                   OutlinedButton(
                     onPressed: () {},
-                    child: Text(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Colors.red),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            10), // Adjust the radius to get the desired curvature
+                      ),
+                    ),
+                    child: const Text(
                       'DELETE',
                       style: TextStyle(color: Colors.red),
                     ),
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: Colors.red),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
                   ),
                   const SizedBox(height: 30),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 50),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AddUpdatePage()),
-                      );
-                    },
+                    onPressed: () {Navigator.pushNamed(context, '/add_update');},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 54, 104, 255),
-                      foregroundColor: Colors.white,
+                      backgroundColor:  const Color.fromARGB(255, 54, 104, 255), 
+                      foregroundColor: Colors.white, // White text color
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(
+                            12), 
                       ),
                     ),
                     child: const Text('UPDATE'),

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class MyRange extends StatefulWidget {
+  const MyRange({super.key});
+
   @override
   _MyRangeState createState() => _MyRangeState();
 }
 
 class _MyRangeState extends State<MyRange> {
-  RangeValues _currentRange = RangeValues(0, 1000);
+  RangeValues _currentRange = const RangeValues(0, 1000);
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +20,12 @@ class _MyRangeState extends State<MyRange> {
           children: [
             Text(
               'Price: ${_currentRange.start.toStringAsFixed(0)} - ${_currentRange.end.toStringAsFixed(0)}',
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ],
         ),
         RangeSlider(
-          activeColor: Color.fromARGB(255, 54, 104, 255),
+          activeColor: const Color.fromARGB(255, 54, 104, 255),
             values: _currentRange,
             min: 0,
             max: 1000,
