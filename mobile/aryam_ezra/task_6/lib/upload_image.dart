@@ -53,13 +53,11 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class ImageUploadWidget extends StatefulWidget {
-  final File? imageFile;
   final void Function(File) onImagePicked;
 
   const ImageUploadWidget({
     Key? key,
     required this.onImagePicked,
-    this.imageFile,
   }) : super(key: key);
 
   @override
@@ -67,6 +65,8 @@ class ImageUploadWidget extends StatefulWidget {
 }
 
 class _ImageUploadWidgetState extends State<ImageUploadWidget> {
+  File? _imageFile;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -78,9 +78,10 @@ class _ImageUploadWidgetState extends State<ImageUploadWidget> {
         );
 
         if (pickedFile != null) {
-          File imageFile = File(pickedFile.path);
-          widget.onImagePicked(imageFile); 
-          setState(() {}); 
+          setState(() {
+            _imageFile = File(pickedFile.path);
+          });
+          widget.onImagePicked(_imageFile!);
         }
       },
       child: Container(
@@ -89,21 +90,21 @@ class _ImageUploadWidgetState extends State<ImageUploadWidget> {
         decoration: BoxDecoration(
           color: const Color.fromRGBO(243, 243, 243, 1),
           borderRadius: BorderRadius.circular(10),
-          image: widget.imageFile != null
+          image: _imageFile != null
               ? DecorationImage(
-                  image: FileImage(widget.imageFile!),
+                  image: FileImage(_imageFile!),
                   fit: BoxFit.cover,
                 )
               : null,
         ),
-        padding: EdgeInsets.all(8.0),
-        child: widget.imageFile == null
+        padding: const EdgeInsets.all(8.0),
+        child: _imageFile == null
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(Icons.image, color: Colors.black, size: 30),
-                    SizedBox(width: .0),
+                    SizedBox(width: 10.0),
                     Text(
                       'Upload image',
                       style: TextStyle(
@@ -119,3 +120,4 @@ class _ImageUploadWidgetState extends State<ImageUploadWidget> {
     );
   }
 }
+

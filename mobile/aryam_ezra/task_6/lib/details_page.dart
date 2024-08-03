@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:task_6/size_selector.dart';
+import 'package:task_6/add_update_page.dart';
+import 'product.dart';
 
 class DetailsPage extends StatelessWidget {
+  final Product product;
+
+  DetailsPage({required this.product});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +27,7 @@ class DetailsPage extends StatelessWidget {
                 child: const Icon(
                   size: 15,
                   Icons.arrow_back_ios_new,
-                  color:  Color.fromARGB(255, 54, 104, 255),
+                  color: Color.fromARGB(255, 54, 104, 255),
                 )),
           ),
         ),
@@ -37,15 +43,17 @@ class DetailsPage extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    height: 200.0, 
+                    height: 200.0,
                     width: double.infinity,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                       ),
                       image: DecorationImage(
-                        image: AssetImage('images/image.png'),
+                        image: product.imageFile != null
+                            ? FileImage(product.imageFile!)
+                            : AssetImage('assets/placeholder.png') as ImageProvider,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -59,7 +67,7 @@ class DetailsPage extends StatelessWidget {
                           bottomRight: Radius.circular(10),
                         ),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
@@ -69,7 +77,7 @@ class DetailsPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Men\'s shoe',
+                                    product.category,
                                     style: TextStyle(
                                       fontSize: 13,
                                       color: Color.fromARGB(255, 210, 205, 205),
@@ -77,7 +85,7 @@ class DetailsPage extends StatelessWidget {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    'Derby Leather Shoes',
+                                    product.name,
                                     style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black,
@@ -94,14 +102,12 @@ class DetailsPage extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Icon(Icons.star,
-                                        color: Colors.yellow, size: 16),
+                                    Icon(Icons.star, color: Colors.yellow, size: 16),
                                     Text(
                                       '(4.0)',
                                       style: TextStyle(
                                         fontSize: 13,
-                                        color:
-                                            Color.fromARGB(255, 210, 205, 205),
+                                        color: Color.fromARGB(255, 210, 205, 205),
                                       ),
                                     ),
                                   ],
@@ -110,7 +116,7 @@ class DetailsPage extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      '  \$120',
+                                      '  \$${product.price}',
                                       style: TextStyle(
                                         fontSize: 16,
                                       ),
@@ -135,16 +141,15 @@ class DetailsPage extends StatelessWidget {
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: const Text(
-                'A derby leather shoe is a classic and versatile footwear option characterized by its open lacing system, where the shoelace eyelets are sewn on top of the vamp (the upper part of the shoe). This design feature provides a more relaxed and casual look compared to the closed lacing system of oxford shoes. Derby shoes are typically made of high-quality leather, known for its durability and elegance, making them suitable for both formal and casual occasions. With their timeless style and comfortable fit, derby leather shoes are a staple in any well-rounded wardrobe.',
+              child: Text(
+                product.description,
                 style: TextStyle(fontSize: 14, color: Color.fromRGBO(102, 102, 102, 1)),
               ),
             ),
             const SizedBox(height: 16),
             Container(
               child: Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween, 
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const SizedBox(height: 30),
                   OutlinedButton(
@@ -156,21 +161,24 @@ class DetailsPage extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: Colors.red),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10), // Adjust the radius to get the desired curvature
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
                   const SizedBox(height: 30),
                   const SizedBox(width: 8),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddUpdatePage()),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:  Color.fromARGB(255, 54, 104, 255), 
-                      foregroundColor: Colors.white, // White text color
+                      backgroundColor: Color.fromARGB(255, 54, 104, 255),
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            12), 
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     child: const Text('UPDATE'),

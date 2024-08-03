@@ -5,8 +5,21 @@ import 'package:task_6/image_container.dart';
 import 'details_page.dart';
 import 'add_update_page.dart';
 import 'search_page.dart';
+import 'product.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<Product> _products = [];
+
+  void _addProduct(Product product) {
+    setState(() {
+      _products.add(product);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('yMMMMd').format(DateTime.now());
@@ -162,17 +175,20 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.8,
                 child: ListView.builder(
-                  itemCount: 3,
+                  itemCount: _products.length,
                   itemBuilder: (context, index) {
+                    final product = _products[index];
                     return GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DetailsPage()),
-                        );
+                        // You can navigate to a detail page here if needed
                       },
-                      child: ImageContainer(),
+                      child: ImageContainer(
+                        name: product.name,
+                        category: product.category,
+                        price: product.price,
+                        description: product.description,
+                        imageFile: product.imageFile,
+                      ),
                     );
                   },
                 ),
@@ -182,11 +198,15 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final product = await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => AddUpdatePage()),
           );
+
+          if (product != null && product is Product) {
+            _addProduct(product);
+          }
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),

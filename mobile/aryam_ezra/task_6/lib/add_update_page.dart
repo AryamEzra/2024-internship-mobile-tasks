@@ -1,14 +1,24 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:task_6/home_page.dart';
+import 'package:task_6/image_container.dart';
 import 'dart:io';
-import 'package:task_6/upload_image.dart'; 
+import 'package:task_6/upload_image.dart';
+import 'product.dart'; 
 
 class AddUpdatePage extends StatefulWidget {
+  const AddUpdatePage({Key? key}) : super(key: key);
+
   @override
   _AddUpdatePageState createState() => _AddUpdatePageState();
 }
 
 class _AddUpdatePageState extends State<AddUpdatePage> {
+  TextEditingController _name = new TextEditingController();
+  TextEditingController _category = new TextEditingController();
+  TextEditingController _description = new TextEditingController();
+  TextEditingController _price = new TextEditingController();
   File? _selectedImage;
 
   void _handleImagePicked(File imageFile) {
@@ -37,12 +47,12 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
               SizedBox(height: 16),
               ImageUploadWidget(
                 onImagePicked: _handleImagePicked,
-                imageFile: _selectedImage,
               ), 
               SizedBox(height: 16),
               Text('Name', style: TextStyle(fontSize: 16)),
               SizedBox(height: 16),
               TextField(
+                controller: _name,
                 decoration: InputDecoration(
                   fillColor: const Color.fromRGBO(243, 243, 243, 1),
                   filled: true,
@@ -64,6 +74,7 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
               Text('Category', style: TextStyle(fontSize: 16)),
               SizedBox(height: 16),
               TextField(
+                controller: _category,
                 decoration: InputDecoration(
                   fillColor: const Color.fromRGBO(243, 243, 243, 1),
                   filled: true,
@@ -85,6 +96,7 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
               Text('Price', style: TextStyle(fontSize: 16)),
               SizedBox(height: 16),
               TextField(
+                controller: _price,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   fillColor: const Color.fromRGBO(243, 243, 243, 1),
@@ -114,6 +126,7 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
               Text('Description', style: TextStyle(fontSize: 16)),
               SizedBox(height: 16),
               TextField(
+                controller: _description,
                 maxLines: 6,
                 decoration: InputDecoration(
                   fillColor: const Color.fromRGBO(243, 243, 243, 1),
@@ -137,7 +150,15 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
                 height: 50,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {final product = Product(
+    name: _name.text,
+    category: _category.text,
+    price: int.tryParse(_price.text) ?? 0,
+    description: _description.text,
+    imageFile: _selectedImage,
+  );
+
+  Navigator.pop(context, product);},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 54, 104, 255),
                     foregroundColor: Colors.white,
