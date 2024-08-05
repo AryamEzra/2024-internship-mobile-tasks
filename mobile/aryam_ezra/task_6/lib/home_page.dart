@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
+import 'package:provider/provider.dart';
 import 'image_container.dart';
+import 'product_provider.dart'; 
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -94,38 +96,35 @@ class HomePage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Container(
-                      // padding: const EdgeInsets.all(8),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              // Text(
-                              //   'Avalilable products',
-                              //   style: GoogleFonts.poppins(
-                              //     textStyle: TextStyle(
-                              //         fontSize: 25,
-                              //         color: Colors.black,
-                              //         fontWeight: FontWeight.bold),
-                              //   ),
-                              // ),
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Avalilable products',
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            // Text(
+                            //   'Avalilable products',
+                            //   style: GoogleFonts.poppins(
+                            //     textStyle: TextStyle(
+                            //         fontSize: 25,
+                            //         color: Colors.black,
+                            //         fontWeight: FontWeight.bold),
+                            //   ),
+                            // ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Avalilable products',
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
@@ -154,16 +153,25 @@ class HomePage extends StatelessWidget {
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.8,
-                child: ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/details');
+                child: Consumer<ProductProvider>(
+                  builder: (context,productProvider, child) {
+                    final products = productProvider.products;
+                    return ListView.builder(
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        final product = products[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/details', arguments: index,);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ImageContainer(product: products[index],),
+                          ),
+                        );
                       },
-                      child: const ImageContainer(),
                     );
-                  },
+                  }
                 ),
               ),
             ],

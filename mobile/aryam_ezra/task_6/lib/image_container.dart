@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'product.dart';
 
 class ImageContainer extends StatelessWidget {
-  const ImageContainer({super.key});
+  ImageContainer({super.key, required this.product});
+
+  Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +29,13 @@ class ImageContainer extends StatelessWidget {
                   height: 170, 
                   width: double.infinity,
 
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                     image: DecorationImage(
-                      image: AssetImage('images/image.png'),
+                      image: product.imageFile != null
+                          ? FileImage(product.imageFile!)
+                          : const AssetImage('image/boots.jpg') as ImageProvider,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -55,7 +60,7 @@ class ImageContainer extends StatelessWidget {
                           )
                       ,
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
@@ -63,7 +68,7 @@ class ImageContainer extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Derby Leather Shoes',
+                                product.name,
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
@@ -71,7 +76,7 @@ class ImageContainer extends StatelessWidget {
                               ),
                               SizedBox(height:5),
                               Text(
-                                'Men\'s shoe',
+                                product.category,
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Color.fromARGB(255, 210, 205, 205),
@@ -84,7 +89,7 @@ class ImageContainer extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Text('\$120',
+                                Text('\$' + product.price,
                                     style: TextStyle(
                                       fontSize: 16,
                                     )),

@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
+import 'details_page.dart';
 import 'image_container.dart';
 import 'range_slidder.dart';
+import 'product.dart';
+import 'package:provider/provider.dart';
+import 'product_provider.dart';
+import 'bottom_sheet.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
+  SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color:  Color.fromARGB(255, 54, 104, 255), size: 20),
-          onPressed: () {Navigator.pop(context);},
+          icon: const Icon(Icons.arrow_back_ios_new,
+              color: Color.fromARGB(255, 54, 104, 255), size: 20),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: const Text(
           'Search Product',
@@ -35,18 +44,27 @@ class SearchPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width:10),
+                const SizedBox(width: 10),
                 Container(
                   padding: const EdgeInsets.all(8),
                   width: 56,
-                  height: 56, 
+                  height: 56,
                   decoration: BoxDecoration(
-                    color:  const Color.fromARGB(255, 54, 104, 255),
-                    borderRadius: BorderRadius.circular(6), 
-
+                    color: const Color.fromARGB(255, 54, 104, 255),
+                    borderRadius: BorderRadius.circular(6),
                   ),
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) => const FilterBottomSheet(),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(16),
+                          ),
+                        ),
+                      );
+                    },
                     icon: const Icon(
                       Icons.filter_list,
                       color: Colors.white,
@@ -55,49 +73,31 @@ class SearchPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
-                itemCount: 5,
+                itemCount: productProvider.products.length,
                 itemBuilder: (context, index) {
-                  return 
-                    const ImageContainer();
+                  final product = productProvider.products[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/details',
+                        arguments: index,
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: ImageContainer(
+                        product: product,
+                      ),
+                    ),
+                  );
                 },
               ),
             ),
-            const SizedBox(height:20),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text('Category', style: TextStyle(fontSize: 20),),
-              ],
-            ),
-            const SizedBox(height: 5,),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            const SizedBox(child: MyRange()),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 50,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:  const Color.fromARGB(255, 54, 104, 255),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text('APPLY'),
-              ),
-            ),
+            
           ],
         ),
       ),
