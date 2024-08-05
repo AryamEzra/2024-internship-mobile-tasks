@@ -1,4 +1,4 @@
-![photo_3_2024-08-05_16-35-19](https://github.com/user-attachments/assets/cb5fd3d3-dc98-4ac4-8ba0-4740a37d8ae3)
+
 # Task 6: Implementing a Flutter User Interface
 ## Objective:
 Create a Flutter user interface that replicates the design of a provided picture.
