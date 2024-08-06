@@ -69,6 +69,17 @@ You are tasked with implementing a user interface in Flutter that replicates the
 ![photo_1_2024-08-05_16-40-06](https://github.com/user-attachments/assets/00109a80-3bde-4217-965f-6484ac5b2024)
 ![photo_2_2024-08-05_16-40-06](https://github.com/user-attachments/assets/c02f069b-c4ce-42f2-af3d-867a9003bc64)
 
+#### updataing data
+![photo_5_2024-08-06_10-38-29](https://github.com/user-attachments/assets/3a52fec4-3b26-45d3-aac0-d02d685f5466)
+![photo_7_2024-08-06_10-38-29](https://github.com/user-attachments/assets/cd12401e-c128-4a5a-8243-ed79b9ef685c)
+![photo_6_2024-08-06_10-38-29](https://github.com/user-attachments/assets/5e4ed4b8-b7a3-4da5-9692-0265fde10ee9)
+![photo_9_2024-08-06_10-38-29](https://github.com/user-attachments/assets/e69b529b-6a50-4d0d-8a2e-da049ce42b60)
+![photo_2_2024-08-06_10-38-29](https://github.com/user-attachments/assets/dc6b3af9-efd3-422a-9e16-eaaaff536cee)
+![photo_3_2024-08-06_10-38-29](https://github.com/user-attachments/assets/b55f1b14-e513-434e-9631-a7d231dcf86e)
+![photo_8_2024-08-06_10-38-29](https://github.com/user-attachments/assets/36b854be-6cef-4105-b88a-612228863919)
+![photo_4_2024-08-06_10-38-29](https://github.com/user-attachments/assets/8ffde257-bf14-4338-be97-aab85f269b25)
+
+
 
 
 
