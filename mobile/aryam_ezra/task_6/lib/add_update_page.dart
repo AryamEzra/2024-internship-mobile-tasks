@@ -198,8 +198,6 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
                 width: double.infinity,
                 child: OutlinedButton(
                   onPressed: () {
-                    Provider.of<ProductProvider>(context, listen: false)
-                        .deleteProduct(widget.index!);
                     Navigator.pop(context);
                   },
                   style: OutlinedButton.styleFrom(
