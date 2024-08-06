@@ -1,40 +1,36 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'upload_image.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
-import 'home_page.dart';
-import 'image_container.dart';
+import 'upload_image.dart';
 import 'product.dart';
-import 'product_provider.dart'; // Ensure this file exists
+import 'product_provider.dart';
 
-class AddUpdatePage extends StatefulWidget {
-  AddUpdatePage({super.key, this.product, this.index});
+class UpdatePage extends StatefulWidget {
+  final Product product;
+  final int index;
 
-  final Product? product;
-  final int? index;
+  const UpdatePage({Key? key, required this.product, required this.index}) : super(key: key);
+
 
   @override
-  _AddUpdatePageState createState() => _AddUpdatePageState();
+  _UpdatePageState createState() => _UpdatePageState();
 }
 
-class _AddUpdatePageState extends State<AddUpdatePage> {
+class _UpdatePageState extends State<UpdatePage> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _category = TextEditingController();
   final TextEditingController _description = TextEditingController();
   final TextEditingController _price = TextEditingController();
   File? _selectedImage;
+
   @override
   void initState() {
     super.initState();
-    if (widget.product != null) {
-      _name.text = widget.product!.name;
-      _category.text = widget.product!.category;
-      _description.text = widget.product!.description;
-      _price.text = widget.product!.price;
-      _selectedImage = widget.product!.imageFile;
-    }
+    _name.text = widget.product.name;
+    _category.text = widget.product.category;
+    _description.text = widget.product.description;
+    _price.text = widget.product.price;
+    _selectedImage = widget.product.imageFile;
   }
 
   void _handleImagePicked(File imageFile) {
@@ -48,11 +44,10 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new,
-              color: Color.fromARGB(255, 54, 104, 255), size: 20),
+          icon: const Icon(Icons.arrow_back_ios_new, color: Color.fromARGB(255, 54, 104, 255), size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Add Product'),
+        title: const Text('Update Product'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -164,7 +159,7 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    final product = Product(
+                    final updatedProduct = Product(
                       name: _name.text,
                       category: _category.text,
                       price: _price.text,
@@ -172,15 +167,10 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
                       imageFile: _selectedImage,
                     );
 
-                    if (widget.index == null) {
-                      Provider.of<ProductProvider>(context, listen: false)
-                          .addProduct(product);
-                    } else {
-                      Provider.of<ProductProvider>(context, listen: false)
-                          .updateProduct(widget.index!, product);
-                    }
+                    Provider.of<ProductProvider>(context, listen: false)
+                        .updateProduct(widget.index, updatedProduct);
 
-                    Navigator.pop(context, product);
+                    Navigator.pop(context, updatedProduct);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 54, 104, 255),
@@ -189,7 +179,7 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text('ADD'),
+                  child: const Text('UPDATE'),
                 ),
               ),
               const SizedBox(height: 16),
@@ -199,7 +189,7 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
                 child: OutlinedButton(
                   onPressed: () {
                     Provider.of<ProductProvider>(context, listen: false)
-                        .deleteProduct(widget.index!);
+                        .deleteProduct(widget.index);
                     Navigator.pop(context);
                   },
                   style: OutlinedButton.styleFrom(

@@ -9,15 +9,13 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
-    final products = Provider.of<ProductProvider>(context, listen: false).products;
-  
-    if(products.length - 1 > index){
-      return const Placeholder();
+    final products =
+        Provider.of<ProductProvider>(context, listen: false).products;
 
+    if (index >= products.length) {
+      return const Placeholder();
     }
     final product = products[index];
-
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -168,7 +166,8 @@ class DetailsPage extends StatelessWidget {
                   const SizedBox(height: 30),
                   OutlinedButton(
                     onPressed: () {
-                      Provider.of<ProductProvider>(context, listen: false).deleteProduct(index);
+                      Provider.of<ProductProvider>(context, listen: false)
+                          .deleteProduct(index);
                       Navigator.pop(context);
                     },
                     style: OutlinedButton.styleFrom(
@@ -187,7 +186,7 @@ class DetailsPage extends StatelessWidget {
                   const SizedBox(width: 50),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/add_update',
+                      Navigator.pushNamed(context, '/update',
                           arguments: {'product': product, 'index': index});
                     },
                     style: ElevatedButton.styleFrom(

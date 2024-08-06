@@ -8,6 +8,8 @@ import 'navigation_animation.dart';
 import 'product_provider.dart';
 import 'search_page.dart';
 import 'package:provider/provider.dart';
+import 'update.dart';
+import 'product.dart';
 
 void main() {
   runApp(
@@ -46,6 +48,12 @@ class MyApp extends StatelessWidget {
               // return FadePageRoute(page: const DetailsPage());
             case '/add_update':
               return SlidePageRoute(page: AddUpdatePage());
+            case '/update':
+              final args = settings.arguments as Map<String, dynamic>;
+              final int index = args['index'];
+              final Product product = args['product'];
+              return FadePageRoute(page: UpdatePage(index: index, product: product));
+            
             case '/search':
               return ScalePageRoute(page: SearchPage());
             default:

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'details_page.dart';
 import 'image_container.dart';
-import 'range_slidder.dart';
-import 'product.dart';
 import 'package:provider/provider.dart';
 import 'product_provider.dart';
 import 'bottom_sheet.dart';
