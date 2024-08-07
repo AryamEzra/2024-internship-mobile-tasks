@@ -25,7 +25,7 @@ void main() {
     id: 1,
     category: 'Women\'s shoe',
     price: 199.99,
-    image: "assets/images/boots.jpg",
+    imageUrl: 'assets/images/boots.jpg',
     description:
         'These boots are made for walking and that\'s just what they\'ll do one of these days these boots are gonna walk all over you',
   );
