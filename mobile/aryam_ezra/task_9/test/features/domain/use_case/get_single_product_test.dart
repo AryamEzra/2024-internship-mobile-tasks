@@ -23,7 +23,7 @@ void main() {
     mockFile = MockFile();
   });
 
-  test('should display all products from the list', () async {
+  test('should display a single product from the repository', () async {
     var product = Product(
       name: 'Boots',
       id: 1,

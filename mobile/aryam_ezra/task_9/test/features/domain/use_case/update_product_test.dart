@@ -26,7 +26,7 @@ void main() {
   });
   
 
-  test('should add a product to the repository', () async {
+  test('should update a product from the repository', () async {
     var product = Product(
       name: 'Boots',
       id: 1,

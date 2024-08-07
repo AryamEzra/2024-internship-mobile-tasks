@@ -23,7 +23,7 @@ void main() {
     mockFile = MockFile();
   });
 
-  test('should delete a product to the repository', () async {
+  test('should delete a product from the repository', () async {
     var product = Product(
       name: 'Boots',
       id: 1,
