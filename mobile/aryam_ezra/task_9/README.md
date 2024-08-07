@@ -1,8 +1,15 @@
-# task_9
 
-A new Flutter project.
+# Task 9: Entities, Use Cases, and Repositories
 
-## Getting Started
+## Task Objectives
+ - ✔️ Create entities for the products in the eCommerce Mobile App.
+ - ✔️ Define use cases for inserting, updating, deleting, and getting a product.
+ - ✔️ Implement repositories to handle data operations for the products.
+
+## Testing the usecase
+![Screenshot 2024-08-07 120634](https://github.com/user-attachments/assets/7aacc7a7-908d-4c72-9a8d-830d9f5178a7)
+
+
 
 This project is a starting point for a Flutter application.
 
