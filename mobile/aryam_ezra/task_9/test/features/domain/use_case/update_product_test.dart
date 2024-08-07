@@ -15,28 +15,22 @@ class MockFile extends Mock implements File {}
 void main() {
   late MockProductRepository productRepository;
   late UpdateProduct usecase;
-  late MockFile mockFile;
 
   setUp(() {
     productRepository = MockProductRepository();
     usecase = UpdateProduct(productRepository);
-    mockFile = MockFile();
-
-    
   });
-  
+  final product = Product(
+    name: 'Boots',
+    id: 1,
+    category: 'Women\'s shoe',
+    price: 199.99,
+    image: "assets/images/boots.jpg",
+    description:
+        'These boots are made for walking and that\'s just what they\'ll do one of these days these boots are gonna walk all over you',
+  );
 
   test('should update a product from the repository', () async {
-    var product = Product(
-      name: 'Boots',
-      id: 1,
-      category: 'Women\'s shoe',
-      price: 199.99,
-      image: mockFile,
-      description:
-          'These boots are made for walking and that\'s just what they\'ll do one of these days these boots are gonna walk all over you',
-    );
-    
     //Arrange
     when(productRepository.updateProduct(product))
         .thenAnswer((_) async => Right(product));

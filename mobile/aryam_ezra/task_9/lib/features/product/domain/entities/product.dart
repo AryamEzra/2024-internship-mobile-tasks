@@ -3,17 +3,16 @@ import 'dart:io';
 class Product {
   String name;
   String description;
-  String category;
+  late String category;
   int id;
   double price;
-  File? image;
+  String image;
 
   Product({
     required this.name,
     required this.description,
-    required this.category,
     required this.id,
     required this.price,
-    required this.image,
+    required this.image, required String category,
   });
 }
