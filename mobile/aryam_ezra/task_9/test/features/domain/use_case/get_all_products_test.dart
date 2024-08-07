@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 
 import 'package:task_9/features/product/domain/entities/product.dart';
 import 'package:task_9/features/product/domain/repository/product_repository.dart';
-import 'package:task_9/features/product/domain/use_case/getAllProducts.dart'
+import 'package:task_9/features/product/domain/use_case/get_all_products.dart'
     show GetAllProducts;
 import 'test_mocks_all.mocks.dart';
 

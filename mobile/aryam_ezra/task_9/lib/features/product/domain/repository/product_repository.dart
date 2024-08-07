@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:task_9/core/failure/failure.dart';
-import 'package:task_9/features/product/domain/entities/product.dart';
+import '../../../../core/failure/failure.dart';
+import '../entities/product.dart';
 
 abstract class ProductRepository {
   Future<Either<Failure, List<Product>>> getAllProducts();

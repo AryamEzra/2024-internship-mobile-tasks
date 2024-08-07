@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 
 import 'package:task_9/features/product/domain/entities/product.dart';
 import 'package:task_9/features/product/domain/repository/product_repository.dart';
-import 'package:task_9/features/product/domain/use_case/getProduct.dart';
+import 'package:task_9/features/product/domain/use_case/get_product.dart';
 import 'test_mocks_all.mocks.dart';
 
 class MockFile extends Mock implements File {}
