@@ -1,9 +1,17 @@
 import 'package:equatable/equatable.dart';
 
-// ignore: must_be_immutable
 abstract class Failure extends Equatable {
-  String message;
-  Failure({required this.message});
+  final String message;
+  const Failure(this.message);
+
   @override
   List<Object> get props => [message];
+}
+
+class ServerFailure extends Failure {
+  const ServerFailure(String message) : super(message);
+}
+
+class CacheFailure extends Failure {
+  const CacheFailure(String message) : super(message);
 }

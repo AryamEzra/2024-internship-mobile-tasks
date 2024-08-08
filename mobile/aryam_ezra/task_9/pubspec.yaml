@@ -49,6 +49,8 @@ dependencies:
   bloc:
   bloc_test:
   uuid:
+  http:
+  connectivity_plus:
 
 
   # The following adds the Cupertino Icons font to your application.
