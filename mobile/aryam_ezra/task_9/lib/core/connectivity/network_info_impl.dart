@@ -1,5 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:task_9/core/connectivity/network_info.dart';
+import 'network_info.dart';
 
 class NetworkInfoImpl implements NetworkInfo {
   final Connectivity _connectivity;

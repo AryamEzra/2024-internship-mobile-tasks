@@ -23,7 +23,6 @@ void main() {
   final product = Product(
     name: 'Boots',
     id: 1,
-    category: 'Women\'s shoe',
     price: 199.99,
     imageUrl: 'assets/images/boots.jpg',
     description:

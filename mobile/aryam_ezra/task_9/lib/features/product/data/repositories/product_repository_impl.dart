@@ -1,5 +1,7 @@
+
 import 'package:dartz/dartz.dart';
 import '../../../../core/connectivity/network_info.dart';
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/failure/failure.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repository/product_repository.dart';
@@ -21,17 +23,37 @@ class ProductRepositoryImpl extends ProductRepository{
 
   @override
   Future<Either<Failure, Product>> addProduct(Product product) async {
+    /*
     if (await networkInfo.isConnected) {
+      
       // This is a placeholder return statement
       // Replace it with actual remote data source call later
-      return Right(product);
+      // return Right(product); //- checked if device was online
+      return Right(await remoteDataSource.addProduct(product));
     } else {
       // Handle the case when the device is offline
       return const Left(CacheFailure('No internet connection'));
     }
+    */
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteProduct = await remoteDataSource.addProduct(product);
+        localDataSource.cacheProduct(remoteProduct);
+        return Right(remoteProduct);
+      } on ServerException{
+        return Left(ServerFailure(message: 'Server failure'));
+      }}
+    else {
+      try {
+        final localProduct = await localDataSource.addProduct(product);
+        return Right(localProduct);
+      } on CacheException {
+        return Left(CacheFailure(message: 'Cache failure'));
+      }
+    }
   }
-  
-  @override
+
+   @override
   Future<Either<Failure, void>> deleteProduct(int id) {
     // TODO: implement deleteProduct
     throw UnimplementedError();
@@ -55,16 +77,12 @@ class ProductRepositoryImpl extends ProductRepository{
     throw UnimplementedError();
   }
 
-  // @override
-  // Future<Either<Failure, Product>>? getProductById(int id){return null;}
-
-  // @override
-  // Future<Either<Failure, List<Product>>> getAllProducts(){return null;}
-
-  // @override
-  // Future<Either<Failure, Product>> updateProduct(Product product){return null;}
   
-  // @override
-  // Future<Either<Failure, void>> deleteProduct(int id){return null;}
-
 }
+
+
+ 
+
+  
+
+

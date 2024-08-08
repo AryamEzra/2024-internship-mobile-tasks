@@ -5,26 +5,26 @@ import 'package:mockito/mockito.dart';
 import 'package:task_9/core/connectivity/network_info.dart';
 import 'package:task_9/core/error/exceptions.dart';
 import 'package:task_9/core/failure/failure.dart';
-import 'package:task_9/features/product/data/data_sources/product_remote_data_source.dart';
+import 'package:task_9/features/product/data/data_sources/product_local_data_source.dart';
 import 'package:task_9/features/product/data/models/product_model.dart';
 import 'package:task_9/features/product/data/repositories/product_repository_impl.dart';
 import 'package:task_9/features/product/domain/entities/product.dart';
 
-import '../datasources/product_local_data_source_test.mocks.dart';
-import 'product_repository_impl_test.mocks.dart' as repo_mocks; // Adjust import path if needed
+import '../respositories/product_repository_impl_test.mocks.dart' as repo_mocks;
+import 'product_local_data_source_test.mocks.dart' as local_mocks; // Add a prefix
 
-@GenerateMocks([ProductRemoteDataSource, NetworkInfo])
+@GenerateMocks([ProductLocalDataSource, NetworkInfo])
 void main() {
   late ProductRepositoryImpl repository;
-  late repo_mocks.MockProductRemoteDataSource mockRemoteDataSource;
-  late MockNetworkInfo mockNetworkInfo;
+  late local_mocks.MockProductLocalDataSource mockLocalDataSource;
+  late local_mocks.MockNetworkInfo mockNetworkInfo;
 
   setUp(() {
-    mockRemoteDataSource = repo_mocks.MockProductRemoteDataSource();
-    mockNetworkInfo = MockNetworkInfo();
+    mockLocalDataSource = local_mocks.MockProductLocalDataSource();
+    mockNetworkInfo = local_mocks.MockNetworkInfo();
     repository = ProductRepositoryImpl(
-      remoteDataSource: mockRemoteDataSource,
-      localDataSource: MockProductLocalDataSource(), // Dummy
+      remoteDataSource: repo_mocks.MockProductRemoteDataSource(), // Dummy
+      localDataSource: mockLocalDataSource,
       networkInfo: mockNetworkInfo,
     );
   });
@@ -45,35 +45,35 @@ void main() {
     imageUrl: 'assets/images/boots.jpg',
   );
 
-  group('Remote Data Source Tests', () {
+  group('Local Data Source Tests', () {
     setUp(() {
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
     });
 
     test(
-      'should return remote data when the call to remote data is successful',
+      'should return last locally cached data when the cached data is available',
       () async {
         // Add the stub for addProduct method
-        when(mockRemoteDataSource.addProduct(any))
+        when(mockLocalDataSource.addProduct(any))
             .thenAnswer((_) async => tProductModel);
 
         final result = await repository.addProduct(product);
         expect(result, equals(Right(tProductModel)));
-        verify(mockRemoteDataSource.addProduct(product));
+        verify(mockLocalDataSource.addProduct(product));
       },
     );
 
     test(
-      'should return server failure when the call to remote data is unsuccessful',
+      'should return cache failure when the call to local data source is unsuccessful',
       () async {
         // Add the stub for addProduct method
-        when(mockRemoteDataSource.addProduct(any))
-            .thenThrow(ServerException());
+        when(mockLocalDataSource.addProduct(any))
+            .thenThrow(CacheException());
 
         final result = await repository.addProduct(product);
         expect(result, isA<Left<Failure, Product>>());
-        verify(mockRemoteDataSource.addProduct(product));
-        verifyZeroInteractions(MockProductLocalDataSource());
+        verify(mockLocalDataSource.addProduct(product));
+        verifyZeroInteractions(repo_mocks.MockProductRemoteDataSource());
       },
     );
   });

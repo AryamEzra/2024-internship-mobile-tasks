@@ -1,5 +1,5 @@
-import 'package:task_9/features/product/domain/entities/product.dart';
-import 'package:task_9/features/product/data/models/product_model.dart';
+import '../../domain/entities/product.dart';
+import '../models/product_model.dart';
 
 
 abstract class ProductRemoteDataSource {
