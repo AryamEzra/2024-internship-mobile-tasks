@@ -10,7 +10,7 @@ import 'package:task_9/features/product/data/models/product_model.dart';
 import 'package:task_9/features/product/data/repositories/product_repository_impl.dart';
 import 'package:task_9/features/product/domain/entities/product.dart';
 
-import '../respositories/product_repository_impl_test.mocks.dart' as repo_mocks;
+import '../../respositories/product_repository_impl_test.mocks.dart' as repo_mocks;
 import 'product_local_data_source_test.mocks.dart' as local_mocks; // Add a prefix
 
 @GenerateMocks([ProductLocalDataSource, NetworkInfo])
@@ -31,17 +31,17 @@ void main() {
 
   final product = Product(
     name: 'Boots',
-    id: 1,
-    price: 199.99,
+    id: '1',
+    price: 200 ,
     imageUrl: 'assets/images/boots.jpg',
     description: 'These boots are made for walking and that\'s just what they\'ll do...',
   );
 
   final tProductModel = ProductModel(
-    id: 1,
+    id: '1',
     name: 'Test Product',
     description: 'This is a test product',
-    price: 199.99,
+    price: 200,
     imageUrl: 'assets/images/boots.jpg',
   );
 

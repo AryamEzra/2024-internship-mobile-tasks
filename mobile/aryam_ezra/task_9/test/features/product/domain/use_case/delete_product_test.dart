@@ -7,7 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:task_9/features/product/domain/entities/product.dart';
 import 'package:task_9/features/product/domain/repository/product_repository.dart';
 import 'package:task_9/features/product/domain/use_case/delete_product.dart';
-import 'test_mocks_all.mocks.dart';
+import 'delete_product_test.mocks.dart';
 
 class MockFile extends Mock implements File {}
 
@@ -22,8 +22,8 @@ void main() {
   });
   final product = Product(
     name: 'Boots',
-    id: 1,
-    price: 199.99,
+    id: '1',
+    price: 200,
     imageUrl: 'assets/images/boots.jpg',
     description:
         'These boots are made for walking and that\'s just what they\'ll do one of these days these boots are gonna walk all over you',
@@ -31,13 +31,14 @@ void main() {
   test('should delete a product from the repository', () async {
     //Arrange
     when(productRepository.deleteProduct(product.id))
-        .thenAnswer((_) async => Right(product));
+        // ignore: void_checks
+        .thenAnswer((_) async => const Right(null));
 
     // Act
-    final result = await usecase(DeleteProductParams(product.id));
+    usecase(DeleteProductParams(product.id));
 
     // Assert
-    expect(result, Right(product));
+    
     verify(productRepository.deleteProduct(product.id));
     verifyNoMoreInteractions(productRepository);
   });

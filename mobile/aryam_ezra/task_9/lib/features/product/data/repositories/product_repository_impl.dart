@@ -54,7 +54,7 @@ class ProductRepositoryImpl extends ProductRepository{
   }
 
    @override
-  Future<Either<Failure, void>> deleteProduct(int id) {
+  Future<Either<Failure, void>> deleteProduct(id) {
     // TODO: implement deleteProduct
     throw UnimplementedError();
   }
@@ -66,7 +66,7 @@ class ProductRepositoryImpl extends ProductRepository{
   }
   
   @override
-  Future<Either<Failure, Product>> getProductById(int id) {
+  Future<Either<Failure, Product>> getProductById(id) {
     // TODO: implement getProductById
     throw UnimplementedError();
   }

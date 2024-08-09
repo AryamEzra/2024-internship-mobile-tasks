@@ -5,7 +5,7 @@ import '../repository/product_repository.dart';
 
 // Define a class to represent the parameters needed for deletion
 class DeleteProductParams {
-  final int id;
+  final String id;
 
   DeleteProductParams(this.id);
 }

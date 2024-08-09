@@ -45,22 +45,18 @@ class MockProductRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i4.Future<_i2.ProductModel> getAllProducts() => (super.noSuchMethod(
+  _i4.Future<List<_i2.ProductModel>> getAllProducts() => (super.noSuchMethod(
         Invocation.method(
           #getAllProducts,
           [],
         ),
-        returnValue: _i4.Future<_i2.ProductModel>.value(_FakeProductModel_0(
-          this,
-          Invocation.method(
-            #getAllProducts,
-            [],
-          ),
-        )),
-      ) as _i4.Future<_i2.ProductModel>);
+        returnValue:
+            _i4.Future<List<_i2.ProductModel>>.value(<_i2.ProductModel>[]),
+      ) as _i4.Future<List<_i2.ProductModel>>);
 
   @override
-  _i4.Future<_i2.ProductModel> getProductById(int? id) => (super.noSuchMethod(
+  _i4.Future<_i2.ProductModel> getProductById(String? id) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getProductById,
           [id],
@@ -107,7 +103,7 @@ class MockProductRemoteDataSource extends _i1.Mock
       ) as _i4.Future<_i2.ProductModel>);
 
   @override
-  _i4.Future<_i2.ProductModel> deleteProduct(int? id) => (super.noSuchMethod(
+  _i4.Future<_i2.ProductModel> deleteProduct(String? id) => (super.noSuchMethod(
         Invocation.method(
           #deleteProduct,
           [id],

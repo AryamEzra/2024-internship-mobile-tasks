@@ -6,7 +6,7 @@ import '../entities/product.dart';
 import '../repository/product_repository.dart';
 
 class GetProductParams {
-  final int id;
+  final String id;
   GetProductParams({required this.id});
 }
 class GetProduct extends UseCase<Product, GetProductParams> {

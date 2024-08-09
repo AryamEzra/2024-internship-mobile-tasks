@@ -4,10 +4,10 @@ import 'package:task_9/features/product/domain/entities/product.dart';
 
 void main() {
   final tProductModel = ProductModel(
-    id: 1,
+    id: '1',
     name: 'Test Product',
     description: 'This is a test product',
-    price: 199.99,
+    price: 200,
     imageUrl: 'assets/images/boots.jpg',
   );
 
@@ -18,6 +18,8 @@ void main() {
     'price': 199.99,
     'imageUrl': 'assets/images/boots.jpg',
   };
+
+  
 
   test(
     'should be a subclass of Product entity',
