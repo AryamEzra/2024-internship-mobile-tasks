@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import '../../../../core/error/exceptions.dart';
-import '../../domain/entities/product.dart';
 import '../models/product_model.dart';
 
 abstract class ProductRemoteDataSource {

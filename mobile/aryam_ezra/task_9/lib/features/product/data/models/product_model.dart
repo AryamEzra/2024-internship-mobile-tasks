@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/product.dart';
 
 // ignore: must_be_immutable
 class ProductModel extends Equatable {

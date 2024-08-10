@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
@@ -9,7 +7,6 @@ import 'package:mockito/mockito.dart';
 import 'package:task_9/core/error/exceptions.dart';
 import 'package:task_9/features/product/data/data_sources/product_remote_data_source.dart';
 import 'package:task_9/features/product/data/models/product_model.dart';
-import 'package:task_9/features/product/domain/entities/product.dart';
 
 import 'remote_data_source_test.mocks.dart';
 
@@ -259,23 +256,46 @@ void main() {
   */
 
   group('updateProduct', () {
-    final tproductModel = ProductModel(
-        id: '6672776eb905525c145fe0bb',
-        name: 'Anime website',
-        description: 'Explore anime characters.',
-        price: 123,
-        imageUrl:
-            'https://res.cloudinary.com/g5-mobile-track/image/upload/v1718777711/images/clmxnecvavxfvrz9by4w.jpg');
+    final tProductModel = ProductModel(
+      id: '6672776eb905525c145fe0bb',
+      name: 'Anime website',
+      description: 'Explore anime characters.',
+      price: 123,
+      imageUrl: 'https://res.cloudinary.com/g5-mobile-track/image/upload/v1718777711/images/clmxnecvavxfvrz9by4w.jpg',
+    );
 
-    test('should throw ServerException when the response code is not 200',
-        () async {
-      when(mockHttpClient.put(any,
-              headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => http.Response('Not Found', 404));
+    test('should perform a PUT request on the URL with the product being updated', () async {
+      // Arrange
+      when(mockHttpClient.put(
+        any,
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response('{"success": true}', 200));
 
+      // Act
+      await dataSource.updateProduct(tProductModel);
+
+      // Assert
+      verify(mockHttpClient.put(
+        Uri.parse('https://g5-flutter-learning-path-be.onrender.com/api/v1/products/${tProductModel.id}'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(tProductModel.toJson()),
+      ));
+    });
+
+    test('should throw a ServerException when the response code is not 200', () async {
+      // Arrange
+      when(mockHttpClient.put(
+        any,
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response('Something went wrong', 404));
+
+      // Act
       final call = dataSource.updateProduct;
 
-      expect(() => call(tproductModel), throwsA(isA<ServerException>()));
+      // Assert
+      expect(() => call(tProductModel), throwsA(isA<ServerException>()));
     });
   });
 }

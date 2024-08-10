@@ -1,13 +1,11 @@
 
 import 'package:dartz/dartz.dart';
 import '../../../../core/connectivity/network_info.dart';
-import '../../../../core/error/exceptions.dart';
 import '../../../../core/failure/failure.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repository/product_repository.dart';
 import '../data_sources/product_local_data_source.dart';
 import '../data_sources/product_remote_data_source.dart';
-import '../models/product_model.dart';
 
 
 
