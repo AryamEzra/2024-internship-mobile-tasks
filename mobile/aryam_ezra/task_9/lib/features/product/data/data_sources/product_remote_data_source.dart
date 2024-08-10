@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import '../../../../core/error/exceptions.dart';
@@ -8,8 +7,8 @@ import '../models/product_model.dart';
 abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getAllProducts();
   Future<ProductModel> getProductById(String id);
-  Future<ProductModel> addProduct(ProductModel product, File tImageFile);
-  Future<ProductModel> updateProduct(ProductModel product);
+  Future<ProductModel> addProduct(ProductModel product, String imagePath);
+  Future<ProductModel> updateProduct(String id, ProductModel product);
   Future<void> deleteProduct(String id);
 }
 
@@ -18,56 +17,55 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   ProductRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<ProductModel> addProduct(ProductModel product, File imageFile) async {
-    final uri = Uri.parse('https://g5-flutter-learning-path-be.onrender.com/api/v1/products/');
-    final request = http.MultipartRequest('POST', uri);
+  Future<ProductModel> addProduct(
+      ProductModel product, String imagePath) async {
+    try {
+      var request = http.MultipartRequest(
+          'POST',
+          Uri.parse(
+              'https://g5-flutter-learning-path-be.onrender.com/api/v1/products'));
+      request.fields.addAll({
+        'name': product.name,
+        'description': product.description,
+        'price': product.price.toString()
+      });
 
-    request.fields['name'] = product.name;
-    request.fields['description'] = product.description;
-    request.fields['price'] = product.price.toString();
-    request.fields['id'] = product.id;
+      request.files.add(await http.MultipartFile.fromPath(
+        'image',
+        product.imageUrl,
+        contentType: MediaType('image', 'jpeg'),
+      ));
 
-    request.files.add(
-      await http.MultipartFile.fromPath(
-        'image', 
-        imageFile.path,
-        contentType: MediaType('image', 'jpg'),
-      ),
-    );
-    // Send the request
-    final streamedResponse = await request.send();
-    final response = await http.Response.fromStream(streamedResponse);
+      http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 201) {
-      final jsonData = json.decode(response.body)['data'];
-      return ProductModel.fromJson(jsonData);
-    } else {
+      if (response.statusCode == 201) {
+        final result = await response.stream.bytesToString();
+
+        return ProductModel.fromJson(jsonDecode(result)['data']);
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
       throw ServerException();
     }
   }
-
-
-
 
   @override
   Future<List<ProductModel>> getAllProducts() async {
     try {
       final response = await client.get(
-      Uri.parse(
-          'https://g5-flutter-learning-path-be.onrender.com/api/v1/products'),
-    );
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonResponse = json.decode(response.body)['data'];
-      return jsonResponse.map((json) => ProductModel.fromJson(json)).toList();
-    } else {
-      throw ServerException();
-    }
-      
+        Uri.parse(
+            'https://g5-flutter-learning-path-be.onrender.com/api/v1/products'),
+      );
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonResponse = json.decode(response.body)['data'];
+        return jsonResponse.map((json) => ProductModel.fromJson(json)).toList();
+      } else {
+        throw ServerException();
+      }
     } catch (e) {
       throw ServerException();
-      
     }
-    
   }
 
   @override
@@ -75,8 +73,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     try {
       final response = await client.get(
         Uri.parse(
-          'https://g5-flutter-learning-path-be.onrender.com/api/v1/products' +
-              '/$id',
+          'https://g5-flutter-learning-path-be.onrender.com/api/v1/products' '/$id',
         ),
       );
       if (response.statusCode == 200) {
@@ -94,20 +91,16 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         throw ServerException();
       }
     } catch (e) {
-      
       throw ServerException();
     }
   }
-   @override
+
+  @override
   Future<void> deleteProduct(String id) async {
     try {
-      final response = await client.delete(
-        Uri.parse(
-          'https://g5-flutter-learning-path-be.onrender.com/api/v1/products' +
-              '/' +
-              id,
-        )
-      );
+      final response = await client.delete(Uri.parse(
+        'https://g5-flutter-learning-path-be.onrender.com/api/v1/products/$id',
+      ));
       if (response.statusCode == 200) {
         return;
       } else if (response.statusCode == 404) {
@@ -116,32 +109,43 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         throw ServerException();
       }
     } catch (e) {
-      if(e is ProductNotFoundException){
+      if (e is ProductNotFoundException) {
         throw ProductNotFoundException();
       }
       throw ServerException();
     }
   }
 
+  // @override
+  // Future<ProductModel> updateProduct(String id, ProductModel tProductModel) async {
+  //   final response = await client.put(
+  //     Uri.parse(
+  //         'https://g5-flutter-learning-path-be.onrender.com/api/v1/products' +
+  //             '/$id'),
+  //   );
+
+  //   if (response.statusCode == 200) {
+  //     final jsonMap = json.decode(response.body) as Map<String, dynamic>;
+  //     return ProductModel.fromJson(jsonMap);
+  //   } else {
+  //     throw ServerException();
+  //   }
+  // }
   @override
-  Future<ProductModel> updateProduct(ProductModel product) async{
-    try {
-      final response = await client.put(
+  Future<ProductModel> updateProduct(String id, ProductModel product) async {
+    final response = await client.put(
       Uri.parse(
-          'https://g5-flutter-learning-path-be.onrender.com/api/v1/products'),
+          'https://g5-flutter-learning-path-be.onrender.com/api/v1/products/$id'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(product.toJson()),
     );
+
     if (response.statusCode == 200) {
-      final List<dynamic> jsonResponse = json.decode(response.body)['data'];
-      return ProductModel.fromJson(jsonResponse as Map<String, dynamic>);
+      final jsonMap = json.decode(response.body) as Map<String, dynamic>;
+      return ProductModel.fromJson(jsonMap);
     } else {
       throw ServerException();
     }
-      
-    } catch (e) {
-      throw ServerException();
-      
-    }
-    // throw UnimplementedError();
   }
 }
 //post and put for add and update method then add the body using json 

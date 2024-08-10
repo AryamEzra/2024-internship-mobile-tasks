@@ -1,7 +1,9 @@
 import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:task_9/features/product/data/models/product_model.dart';
-import 'package:task_9/core/error/exceptions.dart';
+
+import '../../../../core/error/exceptions.dart';
+import '../models/product_model.dart';
 
 abstract class ProductLocalDataSource {
   Future<List<ProductModel>> getAllProducts();

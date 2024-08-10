@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 // ignore: must_be_immutable
@@ -8,7 +10,7 @@ class ProductModel extends Equatable {
   final double price;
   final String imageUrl;
 
-  ProductModel({
+  const ProductModel({
     required this.id,
     required this.name,
     required this.description,
@@ -25,6 +27,8 @@ class ProductModel extends Equatable {
       imageUrl: json['imageUrl'] as String,
     );
   }
+
+  File? get imageFile => null;
 
   Map<String, dynamic> toJson() {
     return {

@@ -8,7 +8,7 @@ import 'package:task_9/core/error/exceptions.dart';
 import 'package:task_9/features/product/data/data_sources/product_remote_data_source.dart';
 import 'package:task_9/features/product/data/models/product_model.dart';
 
-import 'remote_data_source_test.mocks.dart';
+import 'product_remote_data_source_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() {
@@ -22,6 +22,15 @@ void main() {
   final jsonResponse = jsonDecode(File(
           'D:/2024-internship-mobile-tasks/mobile/aryam_ezra/task_9/test/features/dummy_test/dummy_json.json')
       .readAsStringSync());
+
+  const tProductModel = ProductModel(
+      id: '6672776eb905525c145fe0bb',
+      name: 'Anime website',
+      description: 'Explore anime characters.',
+      price: 123,
+      imageUrl:
+          'https://res.cloudinary.com/g5-mobile-track/image/upload/v1718777711/images/clmxnecvavxfvrz9by4w.jpg');
+  const tImagePath = 'assets/images/boots.jpg';
   group('getAllProducts', () {
     test('should return a list of ProductModels when the response code is 200',
         () async {
@@ -147,143 +156,52 @@ void main() {
     });
   });
 
-    group('addProduct', () {
-    final tProductModel = ProductModel(
-      id: '6672776eb905525c145fe0bb',
-      name: 'Anime website',
-      description: 'Explore anime characters.',
-      price: 123,
-      imageUrl: 'https://res.cloudinary.com/g5-mobile-track/image/upload/v1718777711/images/clmxnecvavxfvrz9by4w.jpg',
-    );
-
-    final tImageFile = File('assets/images/boots.jpg');
-
-    test('should add product to JSON file and return the product', () async {
-      // Arrange
-      when(mockHttpClient.send(any)).thenAnswer((_) async {
-        final response = http.StreamedResponse(
-          Stream.value(utf8.encode(jsonEncode({
-            'data': {
-              'id': '6672776eb905525c145fe0bb',
-              'name': 'Anime website',
-              'description': 'Explore anime characters.',
-              'price': 123.0,
-              'imageUrl': 'https://res.cloudinary.com/g5-mobile-track/image/upload/v1718777711/images/clmxnecvavxfvrz9by4w.jpg'
-            }
-          }))),
-          201,
-        );
-        return response;
-      });
-
-
-      // Act
-      final result = await dataSource.addProduct(tProductModel, tImageFile);
-
-      // Assert
-      expect(result, equals(tProductModel));
-
-      // Read the existing file content
-      final file = File('D:/2024-internship-mobile-tasks/mobile/aryam_ezra/task_9/test/features/dummy_test/dummy_single_product.json');
-      final fileContent = file.readAsStringSync();
-      final jsonData = jsonDecode(fileContent);
-
-      // Add the new product to the existing data
-      if (jsonData['data'] is List) {
-        jsonData['data'].add(tProductModel.toJson());
-      } else {
-        jsonData['data'] = [jsonData['data'], tProductModel.toJson()];
-      }
-
-      // Write the updated content back to the file
-      file.writeAsStringSync(jsonEncode(jsonData));
-
-      // Verify the product is added
-      final updatedFileContent = file.readAsStringSync();
-      final updatedJsonData = jsonDecode(updatedFileContent);
-      expect(updatedJsonData['data'], contains(tProductModel.toJson()));
-    });
-  });
-  /*
   group('addProduct', () {
-    final tproductModel = ProductModel(
-        id: '6672776eb905525c145fe0bb',
-        name: 'Anime website',
-        description: 'Explore anime characters.',
-        price: 123,
-        imageUrl:
-            'https://res.cloudinary.com/g5-mobile-track/image/upload/v1718777711/images/clmxnecvavxfvrz9by4w.jpg');
-
-    test('should add product to JSON file and return the product', () async {
+    test('should throw a ServerException when the response code is not 201',
+        () async {
       // Arrange
-      final product = ProductModel(
-        id: '6672776eb905525c145fe0bb',
-        name: 'Anime website',
-        description: 'Explore anime characters.',
-        price: 123,
-        imageUrl:
-            'https://res.cloudinary.com/g5-mobile-track/image/upload/v1718777711/images/clmxnecvavxfvrz9by4w.jpg',
-      );
-
-      when(mockHttpClient.post(any,
-              headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer(
-              (_) async => http.Response(jsonEncode(product.toJson()), 201));
+      when(mockHttpClient.send(any))
+          .thenAnswer((_) async => http.StreamedResponse(
+                Stream.fromIterable([utf8.encode('Something went wrong')]),
+                400,
+              ));
 
       // Act
-      final result = await dataSource.addProduct(product);
+      dataSource.addProduct;
 
       // Assert
-      expect(result, equals(product));
-      final fileContent = File(
-              'D:/2024-internship-mobile-tasks/mobile/aryam_ezra/task_9/test/features/dummy_test/dummy_single_product.json')
-          .readAsStringSync();
-      final jsonData = jsonDecode(fileContent);
-      expect(jsonData['data'], contains(product.toJson()));
-    });
-
-    test('should throw ServerException when the response code is not 201',
-        () async {
-      when(mockHttpClient.post(any,
-              headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => http.Response('Not Found', 404));
-
-      final call = dataSource.addProduct;
-
-      expect(() => call(tproductModel), throwsA(isA<ServerException>()));
+      expect(() => dataSource.addProduct(tProductModel, tImagePath), throwsA(isA<ServerException>()));
+  
     });
   });
-  */
 
   group('updateProduct', () {
-    final tProductModel = ProductModel(
-      id: '6672776eb905525c145fe0bb',
-      name: 'Anime website',
-      description: 'Explore anime characters.',
-      price: 123,
-      imageUrl: 'https://res.cloudinary.com/g5-mobile-track/image/upload/v1718777711/images/clmxnecvavxfvrz9by4w.jpg',
-    );
-
-    test('should perform a PUT request on the URL with the product being updated', () async {
+    test('should send a PUT request to update the product', () async {
       // Arrange
+      final expectedUrl = Uri.parse(
+          'https://g5-flutter-learning-path-be.onrender.com/api/v1/products/${tProductModel.id}');
       when(mockHttpClient.put(
-        any,
+        expectedUrl,
         headers: anyNamed('headers'),
         body: anyNamed('body'),
-      )).thenAnswer((_) async => http.Response('{"success": true}', 200));
+      )).thenAnswer(
+          (_) async => http.Response(jsonEncode(tProductModel.toJson()), 200));
 
       // Act
-      await dataSource.updateProduct(tProductModel);
+      final result =
+          await dataSource.updateProduct(tProductModel.id, tProductModel);
 
       // Assert
       verify(mockHttpClient.put(
-        Uri.parse('https://g5-flutter-learning-path-be.onrender.com/api/v1/products/${tProductModel.id}'),
+        expectedUrl,
         headers: {'Content-Type': 'application/json'},
-        body: json.encode(tProductModel.toJson()),
+        body: jsonEncode(tProductModel.toJson()),
       ));
+      expect(result, tProductModel);
     });
 
-    test('should throw a ServerException when the response code is not 200', () async {
+    test('should throw a ServerException when the response code is not 200',
+        () async {
       // Arrange
       when(mockHttpClient.put(
         any,
@@ -295,7 +213,8 @@ void main() {
       final call = dataSource.updateProduct;
 
       // Assert
-      expect(() => call(tProductModel), throwsA(isA<ServerException>()));
+      expect(() => call(tProductModel.id, tProductModel),
+          throwsA(isA<ServerException>()));
     });
   });
 }

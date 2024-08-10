@@ -3,7 +3,7 @@ import 'package:task_9/features/product/data/models/product_model.dart';
 import 'package:task_9/features/product/domain/entities/product.dart';
 
 void main() {
-  final tProductModel = ProductModel(
+  const tProductModel = ProductModel(
     id: '1',
     name: 'Test Product',
     description: 'This is a test product',

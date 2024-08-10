@@ -81,14 +81,15 @@ void main() {
 }
 */
 
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_9/core/error/exceptions.dart';
 import 'package:task_9/features/product/data/data_sources/product_local_data_source.dart';
 import 'package:task_9/features/product/data/models/product_model.dart';
-import 'package:task_9/core/error/exceptions.dart';
-import 'dart:convert';
 
 @GenerateMocks([SharedPreferences])
 import 'product_local_data_source_test.mocks.dart';
@@ -103,7 +104,7 @@ void main() {
   });
 
   final tProductModelList = [
-      ProductModel(
+      const ProductModel(
         id: '6672776eb905525c145fe0bb',
         name: 'Anime website',
         description: 'Explore anime characters.',
@@ -112,7 +113,7 @@ void main() {
       )
     ];
 
-  final tProductModel = ProductModel(
+  const tProductModel = ProductModel(
       id: '6672776eb905525c145fe0bb',
       name: 'Anime website',
       description: 'Explore anime characters.',
@@ -146,7 +147,7 @@ void main() {
   });
 
   group('getProductById', () {
-    final tProductModel = ProductModel(
+    const tProductModel = ProductModel(
       id: '6672776eb905525c145fe0bb',
       name: 'Anime website',
       description: 'Explore anime characters.',
@@ -237,7 +238,7 @@ void main() {
     test('should add product to existing list in SharedPreferences', () async {
       // Arrange
       final existingProducts = [
-        ProductModel(
+        const ProductModel(
           id: '123456',
           name: 'Existing Product',
           description: 'Existing product description',
@@ -265,7 +266,7 @@ void main() {
     test('should update the product in SharedPreferences', () async {
       // Arrange
       final existingProducts = [
-        ProductModel(
+        const ProductModel(
           id: '6672776eb905525c145fe0bb',
           name: 'Old Anime website',
           description: 'Old description.',

@@ -23,9 +23,3 @@ plugins {
 }
 
 include ":app"
-{
-    // ...
-    "editor.codeActionsOnSave": {
-        "source.fixAll": true
-    },
-}
