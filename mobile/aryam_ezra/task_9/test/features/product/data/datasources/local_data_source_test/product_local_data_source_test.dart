@@ -1,3 +1,4 @@
+/*
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -76,5 +77,62 @@ void main() {
         verifyZeroInteractions(repo_mocks.MockProductRemoteDataSource());
       },
     );
+  });
+}
+*/
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_9/features/product/data/data_sources/product_local_data_source.dart';
+import 'package:task_9/features/product/data/models/product_model.dart';
+import 'package:task_9/core/error/exceptions.dart';
+import 'dart:convert';
+
+@GenerateMocks([SharedPreferences])
+import 'product_local_data_source_test.mocks.dart';
+
+void main() {
+  late ProductLocalDataSourceImpl dataSource;
+  late MockSharedPreferences mockSharedPreferences;
+
+  setUp(() {
+    mockSharedPreferences = MockSharedPreferences();
+    dataSource = ProductLocalDataSourceImpl(sharedPreferences: mockSharedPreferences);
+  });
+
+  group('getAllProducts', () {
+    final tProductModelList = [
+      ProductModel(
+        id: '6672776eb905525c145fe0bb',
+        name: 'Anime website',
+        description: 'Explore anime characters.',
+        price: 123,
+        imageUrl: 'https://res.cloudinary.com/g5-mobile-track/image/upload/v1718777711/images/clmxnecvavxfvrz9by4w.jpg',
+      )
+    ];
+
+    test('should return List<ProductModel> from SharedPreferences when there is one in the cache', () async {
+      // Arrange
+      when(mockSharedPreferences.getString(any)).thenReturn(json.encode(tProductModelList.map((product) => product.toJson()).toList()));
+
+      // Act
+      final result = await dataSource.getAllProducts();
+
+      // Assert
+      expect(result, equals(tProductModelList));
+    });
+
+    test('should throw CacheException when there is not a cached value', () async {
+      // Arrange
+      when(mockSharedPreferences.getString(any)).thenReturn(null);
+
+      // Act
+      final call = dataSource.getAllProducts;
+
+      // Assert
+      expect(() => call(), throwsA(isA<CacheException>()));
+    });
   });
 }

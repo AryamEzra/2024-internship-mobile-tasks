@@ -5,7 +5,7 @@ class Product extends Equatable {
   String name;
   String description;
   String id;
-  int price;
+  double price;
   String imageUrl;
 
   Product({
@@ -17,7 +17,6 @@ class Product extends Equatable {
   });
   
   @override
-  // TODO: implement props
   List<Object?> get props => [
     name,
     description,

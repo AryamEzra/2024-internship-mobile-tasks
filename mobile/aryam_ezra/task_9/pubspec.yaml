@@ -50,6 +50,7 @@ dependencies:
   bloc_test:
   uuid:
   http:
+  http_parser:
   connectivity_plus:
   internet_connection_checker:
 

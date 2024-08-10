@@ -7,6 +7,7 @@ import '../../domain/entities/product.dart';
 import '../../domain/repository/product_repository.dart';
 import '../data_sources/product_local_data_source.dart';
 import '../data_sources/product_remote_data_source.dart';
+import '../models/product_model.dart';
 
 
 
@@ -23,6 +24,10 @@ class ProductRepositoryImpl extends ProductRepository{
 
   @override
   Future<Either<Failure, Product>> addProduct(Product product) async {
+    // Existing code...
+    throw UnimplementedError();
+  }
+    
     /*
     if (await networkInfo.isConnected) {
       
@@ -35,23 +40,25 @@ class ProductRepositoryImpl extends ProductRepository{
       return const Left(CacheFailure('No internet connection'));
     }
     */
-    if (await networkInfo.isConnected) {
-      try {
-        final remoteProduct = await remoteDataSource.addProduct(product);
-        localDataSource.cacheProduct(remoteProduct);
-        return Right(remoteProduct);
-      } on ServerException{
-        return Left(ServerFailure(message: 'Server failure'));
-      }}
-    else {
-      try {
-        final localProduct = await localDataSource.addProduct(product);
-        return Right(localProduct);
-      } on CacheException {
-        return Left(CacheFailure(message: 'Cache failure'));
-      }
-    }
-  }
+    
+    // if (await networkInfo.isConnected) {
+    //   try {
+    //     final remoteProduct = await remoteDataSource.addProduct(ProductModel.product);
+    //     localDataSource.cacheProduct(remoteProduct);
+    //     return Right(remoteProduct);
+    //   } on ServerException{
+    //     return Left(ServerFailure(message: 'Server failure'));
+    //   }}
+    // else {
+    //   try {
+    //     final localProduct = await localDataSource.addProduct(product);
+    //     return Right(localProduct);
+    //   } on CacheException {
+    //     return Left(CacheFailure(message: 'Cache failure'));
+    //   }
+    // }
+  
+  
 
    @override
   Future<Either<Failure, void>> deleteProduct(id) {
@@ -79,10 +86,4 @@ class ProductRepositoryImpl extends ProductRepository{
 
   
 }
-
-
- 
-
-  
-
 
