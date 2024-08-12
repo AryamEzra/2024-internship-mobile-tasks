@@ -2,14 +2,14 @@
 A Flutter Mobile Application built for the 2024 A2SV Summer Internship in the mobile team.
 
 ## Table of contents
-- [Task 9](#task_9)
-- [Task 10](#task_10)
-- [Task 11](#task_11)
-- [Task 12](#task_12)
-- [Task 13](#task_13)
-- [Task_14](#task_14)
-- [Task_15](#task_15)
-- [Task_16](#task_16)
+- [Task 9: Entities, Use Cases, and Repositories](#task-9-entities-use-cases-and-repositories)
+- [Task 10: Data Overview Layer](#task-10-data-overview-layer)
+- [Task 11: Contracts of Data Sources](#task-11-contracts-of-data-sources)
+- [Task 12: Implement Repository](#task-12-implement-repository)
+- [Task 13: Implement Network Info](#task-13-implement-network-info)
+- [Task 14: Implement Local Data Source](#task-14-implement-local-data-source)
+- [Task 15: Implement Remote Data Source](#task-15-implement-remote-data-source)
+- [Task 16: Improve Code Organization and Reusability](#task-16-improve-code-organization-and-reusability)
   
 ## Task 9: Entities, Use Cases, and Repositories
 
