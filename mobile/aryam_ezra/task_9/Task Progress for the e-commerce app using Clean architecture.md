@@ -2,14 +2,14 @@
 A Flutter Mobile Application built for the 2024 A2SV Summer Internship in the mobile team.
 
 ## Table of contents
-- [Task 9](#task-9)
-- [Task 10](#task-10)
-- [Task 11](#task-11)
-- [Task 12](#task-12)
-- [Task 13](#task-13)
-- [Task_14](#task-14)
-- [Task_15](#task-15)
-- [Task_16](#task-16)
+- [Task 9](#task_9)
+- [Task 10](#task_10)
+- [Task 11](#task_11)
+- [Task 12](#task_12)
+- [Task 13](#task_13)
+- [Task_14](#task_14)
+- [Task_15](#task_15)
+- [Task_16](#task_16)
   
 ## Task 9: Entities, Use Cases, and Repositories
 
