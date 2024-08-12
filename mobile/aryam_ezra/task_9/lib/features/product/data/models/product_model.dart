@@ -1,21 +1,12 @@
-import 'dart:io';
+import '../../domain/entities/product.dart';
 
-import 'package:equatable/equatable.dart';
-
-// ignore: must_be_immutable
-class ProductModel extends Equatable {
-  final String id;
-  final String name;
-  final String description;
-  final double price;
-  final String imageUrl;
-
+class ProductModel extends Product {
   const ProductModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.imageUrl,
+    required super.id,
+    required super.name,
+    required super.description,
+    required super.price,
+    required super.imageUrl,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -28,8 +19,6 @@ class ProductModel extends Equatable {
     );
   }
 
-  File? get imageFile => null;
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -39,9 +28,4 @@ class ProductModel extends Equatable {
       'imageUrl': imageUrl,
     };
   }
-  
-  @override
-  // TODO: implement props
-  List<Object?> get props => [id, name, description, price, imageUrl];
-
 }

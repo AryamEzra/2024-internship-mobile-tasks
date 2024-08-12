@@ -20,7 +20,7 @@ void main() {
     productRepository = MockProductRepository();
     usecase = GetProduct(productRepository);
   });
-  final product = Product(
+  const product = Product(
     name: 'Boots',
     id: '1',
     price: 200,
@@ -31,13 +31,13 @@ void main() {
   test('should display a single product from the repository', () async {
     // Arrange
     when(productRepository.getProductById(product.id))
-        .thenAnswer((_) async => Right(product));
+        .thenAnswer((_) async => const Right(product));
 
     // Act
     final result = await usecase(GetProductParams(id: product.id));
 
     // Assert
-    expect(result, equals(Right(product)));
+    expect(result, equals(const Right(product)));
     verify(productRepository.getProductById(product.id));
     verifyNoMoreInteractions(productRepository);
   });

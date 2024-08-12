@@ -23,7 +23,7 @@ void main() {
     productRepository = MockProductRepository();
     usecase = GetAllProducts(productRepository);
   });
-  final product = Product(
+  const product = Product(
     name: 'Boots',
     id: '1',
     price: 200,

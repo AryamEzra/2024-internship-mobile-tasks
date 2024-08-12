@@ -7,19 +7,17 @@ void main() {
     id: '1',
     name: 'Test Product',
     description: 'This is a test product',
-    price: 200,
+    price: 200.0,
     imageUrl: 'assets/images/boots.jpg',
   );
 
   final tJson = {
-    'id': 1,
+    'id': '1',
     'name': 'Test Product',
     'description': 'This is a test product',
-    'price': 199.99,
+    'price': 200.0,
     'imageUrl': 'assets/images/boots.jpg',
   };
-
-  
 
   test(
     'should be a subclass of Product entity',

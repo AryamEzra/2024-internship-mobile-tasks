@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
@@ -14,13 +15,14 @@ import 'product_remote_data_source_test.mocks.dart';
 void main() {
   late ProductRemoteDataSourceImpl dataSource;
   late MockClient mockHttpClient;
+  
 
   setUp(() {
     mockHttpClient = MockClient();
     dataSource = ProductRemoteDataSourceImpl(client: mockHttpClient);
   });
   final jsonResponse = jsonDecode(File(
-          'D:/2024-internship-mobile-tasks/mobile/aryam_ezra/task_9/test/features/dummy_test/dummy_json.json')
+          'D:/2024-internship-mobile-tasks/mobile/aryam_ezra/task_9/test/dummy_test/dummy_json.json')
       .readAsStringSync());
 
   const tProductModel = ProductModel(
@@ -68,7 +70,7 @@ void main() {
 
   group('get Products by ID', () {
     final resp = jsonDecode(File(
-            'D:/2024-internship-mobile-tasks/mobile/aryam_ezra/task_9/test/features/dummy_test/dummy_single_product.json')
+            'D:/2024-internship-mobile-tasks/mobile/aryam_ezra/task_9/test/dummy_test/dummy_single_product.json')
         .readAsStringSync());
     test('should return a product when the response code is 200', () async {
       // Arrange

@@ -22,7 +22,7 @@ void main() {
     productRepository = MockProductRepository();
     usecase = UpdateProduct(productRepository);
   });
-  final product = Product(
+  const product = Product(
     name: 'Boots',
     id: '1',
     price: 200,
@@ -34,13 +34,13 @@ void main() {
   test('should update a product from the repository', () async {
     //Arrange
     when(productRepository.updateProduct(product))
-        .thenAnswer((_) async => Right(product));
+        .thenAnswer((_) async => const Right(product));
 
     //Act
     final result = await usecase(product);
 
     //Assert
-    expect(result, Right(product));
+    expect(result, const Right(product));
     verify(productRepository.updateProduct(product));
     verifyNoMoreInteractions(productRepository);
   });
