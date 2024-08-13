@@ -1,3 +1,4 @@
+
 import '../../../../core/connectivity/network_info.dart';
 import '../../../../core/error/exceptions.dart';
 import '../data_sources/product_local_data_source.dart';
@@ -17,7 +18,7 @@ class ProductRepositoryImpl implements ProductRepository {
   final ProductLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
-  ProductRepositoryImpl({
+  ProductRepositoryImpl(Object object, ProductLocalDataSourceImpl productLocalDataSourceImpl, NetworkInfoImpl networkInfoImpl, {
     required this.remoteDataSource,
     required this.localDataSource,
     required this.networkInfo,
