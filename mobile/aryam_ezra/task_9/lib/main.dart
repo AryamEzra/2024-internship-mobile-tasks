@@ -1,11 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'features/product/domain/use_case/get_all_products.dart';
+import 'features/product/domain/repository/product_repository.dart';
 import 'features/product/presentation/bloc/home_page/home_page_bloc.dart';
-import 'features/product/presentation/pages/product_home_page.dart'; 
+import 'features/product/presentation/pages/product_home_page.dart';
+import 'service_locator.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupLocator();
   runApp(const MyApp());
 }
 
@@ -22,11 +27,11 @@ class MyApp extends StatelessWidget {
       title: 'Product App',
       home: BlocProvider(
         create: (context) {
-          final bloc = HomePageBloc(GetAllProducts as GetAllProducts); 
-          bloc.add(const FetchAllProductsEvent());
+          final bloc = getIt<HomePageBloc>();
+          bloc.add(FetchAllProductsEvent());
           return bloc;
         },
-        child: const HomePage(),
+        child: HomePage(getIt<ProductRepository>()),
       ),
     );
   }

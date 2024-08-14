@@ -1,102 +1,142 @@
+import 'dart:io';
+
+import 'package:dartz/dartz.dart';
 
 import '../../../../core/connectivity/network_info.dart';
 import '../../../../core/error/exceptions.dart';
+import '../../../../core/failure/failure.dart';
+import '../../domain/entities/product.dart';
+import '../../domain/repository/product_repository.dart';
 import '../data_sources/product_local_data_source.dart';
 import '../data_sources/product_remote_data_source.dart';
 import '../models/product_model.dart';
-
-abstract class ProductRepository {
-  Future<ProductModel> addProduct(ProductModel product);
-  Future<void> deleteProduct(String id);
-  Future<ProductModel> updateProduct(ProductModel product);
-  Future<List<ProductModel>> getAllProducts();
-  Future<ProductModel> getProductById(String id);
-}
 
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource remoteDataSource;
   final ProductLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
-  ProductRepositoryImpl(Object object, ProductLocalDataSourceImpl productLocalDataSourceImpl, NetworkInfoImpl networkInfoImpl, {
+  ProductRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,
     required this.networkInfo,
   });
 
   final imagePath = 'assets/images/boots.jpg';
-  @override
-  Future<ProductModel> addProduct(ProductModel product) async {
-    if (await networkInfo.isConnected) {
-      final remoteProduct = await remoteDataSource.addProduct(product, imagePath);
-      await localDataSource.addProduct(remoteProduct);
-      return remoteProduct;
-    } else {
-      return await localDataSource.addProduct(product);
-    }
-  }
-    
 
   @override
-  Future<void> deleteProduct(String id) async {
+  Future<Either<Failure, Product>> addProduct(Product product, {File? imageFile}) async {
+  final productModel = ProductModel(
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    price: product.price,
+    imageUrl: product.imageUrl,
+  );
+
+  if (await networkInfo.isConnected) {
+    try {
+      if (imageFile != null) {
+        final remoteProduct = await remoteDataSource.addProduct(productModel, imageFile.path);
+        await localDataSource.addProduct(remoteProduct);
+        return Right(remoteProduct as Product);
+      } else {
+        return Left(ServerFailure(message: 'Image file is null.'));
+      }
+    } on ServerException {
+      return Left(ServerFailure(message: 'Server failure.'));
+    }
+  } else {
+    await localDataSource.addProduct(productModel);
+    return Left(NetworkFailure(message: 'No internet connection.'));
+  }
+}
+
+
+
+
+  @override
+  Future<Either<Failure, Product>> updateProduct(Product product, {File? imageFile}) async {
     if (await networkInfo.isConnected) {
       try {
-        await remoteDataSource.deleteProduct(id);
-        await localDataSource.deleteProduct(id);
+        final productModel = ProductModel(
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl,
+        );
+
+        await remoteDataSource.updateProduct(productModel.id, productModel);
+        await localDataSource.updateProduct(productModel);
+        return Right(product);
       } on ServerException {
-        throw ServerException();
+        return Left(ServerFailure(message: 'Server failure.'));
       }
     } else {
-      await localDataSource.deleteProduct(id);
-    }
-  }
-
-  @override
-  Future<ProductModel> updateProduct(ProductModel product) async {
-    if (await networkInfo.isConnected) {
       try {
-        await remoteDataSource.updateProduct(product.id, product);
-        await localDataSource.updateProduct(product);
-      } on ServerException {
-        throw ServerException();
+        final productModel = ProductModel(
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl,
+        );
+        await localDataSource.updateProduct(productModel);
+        return Right(product);
+      } on CacheException {
+        return Left(CacheFailure(message: 'Failed to update product locally.'));
       }
-    } else {
-      await localDataSource.updateProduct(product);
     }
-    
-    // Add a return statement here
-    return product;
-    // throw UnimplementedError();
   }
 
   @override
-  Future<List<ProductModel>> getAllProducts() async {
-    if (await networkInfo.isConnected) {
-      try {
+  Future<Either<Failure, List<Product>>> getAllProducts() async {
+    try {
+      if (await networkInfo.isConnected) {
         final remoteProducts = await remoteDataSource.getAllProducts();
         await localDataSource.cacheProducts(remoteProducts);
-        return remoteProducts;
-      } on ServerException {
-        return await localDataSource.getAllProducts();
+        return Right(remoteProducts);
+      } else {
+        final localProducts = await localDataSource.getAllProducts();
+        return Right(localProducts);
       }
-    } else {
-      return await localDataSource.getAllProducts();
+    } catch (e) {
+      return Left(ServerFailure(message: 'Failed to fetch products.'));
     }
   }
 
   @override
-  Future<ProductModel> getProductById(String id) async {
-    if (await networkInfo.isConnected) {
-      try {
+  Future<Either<Failure, Product>> getProductById(String id) async {
+    try {
+      if (await networkInfo.isConnected) {
         final remoteProduct = await remoteDataSource.getProductById(id);
         await localDataSource.cacheProducts([remoteProduct]);
-        return remoteProduct;
-      } on ServerException {
-        return await localDataSource.getProductById(id);
+        return Right(remoteProduct);
+      } else {
+        final localProduct = await localDataSource.getProductById(id);
+        return Right(localProduct);
       }
-    } else {
-      return await localDataSource.getProductById(id);
+    } catch (e) {
+      return Left(ServerFailure(message: 'Failed to fetch product.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteProduct(String id) async {
+    try {
+      if (await networkInfo.isConnected) {
+        await remoteDataSource.deleteProduct(id);
+        await localDataSource.deleteProduct(id);
+        return const Right(null);
+      } else {
+        await localDataSource.deleteProduct(id);
+        return const Right(null);
+      }
+    } catch (e) {
+      return Left(ServerFailure(message: 'Failed to delete product.'));
     }
   }
 }
+
 

@@ -4,6 +4,7 @@ class SizeSelector extends StatefulWidget {
   const SizeSelector({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SizeSelectorState createState() => _SizeSelectorState();
 }
 

@@ -7,9 +7,4 @@ sealed class HomePageEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchAllProductsEvent extends HomePageEvent {
-  const FetchAllProductsEvent();
-
-  @override
-  List<Object> get props => [];
-}
+class FetchAllProductsEvent extends HomePageEvent {}

@@ -11,13 +11,14 @@ part 'home_page_state.dart';
 class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   final GetAllProducts getAllProducts;
 
-  HomePageBloc(this.getAllProducts) : super(HomePageInitialState()) {
+  HomePageBloc({required this.getAllProducts}) : super(HomePageInitialState()) {
     on<FetchAllProductsEvent>(_onFetchAllProducts);
   }
 
   Future<void> _onFetchAllProducts(FetchAllProductsEvent event, Emitter<HomePageState> emit) async {
     emit(HomePageLoadingState());
-    final result = await getAllProducts.call();
+
+    final result = await getAllProducts();
     result.fold(
       (failure) => emit(const HomePageErrorState('Failed to fetch products')),
       (products) => emit(HomePageLoadedState(products)),

@@ -24,3 +24,12 @@ class DeleteDetailsEvent extends DetailsPageEvent {
   @override
   List<Object> get props => [id];
 }
+
+class UpdateProductEvent extends DetailsPageEvent {
+  final Product product;
+
+  const UpdateProductEvent(this.product);
+
+  @override
+  List<Object> get props => [product];
+}

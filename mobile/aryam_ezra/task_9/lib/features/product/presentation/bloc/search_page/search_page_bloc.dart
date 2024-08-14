@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../data/repositories/product_repository_impl.dart';
-import '../../../domain/entities/product.dart'; // Adjust the import according to your project structure
+import '../../../domain/entities/product.dart';
+import '../../../domain/repository/product_repository.dart'; // Adjust the import according to your project structure
 
 part 'search_page_event.dart';
 part 'search_page_state.dart';

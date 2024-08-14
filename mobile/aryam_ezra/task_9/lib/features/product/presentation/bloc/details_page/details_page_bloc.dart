@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:task_9/features/product/domain/entities/product.dart';
+import '../../../domain/entities/product.dart';
 
 import '../../../domain/use_case/get_product.dart';
 

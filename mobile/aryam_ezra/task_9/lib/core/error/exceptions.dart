@@ -7,3 +7,7 @@ class CacheException implements Exception{
 class ProductNotFoundException implements Exception {
   
 }
+
+class NetworkException implements Exception {
+  
+}
