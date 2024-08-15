@@ -71,17 +71,6 @@ class MyApp extends StatelessWidget {
                   child: AddPage(),
                 ),
               );
-            case '/update':
-              final args = settings.arguments as Map<String, dynamic>;
-              final product = args['product'] as Product;
-              return FadePageRoute(
-                page: BlocProvider(
-                  create: (context) => AddPageBloc(
-                    getIt<AddProduct>(),
-                  ),
-                  child: AddPage(product: product),
-                ),
-              );
             default:
               return MaterialPageRoute(
                 builder: (context) => HomePage(),

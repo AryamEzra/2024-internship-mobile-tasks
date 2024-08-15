@@ -32,4 +32,6 @@ class AddPageBloc extends Bloc<AddPageEvent, AddPageState> {
       emit(AddPageErrorState(e.toString()));
     }
   }
+
+  
 }

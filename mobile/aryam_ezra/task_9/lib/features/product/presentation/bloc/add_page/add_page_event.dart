@@ -18,11 +18,10 @@ class AddProductEvent extends AddPageEvent {
 }
 
 class UpdateProductEvent extends AddPageEvent {
-  final int index;
-  final Product product;
+  final ProductModel product;
 
-  const UpdateProductEvent(this.index, this.product);
+  const UpdateProductEvent(this.product);
 
   @override
-  List<Object> get props => [index, product];
+  List<Object> get props => [product];
 }

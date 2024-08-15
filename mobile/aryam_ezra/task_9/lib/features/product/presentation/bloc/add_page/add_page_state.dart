@@ -21,6 +21,16 @@ final class AddPageSubmittedState extends AddPageState {
   List<Object> get props => [product];
 }
 
+final class UpdatePageSubmittedState extends AddPageState { // New state for updates
+  final ProductModel product;
+
+  const UpdatePageSubmittedState(this.product);
+
+  @override
+  List<Object> get props => [product];
+}
+
+
 final class AddPageErrorState extends AddPageState {
   final String message;
 

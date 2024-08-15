@@ -52,7 +52,7 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Either<Failure, Product>> updateProduct(Product product,
+  Future<Either<Failure, ProductModel>> updateProduct(Product product,
       {File? imageFile}) async {
     if (await networkInfo.isConnected) {
       try {
@@ -66,7 +66,7 @@ class ProductRepositoryImpl implements ProductRepository {
 
         await remoteDataSource.updateProduct(productModel.id, productModel);
         await localDataSource.updateProduct(productModel);
-        return Right(product);
+        return Right(productModel);
       } on ServerException {
         return Left(ServerFailure(message: 'Server failure.'));
       }
@@ -80,7 +80,7 @@ class ProductRepositoryImpl implements ProductRepository {
           imageUrl: product.imageUrl,
         );
         await localDataSource.updateProduct(productModel);
-        return Right(product);
+        return Right(productModel);
       } on CacheException {
         return Left(CacheFailure(message: 'Failed to update product locally.'));
       }
