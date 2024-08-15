@@ -1,3 +1,4 @@
+// add_page_state.dart
 part of 'add_page_bloc.dart';
 
 sealed class AddPageState extends Equatable {
@@ -11,7 +12,14 @@ final class AddPageInitialState extends AddPageState {}
 
 final class AddPageSubmittingState extends AddPageState {}
 
-final class AddPageSumbittedState extends AddPageState {} 
+final class AddPageSubmittedState extends AddPageState {
+  final ProductModel product;
+
+  const AddPageSubmittedState(this.product);
+
+  @override
+  List<Object> get props => [product];
+}
 
 final class AddPageErrorState extends AddPageState {
   final String message;

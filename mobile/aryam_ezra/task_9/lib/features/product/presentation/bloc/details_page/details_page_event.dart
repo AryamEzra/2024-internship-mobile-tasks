@@ -1,6 +1,7 @@
+// details_page_event.dart
 part of 'details_page_bloc.dart';
 
-sealed class DetailsPageEvent extends Equatable {
+abstract class DetailsPageEvent extends Equatable {
   const DetailsPageEvent();
 
   @override
@@ -8,28 +9,19 @@ sealed class DetailsPageEvent extends Equatable {
 }
 
 class FetchProductByIdEvent extends DetailsPageEvent {
-  final String id;
+  final GetProductParams params;
 
-  const FetchProductByIdEvent(this.id);
+  const FetchProductByIdEvent(this.params);
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [params];
 }
 
 class DeleteDetailsEvent extends DetailsPageEvent {
-  final String id;
+  final DeleteProductParams params;
 
-  const DeleteDetailsEvent(this.id);
-
-  @override
-  List<Object> get props => [id];
-}
-
-class UpdateProductEvent extends DetailsPageEvent {
-  final Product product;
-
-  const UpdateProductEvent(this.product);
+  const DeleteDetailsEvent(this.params);
 
   @override
-  List<Object> get props => [product];
+  List<Object> get props => [params];
 }

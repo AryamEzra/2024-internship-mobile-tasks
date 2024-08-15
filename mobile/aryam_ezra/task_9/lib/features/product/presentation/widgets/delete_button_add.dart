@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../domain/use_case/delete_product.dart';
 import '../bloc/details_page/details_page_bloc.dart';
 
-class DeleteButton extends StatelessWidget {
-  final int index;
+class DeleteButtonAdd extends StatelessWidget {
 
-  const DeleteButton({super.key, required this.index});
+  const DeleteButtonAdd();
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: () {
-        BlocProvider.of<DetailsPageBloc>(context).add(DeleteDetailsEvent(index as String));
         Navigator.pop(context);
       },
       style: OutlinedButton.styleFrom(

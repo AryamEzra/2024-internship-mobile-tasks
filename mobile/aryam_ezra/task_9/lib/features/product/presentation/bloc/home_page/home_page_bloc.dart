@@ -13,6 +13,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
 
   HomePageBloc({required this.getAllProducts}) : super(HomePageInitialState()) {
     on<FetchAllProductsEvent>(_onFetchAllProducts);
+    on<AddProductToHomePageEvent>(_onAddProductToHomePageEvent);
   }
 
   Future<void> _onFetchAllProducts(FetchAllProductsEvent event, Emitter<HomePageState> emit) async {
@@ -23,6 +24,14 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       (failure) => emit(const HomePageErrorState('Failed to fetch products')),
       (products) => emit(HomePageLoadedState(products)),
     );
+  }
+
+  Future<void> _onAddProductToHomePageEvent(AddProductToHomePageEvent event, Emitter<HomePageState> emit) async {
+    if (state is HomePageLoadedState) {
+      final updatedProducts = List<Product>.from((state as HomePageLoadedState).products)
+        ..add(event.product);
+      emit(HomePageLoadedState(updatedProducts));
+    }
   }
 }
 

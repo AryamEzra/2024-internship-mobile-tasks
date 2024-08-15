@@ -17,38 +17,36 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   ProductRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<ProductModel> addProduct(
-      ProductModel product, String imagePath) async {
-    try {
-      var request = http.MultipartRequest(
-          'POST',
-          Uri.parse(
-              'https://g5-flutter-learning-path-be.onrender.com/api/v1/products'));
-      request.fields.addAll({
-        'name': product.name,
-        'description': product.description,
-        'price': product.price.toString()
-      });
+  Future<ProductModel> addProduct(ProductModel product, String imagePath) async {
+  try {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('https://g5-flutter-learning-path-be.onrender.com/api/v1/products'),
+    );
+    request.fields.addAll({
+      'name': product.name,
+      'description': product.description,
+      'price': product.price.toString(),
+    });
 
-      request.files.add(await http.MultipartFile.fromPath(
-        'image',
-        product.imageUrl,
-        contentType: MediaType('image', 'jpeg'),
-      ));
+    request.files.add(await http.MultipartFile.fromPath(
+      'image',
+      imagePath,
+      contentType: MediaType('image', 'jpg'),
+    ));
 
-      http.StreamedResponse response = await request.send();
+    http.StreamedResponse response = await request.send();
 
-      if (response.statusCode == 201) {
-        final result = await response.stream.bytesToString();
-
-        return ProductModel.fromJson(jsonDecode(result)['data']);
-      } else {
-        throw ServerException();
-      }
-    } catch (e) {
+    if (response.statusCode == 201) {
+      final result = await response.stream.bytesToString();
+      return ProductModel.fromJson(jsonDecode(result)['data']);
+    } else {
       throw ServerException();
     }
+  } catch (e) {
+    throw ServerException();
   }
+}
 
   @override
   Future<List<ProductModel>> getAllProducts() async {

@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 
 class UpdateButton extends StatelessWidget {
   final dynamic product;
-  final int index;
 
-  const UpdateButton({super.key, required this.product, required this.index});
+  const UpdateButton({super.key, required this.product,});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.pushNamed(context, '/update', arguments: {'product': product, 'index': index});
+       Navigator.pushNamed(context, '/add', arguments: product);
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color.fromARGB(255, 54, 104, 255),

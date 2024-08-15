@@ -119,28 +119,28 @@ class ProductItemCard
 }
 
 
-class ItemCard extends StatelessWidget {
-  final List<Product> products;
+// class ItemCard extends StatelessWidget {
+//   final List<Product> products;
 
-  const ItemCard({super.key, required this.products});
+//   const ItemCard({super.key, required this.products});
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        final product = products[index];
-        return GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, '/details', arguments: product);
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ProductItemCard
-            (product: product),
-          ),
-        );
-      },
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.builder(
+//       itemCount: products.length,
+//       itemBuilder: (context, index) {
+//         final product = products[index];
+//         return GestureDetector(
+//           onTap: () {
+//             Navigator.pushNamed(context, '/details', arguments: product);
+//           },
+//           child: Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: ProductItemCard
+//             (product: product),
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }

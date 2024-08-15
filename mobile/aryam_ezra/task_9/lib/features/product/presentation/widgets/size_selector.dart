@@ -13,41 +13,41 @@ class _SizeSelectorState extends State<SizeSelector> {
 
   @override
   Widget build(BuildContext context) {
+    print('Building SizeSelector');
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [38, 39, 40, 41, 42, 43, 44, 45]
-            .map((size) => Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: ChoiceChip(
-                backgroundColor: Colors.white,
-                shadowColor: Colors.red,
-                label: Text(
-                  '$size',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: _selectedSize == size
-                        ? Colors.white
-                        : Colors.black, 
-                  ),
+        children: [38, 39, 40, 41, 42, 43, 44, 45].map((size) {
+          print('Creating ChoiceChip for size $size');
+          return Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: ChoiceChip(
+              backgroundColor: Colors.white,
+              shadowColor: Colors.red,
+              label: Text(
+                '$size',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: _selectedSize == size ? Colors.white : Colors.black,
                 ),
-                selected: _selectedSize == size,
-                showCheckmark: false,
-                selectedColor:  const Color.fromARGB(255, 54, 104, 255), 
-                onSelected: (selected) {
-                  setState(() {
-                    _selectedSize = size; 
-                  });
-                },
-              
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  side: const BorderSide(color: Colors.transparent), 
-                ),
-                labelPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
               ),
-            ))
-            .toList(),
+              selected: _selectedSize == size,
+              showCheckmark: false,
+              selectedColor: const Color.fromARGB(255, 54, 104, 255),
+              onSelected: (selected) {
+                setState(() {
+                  _selectedSize = size;
+                });
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: const BorderSide(color: Colors.transparent),
+              ),
+              labelPadding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

@@ -44,8 +44,8 @@ Future<void> setupLocator() async {
     localDataSource: getIt(),
     networkInfo: getIt(),
   ));
-  getIt.registerFactory<AddProduct>(() => AddProduct(getIt()));
-  getIt.registerFactory<DeleteProduct>(() => DeleteProduct(getIt()));
+  getIt.registerFactory(() => AddProduct(getIt()));
+  getIt.registerFactory(() => DeleteProduct(getIt()));
   getIt.registerFactory(() => UpdateProduct(getIt()));
   getIt.registerFactory(() => GetProduct(getIt()));
   getIt.registerFactory(() => GetAllProducts(getIt()));

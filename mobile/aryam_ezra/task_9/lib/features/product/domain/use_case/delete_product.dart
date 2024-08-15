@@ -9,7 +9,6 @@ class DeleteProductParams {
   DeleteProductParams(this.id);
 }
 
-
 class DeleteProduct
     extends UseCase<void, DeleteProductParams> {
   ProductRepository repository;

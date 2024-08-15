@@ -25,38 +25,35 @@ class ProductRepositoryImpl implements ProductRepository {
   final imagePath = 'assets/images/boots.jpg';
 
   @override
-  Future<Either<Failure, Product>> addProduct(Product product, {File? imageFile}) async {
-  final productModel = ProductModel(
-    id: product.id,
-    name: product.name,
-    description: product.description,
-    price: product.price,
-    imageUrl: product.imageUrl,
-  );
-
-  if (await networkInfo.isConnected) {
-    try {
-      if (imageFile != null) {
-        final remoteProduct = await remoteDataSource.addProduct(productModel, imageFile.path);
-        await localDataSource.addProduct(remoteProduct);
-        return Right(remoteProduct as Product);
-      } else {
-        return Left(ServerFailure(message: 'Image file is null.'));
+  Future<Either<Failure, ProductModel>> addProduct(
+      ProductModel productModel, String imagePath) async {
+    if (await networkInfo.isConnected) {
+      try {
+        if (imagePath.isNotEmpty) {
+          final remoteProduct =
+              await remoteDataSource.addProduct(productModel, imagePath);
+          if (remoteProduct != null) {
+            await localDataSource.addProduct(remoteProduct);
+            return Right(remoteProduct);
+          } else {
+            return Left(
+                ServerFailure(message: 'Failed to add product remotely.'));
+          }
+        } else {
+          return Left(ServerFailure(message: 'Image path is empty.'));
+        }
+      } on ServerException {
+        return Left(ServerFailure(message: 'Server failure.'));
       }
-    } on ServerException {
-      return Left(ServerFailure(message: 'Server failure.'));
+    } else {
+      await localDataSource.addProduct(productModel);
+      return Left(NetworkFailure(message: 'No internet connection.'));
     }
-  } else {
-    await localDataSource.addProduct(productModel);
-    return Left(NetworkFailure(message: 'No internet connection.'));
   }
-}
-
-
-
 
   @override
-  Future<Either<Failure, Product>> updateProduct(Product product, {File? imageFile}) async {
+  Future<Either<Failure, Product>> updateProduct(Product product,
+      {File? imageFile}) async {
     if (await networkInfo.isConnected) {
       try {
         final productModel = ProductModel(
@@ -138,5 +135,3 @@ class ProductRepositoryImpl implements ProductRepository {
     }
   }
 }
-
-

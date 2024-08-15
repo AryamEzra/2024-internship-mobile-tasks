@@ -8,3 +8,12 @@ sealed class HomePageEvent extends Equatable {
 }
 
 class FetchAllProductsEvent extends HomePageEvent {}
+
+class AddProductToHomePageEvent extends HomePageEvent {
+  final Product product;
+
+  const AddProductToHomePageEvent(this.product);
+
+  @override
+  List<Object> get props => [product];
+}

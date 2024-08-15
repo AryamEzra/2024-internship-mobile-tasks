@@ -1,17 +1,18 @@
+// details_page_state.dart
 part of 'details_page_bloc.dart';
 
-sealed class DetailsPageState extends Equatable {
+abstract class DetailsPageState extends Equatable {
   const DetailsPageState();
-  
+
   @override
   List<Object> get props => [];
 }
 
-final class DetailsPageInitialState extends DetailsPageState {}
+class DetailsPageInitialState extends DetailsPageState {}
 
-final class DetailsPageLoadingState extends DetailsPageState {}
+class DetailsPageLoadingState extends DetailsPageState {}
 
-final class DetailsPageLoadedState extends DetailsPageState {
+class DetailsPageLoadedState extends DetailsPageState {
   final Product product;
 
   const DetailsPageLoadedState(this.product);
@@ -20,7 +21,9 @@ final class DetailsPageLoadedState extends DetailsPageState {
   List<Object> get props => [product];
 }
 
-final class DetailsPageErrorState extends DetailsPageState {
+class DetailsPageDeletedState extends DetailsPageState {}
+
+class DetailsPageErrorState extends DetailsPageState {
   final String message;
 
   const DetailsPageErrorState(this.message);

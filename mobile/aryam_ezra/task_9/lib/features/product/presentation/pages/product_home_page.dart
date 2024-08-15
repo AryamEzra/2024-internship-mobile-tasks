@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../service_locator.dart';
-import '../../domain/repository/product_repository.dart';
 import '../../domain/use_case/get_all_products.dart';
 import '../bloc/home_page/home_page_bloc.dart';
 import '../widgets/available_header.dart';
@@ -11,9 +10,9 @@ import '../widgets/item_card.dart';
 import '../widgets/search_button.dart';
 
 class HomePage extends StatelessWidget {
-  final ProductRepository repository;
 
-  const HomePage(this.repository, {super.key});
+
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,12 @@ class HomePage extends StatelessWidget {
                     return ListView.builder(
                       itemCount: state.products.length,
                       itemBuilder: (context, index) {
-                        return ProductItemCard(product: state.products[index]);
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/details',
+                              arguments: state.products[index]);
+                          },
+                          child: ProductItemCard(product: state.products[index]));
                       },
                     );
                   } else if (state is HomePageErrorState) {
