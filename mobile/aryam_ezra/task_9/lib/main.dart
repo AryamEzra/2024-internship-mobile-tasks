@@ -6,6 +6,7 @@ import 'features/product/domain/entities/product.dart';
 import 'features/product/domain/repository/product_repository.dart';
 import 'features/product/domain/use_case/add_product.dart';
 import 'features/product/domain/use_case/delete_product.dart';
+import 'features/product/domain/use_case/get_all_products.dart';
 import 'features/product/domain/use_case/get_product.dart';
 import 'features/product/domain/use_case/update_product.dart';
 import 'features/product/presentation/bloc/add_page/add_page_bloc.dart';
@@ -76,29 +77,25 @@ class MyApp extends StatelessWidget {
                 ),
               );
             case '/update':
-      final product = settings.arguments as Product;
-      return MaterialPageRoute(
-        builder: (context) {
-          return BlocProvider(
-            create: (context) => UpdatePageBloc(
-              getIt<UpdateProduct>(),
-              getIt<DeleteProduct>(),
-            ),
-            child: UpdatePage(product: product),
-          );
-        },
-        settings: settings,
-      );
-      case '/search':
-  return MaterialPageRoute(builder: (context) {
-    return BlocProvider(
-      create: (context) => SearchPageBloc(getIt<ProductRepository>()),
-      child: SearchPage(),
-    );
-  });
-            default:
+              final product = settings.arguments as Product;
               return MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) {
+                  return BlocProvider(
+                    create: (context) => UpdatePageBloc(
+                      getIt<UpdateProduct>(),
+                      getIt<DeleteProduct>(),
+                    ),
+                    child: UpdatePage(product: product),
+                  );
+                },
+                settings: settings,
+              );
+            case '/search':
+              return ScalePageRoute(
+                page: BlocProvider(
+                  create: (context) => getIt<SearchPageBloc>()..add(FetchAllProductsSearchEvent()),
+                  child: SearchPage(),
+                ),
               );
           }
         },

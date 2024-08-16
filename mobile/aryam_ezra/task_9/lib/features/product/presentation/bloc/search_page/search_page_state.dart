@@ -9,7 +9,7 @@ sealed class SearchPageState extends Equatable {
 
 final class SearchPageInitialState extends SearchPageState {}
 
-final class SearchPageLoadingState extends SearchPageState {}
+final class SearchPageLoadingState extends SearchPageState{}
 
 final class SearchPageLoadedState extends SearchPageState {
   final List<Product> products;
@@ -28,3 +28,4 @@ final class SearchPageErrorState extends SearchPageState {
   @override
   List<Object> get props => [message];
 }
+

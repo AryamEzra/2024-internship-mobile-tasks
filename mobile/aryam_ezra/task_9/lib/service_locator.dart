@@ -13,7 +13,11 @@ import 'features/product/domain/use_case/delete_product.dart';
 import 'features/product/domain/use_case/get_all_products.dart';
 import 'features/product/domain/use_case/get_product.dart';
 import 'features/product/domain/use_case/update_product.dart';
+import 'features/product/presentation/bloc/add_page/add_page_bloc.dart';
+import 'features/product/presentation/bloc/details_page/details_page_bloc.dart';
 import 'features/product/presentation/bloc/home_page/home_page_bloc.dart';
+import 'features/product/presentation/bloc/search_page/search_page_bloc.dart';
+import 'features/product/presentation/bloc/update_page/update_page_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -38,7 +42,6 @@ Future<void> setupLocator() async {
     () => NetworkInfoImpl(internetConnectionChecker),
   );
 
-
   getIt.registerSingleton<ProductRepository>(ProductRepositoryImpl(
     remoteDataSource: getIt(),
     localDataSource: getIt(),
@@ -49,9 +52,17 @@ Future<void> setupLocator() async {
   getIt.registerFactory(() => UpdateProduct(getIt()));
   getIt.registerFactory(() => GetProduct(getIt()));
   getIt.registerFactory(() => GetAllProducts(getIt()));
-  
+
   getIt.registerFactory<HomePageBloc>(
     () => HomePageBloc(getAllProducts: getIt<GetAllProducts>()),
   );
+  getIt.registerFactory<SearchPageBloc>(
+    () => SearchPageBloc(getAllProducts: getIt<GetAllProducts>()),
+  );
 
+  getIt.registerFactory(
+      () => DetailsPageBloc(GetProduct(getIt()), DeleteProduct(getIt())));
+  getIt.registerFactory(() => AddPageBloc(AddProduct(getIt())));
+  getIt.registerFactory(
+      () => UpdatePageBloc(UpdateProduct(getIt()), DeleteProduct(getIt())));
 }

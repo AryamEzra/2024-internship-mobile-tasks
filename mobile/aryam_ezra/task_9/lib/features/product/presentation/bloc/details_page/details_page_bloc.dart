@@ -15,7 +15,7 @@ class DetailsPageBloc extends Bloc<DetailsPageEvent, DetailsPageState> {
   final GetProduct getProduct;
   final DeleteProduct deleteProduct;
 
-  DetailsPageBloc(this.getProduct, this.deleteProduct) : super(DetailsPageInitialState()) {
+  DetailsPageBloc(this.getProduct, this.deleteProduct,) : super(DetailsPageInitialState()) {
     on<FetchProductByIdEvent>(_onFetchProductByIdEvent);
     on<DeleteDetailsEvent>(_onDeleteDetailsEvent);
   }
@@ -25,11 +25,6 @@ class DetailsPageBloc extends Bloc<DetailsPageEvent, DetailsPageState> {
       emit(DetailsPageLoadingState());
       final product = await getProduct(event.params);
       product.fold((l)=>emit(DetailsPageErrorState(l.message)), (r) => emit(DetailsPageLoadedState(r)));
-    // try {
-    //   emit(DetailsPageLoadedState(product.fold(ifLeft, ifRight)));
-    // } catch (e) {
-    //   emit(DetailsPageErrorState(e.toString()));
-    // }
   }
 
   Future<void> _onDeleteDetailsEvent(

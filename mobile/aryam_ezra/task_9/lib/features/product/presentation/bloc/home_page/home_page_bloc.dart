@@ -33,5 +33,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       emit(HomePageLoadedState(updatedProducts));
     }
   }
+
+  
 }
 
