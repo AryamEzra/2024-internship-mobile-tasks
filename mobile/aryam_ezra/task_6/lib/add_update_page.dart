@@ -1,16 +1,14 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'upload_image.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
-import 'home_page.dart';
-import 'image_container.dart';
+
 import 'product.dart';
 import 'product_provider.dart'; // Ensure this file exists
+import 'upload_image.dart';
 
 class AddUpdatePage extends StatefulWidget {
-  AddUpdatePage({super.key, this.product, this.index});
+  const AddUpdatePage({super.key, this.product, this.index});
 
   final Product? product;
   final int? index;

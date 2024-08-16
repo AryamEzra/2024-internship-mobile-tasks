@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import 'add_update_page.dart';
 import 'details_page.dart';
 import 'home_page.dart';
 import 'navigation_animation.dart';
+import 'product.dart';
 import 'product_provider.dart';
 import 'search_page.dart';
-import 'package:provider/provider.dart';
 import 'update.dart';
-import 'product.dart';
 
 void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => ProductProvider(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
               );
               // return FadePageRoute(page: const DetailsPage());
             case '/add_update':
-              return SlidePageRoute(page: AddUpdatePage());
+              return SlidePageRoute(page: const AddUpdatePage());
             case '/update':
               final args = settings.arguments as Map<String, dynamic>;
               final int index = args['index'];
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
               return FadePageRoute(page: UpdatePage(index: index, product: product));
             
             case '/search':
-              return ScalePageRoute(page: SearchPage());
+              return ScalePageRoute(page: const SearchPage());
             default:
               return MaterialPageRoute(builder: (context) => const HomePage());
           }

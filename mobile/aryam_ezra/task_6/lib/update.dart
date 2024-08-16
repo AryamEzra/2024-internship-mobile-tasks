@@ -1,15 +1,17 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'upload_image.dart';
+
 import 'product.dart';
 import 'product_provider.dart';
+import 'upload_image.dart';
 
 class UpdatePage extends StatefulWidget {
   final Product product;
   final int index;
 
-  const UpdatePage({Key? key, required this.product, required this.index}) : super(key: key);
+  const UpdatePage({super.key, required this.product, required this.index});
 
 
   @override

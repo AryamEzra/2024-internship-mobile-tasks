@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'product.dart';
 
+// ignore: must_be_immutable
 class ImageContainer extends StatelessWidget {
   ImageContainer({super.key, required this.product});
 
@@ -30,7 +31,7 @@ class ImageContainer extends StatelessWidget {
                   width: double.infinity,
 
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                     image: DecorationImage(
                       image: product.imageFile != null
@@ -69,15 +70,15 @@ class ImageContainer extends StatelessWidget {
                             children: [
                               Text(
                                 product.name,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(height:5),
+                              const SizedBox(height:5),
                               Text(
                                 product.category,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 13,
                                   color: Color.fromARGB(255, 210, 205, 205),
                                 ),
@@ -89,14 +90,14 @@ class ImageContainer extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Text('\$' + product.price,
-                                    style: TextStyle(
+                                Text('\$${product.price}',
+                                    style: const TextStyle(
                                       fontSize: 16,
                                     )),
                               ],
                             ),
-                            SizedBox(height:5),
-                            Row(
+                            const SizedBox(height:5),
+                            const Row(
                               children: [
                                 Icon(Icons.star, color: Colors.yellow, size: 16),
                                 Text('(4.0)  ',

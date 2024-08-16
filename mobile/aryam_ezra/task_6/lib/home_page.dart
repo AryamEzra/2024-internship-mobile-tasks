@@ -159,7 +159,6 @@ class HomePage extends StatelessWidget {
                     return ListView.builder(
                       itemCount: products.length,
                       itemBuilder: (context, index) {
-                        final product = products[index];
                         return GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, '/details', arguments: index,);

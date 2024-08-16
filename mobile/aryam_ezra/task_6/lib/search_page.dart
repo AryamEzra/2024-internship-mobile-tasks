@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'image_container.dart';
 import 'package:provider/provider.dart';
-import 'product_provider.dart';
+
 import 'bottom_sheet.dart';
+import 'image_container.dart';
+import 'product_provider.dart';
 
 class SearchPage extends StatelessWidget {
-  SearchPage({super.key});
+  const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class SearchPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
                 itemCount: productProvider.products.length,
@@ -85,7 +86,7 @@ class SearchPage extends StatelessWidget {
                       );
                     },
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: ImageContainer(
                         product: product,
                       ),

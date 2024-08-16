@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'product_provider.dart';
 import 'size_selector.dart';
 
+// ignore: must_be_immutable
 class DetailsPage extends StatelessWidget {
   DetailsPage({super.key, required this.index});
   int index;
