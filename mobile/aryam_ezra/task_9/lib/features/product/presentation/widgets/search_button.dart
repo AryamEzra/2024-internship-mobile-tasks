@@ -11,15 +11,25 @@ Widget buildSearchButton(BuildContext context) {
           width: 1.0,
         ),
       ),
-      child: IconButton(
-        icon: const Icon(
-          Icons.search,
-          size: 30,
-          color: Color.fromRGBO(217, 217, 217, 1),
+      child: Tooltip(
+        message: 'Search Products',
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(10),
+            onTap: () {
+              Navigator.pushNamed(context, '/search');
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.search,
+                size: 30,
+                color: const Color.fromRGBO(217, 217, 217, 1),
+              ),
+            ),
+          ),
         ),
-        onPressed: () {
-          Navigator.pushNamed(context, '/search');
-        },
       ),
     ),
   );

@@ -1,10 +1,10 @@
 // add_page_bloc.dart
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
+
 import '../../../../../core/failure/failure.dart';
 import '../../../data/models/product_model.dart';
-import '../../../domain/entities/product.dart';
 import '../../../domain/use_case/add_product.dart';
 
 part 'add_page_event.dart';
@@ -33,5 +33,6 @@ class AddPageBloc extends Bloc<AddPageEvent, AddPageState> {
     }
   }
 
+  
   
 }

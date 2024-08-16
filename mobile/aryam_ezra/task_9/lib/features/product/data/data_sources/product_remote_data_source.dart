@@ -132,14 +132,13 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   @override
   Future<ProductModel> updateProduct(String id, ProductModel product) async {
     final response = await client.put(
-      Uri.parse(
-          'https://g5-flutter-learning-path-be.onrender.com/api/v1/products/$id'),
+      Uri.parse('https://g5-flutter-learning-path-be.onrender.com/api/v1/products/$id'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(product.toJson()),
     );
 
     if (response.statusCode == 200) {
-      final jsonMap = json.decode(response.body) as Map<String, dynamic>;
+      final jsonMap = json.decode(response.body)['data'] as Map<String, dynamic>;
       return ProductModel.fromJson(jsonMap);
     } else {
       throw ServerException();

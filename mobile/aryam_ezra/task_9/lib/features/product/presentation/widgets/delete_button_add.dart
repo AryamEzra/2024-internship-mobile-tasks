@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/use_case/delete_product.dart';
-import '../bloc/details_page/details_page_bloc.dart';
 
 class DeleteButtonAdd extends StatelessWidget {
 
-  const DeleteButtonAdd();
+  const DeleteButtonAdd({super.key});
 
   @override
   Widget build(BuildContext context) {

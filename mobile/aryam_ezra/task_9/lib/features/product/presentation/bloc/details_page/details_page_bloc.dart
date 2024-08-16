@@ -2,10 +2,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+
 import '../../../../../core/failure/failure.dart';
 import '../../../domain/entities/product.dart';
-import '../../../domain/use_case/get_product.dart';
 import '../../../domain/use_case/delete_product.dart';
+import '../../../domain/use_case/get_product.dart';
 
 part 'details_page_event.dart';
 part 'details_page_state.dart';

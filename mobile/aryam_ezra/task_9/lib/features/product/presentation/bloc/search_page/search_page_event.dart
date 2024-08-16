@@ -6,3 +6,12 @@ sealed class SearchPageEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class SearchProducts extends SearchPageEvent {
+  final String query;
+
+  const SearchProducts(this.query);
+
+  @override
+  List<Object> get props => [query];
+}

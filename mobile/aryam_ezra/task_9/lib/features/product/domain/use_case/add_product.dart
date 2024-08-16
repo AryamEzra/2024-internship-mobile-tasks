@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/failure/failure.dart';
 import '../../../../core/use_cases/use_case.dart';
-import 'package:task_9/features/product/data/models/product_model.dart';
+import '../../data/models/product_model.dart';
 import '../repository/product_repository.dart';
 
 class AddProductParams {

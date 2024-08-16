@@ -32,14 +32,9 @@ class ProductRepositoryImpl implements ProductRepository {
         if (imagePath.isNotEmpty) {
           final remoteProduct =
               await remoteDataSource.addProduct(productModel, imagePath);
-          if (remoteProduct != null) {
-            await localDataSource.addProduct(remoteProduct);
-            return Right(remoteProduct);
-          } else {
-            return Left(
-                ServerFailure(message: 'Failed to add product remotely.'));
-          }
-        } else {
+          await localDataSource.addProduct(remoteProduct);
+          return Right(remoteProduct);
+                } else {
           return Left(ServerFailure(message: 'Image path is empty.'));
         }
       } on ServerException {
@@ -52,38 +47,15 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Either<Failure, ProductModel>> updateProduct(Product product,
-      {File? imageFile}) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final productModel = ProductModel(
-          id: product.id,
-          name: product.name,
-          description: product.description,
-          price: product.price,
-          imageUrl: product.imageUrl,
-        );
-
-        await remoteDataSource.updateProduct(productModel.id, productModel);
-        await localDataSource.updateProduct(productModel);
-        return Right(productModel);
-      } on ServerException {
-        return Left(ServerFailure(message: 'Server failure.'));
-      }
-    } else {
-      try {
-        final productModel = ProductModel(
-          id: product.id,
-          name: product.name,
-          description: product.description,
-          price: product.price,
-          imageUrl: product.imageUrl,
-        );
-        await localDataSource.updateProduct(productModel);
-        return Right(productModel);
-      } on CacheException {
-        return Left(CacheFailure(message: 'Failed to update product locally.'));
-      }
+  Future<Either<Failure, ProductModel>> updateProduct(ProductModel product) async {
+    try {
+      final updatedProduct = await remoteDataSource.updateProduct(product.id, product);
+      await localDataSource.updateProduct(product);
+      return Right(updatedProduct);
+    } on ServerException {
+      return Left(ServerFailure(message: 'Server Failure'));
+    } on CacheException {
+      return Left(CacheFailure(message: 'Cache Failure'));
     }
   }
 

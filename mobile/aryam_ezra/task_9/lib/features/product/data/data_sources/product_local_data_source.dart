@@ -84,13 +84,13 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
         jsonResponse[index] = product.toJson();
         await sharedPreferences.setString(
             'CACHED_PRODUCTS', json.encode(jsonResponse));
+        return product;
       } else {
         throw CacheException();
       }
     } else {
       throw CacheException();
     }
-    return product;
   }
 
   @override

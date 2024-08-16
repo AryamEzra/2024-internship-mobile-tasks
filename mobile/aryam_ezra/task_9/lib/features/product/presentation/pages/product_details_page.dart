@@ -51,8 +51,8 @@ class DetailsPage extends StatelessWidget {
                           Container(
                             height: MediaQuery.of(context).size.height * 0.3,
                             width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10),
                               ),
@@ -127,13 +127,13 @@ class DetailsPage extends StatelessWidget {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       children: [
-                                        Row(
+                                        const Row(
                                           children: [
-                                            const Icon(Icons.star,
+                                            Icon(Icons.star,
                                                 color: Colors.yellow, size: 16),
                                             Text(
                                               '(4.0)',
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 13,
                                                 color: Color.fromARGB(
                                                     255, 210, 205, 205),

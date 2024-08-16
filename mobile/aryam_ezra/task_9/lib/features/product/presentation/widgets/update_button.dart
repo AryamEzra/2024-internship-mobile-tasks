@@ -9,7 +9,7 @@ class UpdateButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-       Navigator.pushNamed(context, '/add', arguments: product);
+       Navigator.pushNamed(context, '/update', arguments: product);
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color.fromARGB(255, 54, 104, 255),
