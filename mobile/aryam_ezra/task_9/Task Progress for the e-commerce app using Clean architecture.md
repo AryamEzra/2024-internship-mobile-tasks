@@ -10,7 +10,10 @@ A Flutter Mobile Application built for the 2024 A2SV Summer Internship in the mo
 - [Task 14: Implement Local Data Source](#task-14-implement-local-data-source)
 - [Task 15: Implement Remote Data Source](#task-15-implement-remote-data-source)
 - [Task 16: Improve Code Organization and Reusability](#task-16-improve-code-organization-and-reusability)
-- 
+- [Task 17: Implement Bloc](#task-17-implement-bloc)
+- [Task 18: Dependency Injection](#task-18-dependency-injection)
+- [Task 19: Implement User Interface](#task-19-implement-user-interface)
+- [Task 20: Consume Bloc for eCommerce](#task-20-consume-bloc-for-ecommerce)
   
 ## Task 9: Entities, Use Cases, and Repositories
 
@@ -112,7 +115,7 @@ A Flutter Mobile Application built for the 2024 A2SV Summer Internship in the mo
 - ✔️ Task 17.1: Create Event Classes
 - ✔️ Task 17.2: Create State Classes
 - ✔️ Task 17.3: Create ProductBloc (5 points)
-- 
+  
 
 ## Task 18: Dependency Injection
 
