@@ -20,10 +20,10 @@ class ProductList extends StatelessWidget {
               arguments: product,
             );
           },
-          
+
 
           child: ProductItemCard(product: product),
-          
+
         );
       },
     );

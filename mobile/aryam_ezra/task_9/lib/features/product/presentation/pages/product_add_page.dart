@@ -12,19 +12,15 @@ import '../widgets/image_upload.dart';
 
 class AddPage extends StatefulWidget {
   final Product? product;
-
   const AddPage({super.key, this.product});
-
   @override
   _AddPageState createState() => _AddPageState();
 }
-
 class _AddPageState extends State<AddPage> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _description = TextEditingController();
   final TextEditingController _price = TextEditingController();
   File? _selectedImage;
-
   @override
   void initState() {
     super.initState();
@@ -35,13 +31,11 @@ class _AddPageState extends State<AddPage> {
       _selectedImage = File(widget.product!.imageUrl);
     }
   }
-
   void _handleImagePicked(File imageFile) {
     setState(() {
       _selectedImage = imageFile;
     });
   }
-
   void _submitProduct() {
     if (_name.text.isEmpty ||
         _description.text.isEmpty ||
@@ -52,7 +46,6 @@ class _AddPageState extends State<AddPage> {
       );
       
     }
-
     final product = ProductModel(
       id: widget.product?.id ?? '',
       name: _name.text,
@@ -60,23 +53,21 @@ class _AddPageState extends State<AddPage> {
       price: double.parse(_price.text),
       imageUrl: _selectedImage!.path,
     );
-
     BlocProvider.of<AddPageBloc>(context).add(
       AddProductEvent(product, _selectedImage!.path),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: const CustomBackButton(),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: const CustomBackButton(),
         centerTitle: true,
         title: const Text(
           'Add Product',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 20,
             fontWeight: FontWeight.w500,
           ),
         ),

@@ -4,7 +4,7 @@ import '../../../../service_locator.dart';
 import '../../domain/use_case/delete_product.dart';
 import '../../domain/use_case/get_product.dart';
 import '../bloc/details_page/details_page_bloc.dart';
-import '../bloc/search-page/search_page_bloc.dart';
+import '../bloc/search_page/search_page_bloc.dart';
 import '../widgets/bottom_sheet.dart';
 import '../widgets/item_card.dart';
 import 'product_details_page.dart'; // Import your product details page
