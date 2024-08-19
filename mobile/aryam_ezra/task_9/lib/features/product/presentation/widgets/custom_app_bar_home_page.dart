@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('yMMMMd').format(DateTime.now());
@@ -83,7 +81,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-  
+
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);

@@ -32,7 +32,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     request.files.add(await http.MultipartFile.fromPath(
       'image',
       imagePath,
-      contentType: MediaType('image', 'jpeg'),
+      contentType: MediaType('image', 'jpg'),
     ));
 
     http.StreamedResponse response = await request.send();
@@ -114,6 +114,8 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     }
   }
 
+  
+  
   @override
   Future<ProductModel> updateProduct(String id, ProductModel product) async {
     final response = await client.put(

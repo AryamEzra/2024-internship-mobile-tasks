@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,28 +9,25 @@ import 'features/product/domain/use_case/update_product.dart';
 import 'features/product/presentation/bloc/add_page/add_page_bloc.dart';
 import 'features/product/presentation/bloc/details_page/details_page_bloc.dart';
 import 'features/product/presentation/bloc/home_page/home_page_bloc.dart';
-import 'features/product/presentation/bloc/search-page/search_page_bloc.dart';
+import 'features/product/presentation/bloc/search_page/search_page_bloc.dart';
 import 'features/product/presentation/bloc/update_page/update_page_bloc.dart';
 import 'features/product/presentation/pages/product_add_page.dart';
 import 'features/product/presentation/pages/product_details_page.dart';
 import 'features/product/presentation/pages/product_home_page.dart';
 import 'features/product/presentation/pages/product_search_page.dart';
-import 'features/product/presentation/pages/product_sign_in_page.dart';
-import 'features/product/presentation/pages/product_sign_up_page.dart';
-import 'features/product/presentation/pages/product_splash_screen.dart';
 import 'features/product/presentation/pages/product_update_page.dart';
 import 'features/product/presentation/widgets/navigation_animation.dart';
+import 'features/user/presentation/pages/sign_in.dart';
+import 'features/user/presentation/pages/sign_up.dart';
+import 'features/user/presentation/pages/splash_screen.dart';
 import 'service_locator.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -54,7 +50,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const SplashScreen(),
-          '/signin': (context) =>  SignInPage(),
+          '/signin': (context) =>  const SignInPage(),
           '/signup': (context) => const SignUpPage(),
         },
         onGenerateRoute: (settings) {
