@@ -10,6 +10,10 @@ A Flutter Mobile Application built for the 2024 A2SV Summer Internship in the mo
 - [Task 14: Implement Local Data Source](#task-14-implement-local-data-source)
 - [Task 15: Implement Remote Data Source](#task-15-implement-remote-data-source)
 - [Task 16: Improve Code Organization and Reusability](#task-16-improve-code-organization-and-reusability)
+- [Task 17: Implement Bloc](#task-17-implement-bloc)
+- [Task 18: Dependency Injection](#task-18-dependency-injection)
+- [Task 19: Implement User Interface](#task-19-implement-user-interface)
+- [Task 20: Consume Bloc for eCommerce](#task-20-consume-bloc-for-ecommerce)
   
 ## Task 9: Entities, Use Cases, and Repositories
 
@@ -104,6 +108,44 @@ A Flutter Mobile Application built for the 2024 A2SV Summer Internship in the mo
 ### Testing the app so far
 ![Screenshot 2024-08-12 114807](https://github.com/user-attachments/assets/32f8b16e-e1ff-4f04-af9f-699b5ea3ea63)
 
+
+## Task 17: Implement Bloc
+
+### Task Objectives
+- ✔️ Task 17.1: Create Event Classes
+- ✔️ Task 17.2: Create State Classes
+- ✔️ Task 17.3: Create ProductBloc (5 points)
+  
+
+## Task 18: Dependency Injection
+
+### Task Objectives
+- ✔️ Setup and configuration
+- ✔️ Creating the Injection Container
+
+  
+## Task 19: Implement User Interface
+
+### Task Objectives
+- ✔️ Presentation Logic Holder
+- ✔️ Building the UI Structure
+- ✔️ Displaying Different States
+- ✔️ Handling UI states (Empty, Loading, Error, Loaded) using BlocBuilder.
+- ✔️ Creating custom widgets for displaying messages and loading indicators.
+- ✔️ Handling User Input
+- ✔️ Refining UI Components
+
+
+## Task 20: Consume Bloc for eCommerce
+
+### Task Objectives
+- ✔️ Design a screen that allows users to input product details and create a new product.
+- ✔️ Consume the appropriate bloc method to handle the product creation process.
+- ✔️ Retrieve All Products Page
+- ✔️ Product Detail Page [Get/Delete]
+- ✔️ Update Product Page
+- ✔️ Deleting Product 
+- ✔️ Navigation and Routing
 
 
 This project is a starting point for a Flutter application.
