@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:task_9/core/connectivity/constants.dart';
 import 'package:task_9/core/error/exceptions.dart';
 import 'package:task_9/features/product/data/data_sources/product_remote_data_source.dart';
 import 'package:task_9/features/product/data/models/product_model.dart';
@@ -15,7 +17,6 @@ import 'product_remote_data_source_test.mocks.dart';
 void main() {
   late ProductRemoteDataSourceImpl dataSource;
   late MockClient mockHttpClient;
-  
 
   setUp(() {
     mockHttpClient = MockClient();
@@ -159,41 +160,59 @@ void main() {
   });
 
   group('addProduct', () {
-    test('should throw a ServerException when the response code is not 201',
-        () async {
-      // Arrange
-      when(mockHttpClient.send(any))
-          .thenAnswer((_) async => http.StreamedResponse(
-                Stream.fromIterable([utf8.encode('Something went wrong')]),
-                400,
-              ));
+  test('should return ProductModel when the response code is 201 (created)', () async {
+    // Arrange
+    const expectedProduct = tProductModel;
 
-      // Act
-      dataSource.addProduct;
-
-      // Assert
-      expect(() => dataSource.addProduct(tProductModel, tImagePath), throwsA(isA<ServerException>()));
-  
+    final responsePayload = jsonEncode({
+      'data': expectedProduct.toJson(),
     });
+    when(mockHttpClient.send(any)).thenAnswer((_) async => http.StreamedResponse(
+      Stream.fromIterable([utf8.encode(responsePayload)]),
+      201,
+    ));
 
+    // Act
+    final result = await dataSource.addProduct(tProductModel, tImagePath);
 
-    
+    // Assert
+    expect(result, equals(expectedProduct));
   });
+
+  test('should throw ServerException when the response code is not 201', () async {
+    // Arrange
+    when(mockHttpClient.send(any)).thenAnswer((_) async => http.StreamedResponse(
+      Stream.fromIterable([utf8.encode('Error')]),
+      400,
+    ));
+
+    // Act
+    final call = dataSource.addProduct;
+
+    // Assert
+    expect(() => call(tProductModel, tImagePath), throwsA(isA<ServerException>()));
+  });
+});
   group('updateProduct', () {
-    test('should send a PUT request to update the product', () async {
+     const tProductModel = ProductModel(
+      id: '6672752cbd218790438efdb0',
+      name: 'Anime website',
+      description: 'Explore anime characters.',
+      price: 123,
+      imageUrl: 'https://res.cloudinary.com/g5-mobile-track/image/upload/v1718777132/images/zxjhzrflkvsjutgbmr0f.jpg',
+    );
+
+    test('should return ProductModel when the response code is 200', () async {
       // Arrange
-      final expectedUrl = Uri.parse(
-          'https://g5-flutter-learning-path-be.onrender.com/api/v1/products/${tProductModel.id}');
+      final expectedUrl = Uri.parse('https://g5-flutter-learning-path-be.onrender.com/api/v1/products/${tProductModel.id}');
       when(mockHttpClient.put(
         expectedUrl,
-        headers: anyNamed('headers'),
-        body: anyNamed('body'),
-      )).thenAnswer(
-          (_) async => http.Response(jsonEncode(tProductModel.toJson()), 200));
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(tProductModel.toJson()),
+      )).thenAnswer((_) async => http.Response(jsonEncode({'data': tProductModel.toJson()}), 200));
 
       // Act
-      final result =
-          await dataSource.updateProduct(tProductModel.id, tProductModel);
+      final result = await dataSource.updateProduct(tProductModel.id, tProductModel);
 
       // Assert
       verify(mockHttpClient.put(
@@ -201,9 +220,8 @@ void main() {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(tProductModel.toJson()),
       ));
-      expect(result, tProductModel);
+      expect(result, equals(tProductModel));
     });
-
     test('should throw a ServerException when the response code is not 200',
         () async {
       // Arrange

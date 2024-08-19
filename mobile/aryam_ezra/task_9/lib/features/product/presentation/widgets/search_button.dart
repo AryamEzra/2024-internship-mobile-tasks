@@ -20,12 +20,12 @@ Widget buildSearchButton(BuildContext context) {
             onTap: () {
               Navigator.pushNamed(context, '/search');
             },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Icon(
                 Icons.search,
                 size: 30,
-                color: const Color.fromRGBO(217, 217, 217, 1),
+                color: Color.fromRGBO(217, 217, 217, 1),
               ),
             ),
           ),

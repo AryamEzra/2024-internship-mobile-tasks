@@ -16,7 +16,7 @@ import 'features/product/domain/use_case/update_product.dart';
 import 'features/product/presentation/bloc/add_page/add_page_bloc.dart';
 import 'features/product/presentation/bloc/details_page/details_page_bloc.dart';
 import 'features/product/presentation/bloc/home_page/home_page_bloc.dart';
-import 'features/product/presentation/bloc/search_page/search_page_bloc.dart';
+import 'features/product/presentation/bloc/search-page/search_page_bloc.dart';
 import 'features/product/presentation/bloc/update_page/update_page_bloc.dart';
 
 final getIt = GetIt.instance;

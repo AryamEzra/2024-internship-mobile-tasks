@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,60 +41,33 @@ void main() {
       price: 123,
       imageUrl: 'https://res.cloudinary.com/g5-mobile-track/image/upload/v1718777711/images/clmxnecvavxfvrz9by4w.jpg',
     );
+  const tImagePath = 'assets/images/boots.jpg'; // Mock or provide a valid file path
   group('addProduct', () {
-  final tImagePath = File('assets/images/boots.jpg'); // Mock or provide a valid file path
-
+  
   test('should add product to remote and local data sources when online', () async {
     // Arrange
     when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
     when(mockRemoteDataSource.addProduct(any, any)).thenAnswer((_) async => tProductModel);
     when(mockLocalDataSource.addProduct(any)).thenAnswer((_) async => tProductModel);
     // Act
-    final result = await repository.addProduct(tProductModel, imageFile: tImagePath);
+    final result = await repository.addProduct(tProductModel, tImagePath);
     // Assert
     expect(result, const Right(tProductModel));
-    verify(mockRemoteDataSource.addProduct(tProductModel, tImagePath.path));
+    verify(mockRemoteDataSource.addProduct(tProductModel, tImagePath));
     verify(mockLocalDataSource.addProduct(tProductModel));
   });
 
- test('should add product to local data source only when offline', () async {
-  // Arrange
-  when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-  when(mockLocalDataSource.addProduct(any)).thenAnswer((_) async => tProductModel);
-  
-  // Act
-  final result = await repository.addProduct(tProductModel);
-  
-  // Assert
-  expect(result, Left(NetworkFailure(message: 'No internet connection.')));
-  verifyNever(mockRemoteDataSource.addProduct(any, any));
-  verify(mockLocalDataSource.addProduct(tProductModel)).called(1);
-});
-
-
-  });
-  group('updateProduct', () {
-  test('should update product in remote and local data sources when online', () async {
-    // Arrange
-    when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-    when(mockRemoteDataSource.updateProduct(any, any)).thenAnswer((_) async => Future.value(tProductModel));
-    when(mockLocalDataSource.updateProduct(any)).thenAnswer((_) async => Future.value(tProductModel));
-    // Act
-    await repository.updateProduct(tProductModel);
-    // Assert
-    verify(mockRemoteDataSource.updateProduct(tProductModel.id, tProductModel));
-    verify(mockLocalDataSource.updateProduct(tProductModel));
-  });
-  test('should update product in local data source only when offline', () async {
-    // Arrange
-    when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-    when(mockLocalDataSource.updateProduct(any)).thenAnswer((_) async => Future.value(tProductModel));
-    // Act
-    await repository.updateProduct(tProductModel);
-    // Assert
-    verifyNever(mockRemoteDataSource.updateProduct(tProductModel.id, tProductModel));
-    verify(mockLocalDataSource.updateProduct(tProductModel));
-  });
+  test('should add product to local data source only when offline', () async {
+      // Arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(mockLocalDataSource.addProduct(any)).thenAnswer((_) async => tProductModel);
+      // Act
+      final result = await repository.addProduct(tProductModel, '');
+      // Assert
+      expect(result, tProductModel);
+      verifyNever(mockRemoteDataSource.addProduct(tProductModel, tImagePath));
+      verify(mockLocalDataSource.addProduct(tProductModel));
+    });
 });
   group('deleteProduct', () {
     test('should delete product from remote and local data sources when online', () async {

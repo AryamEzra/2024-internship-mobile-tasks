@@ -32,7 +32,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     request.files.add(await http.MultipartFile.fromPath(
       'image',
       imagePath,
-      contentType: MediaType('image', 'jpg'),
+      contentType: MediaType('image', 'jpeg'),
     ));
 
     http.StreamedResponse response = await request.send();
@@ -114,21 +114,6 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     }
   }
 
-  // @override
-  // Future<ProductModel> updateProduct(String id, ProductModel tProductModel) async {
-  //   final response = await client.put(
-  //     Uri.parse(
-  //         'https://g5-flutter-learning-path-be.onrender.com/api/v1/products' +
-  //             '/$id'),
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     final jsonMap = json.decode(response.body) as Map<String, dynamic>;
-  //     return ProductModel.fromJson(jsonMap);
-  //   } else {
-  //     throw ServerException();
-  //   }
-  // }
   @override
   Future<ProductModel> updateProduct(String id, ProductModel product) async {
     final response = await client.put(

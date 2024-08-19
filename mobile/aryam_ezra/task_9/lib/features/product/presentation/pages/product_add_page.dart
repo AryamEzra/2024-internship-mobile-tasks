@@ -7,6 +7,7 @@ import '../../data/models/product_model.dart';
 import '../../domain/entities/product.dart';
 import '../bloc/add_page/add_page_bloc.dart';
 import '../bloc/home_page/home_page_bloc.dart';
+import '../widgets/custom_back_button.dart';
 import '../widgets/image_upload.dart';
 
 class AddPage extends StatefulWidget {
@@ -68,12 +69,9 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: const CustomBackButton(),
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new,
-              color: Color.fromARGB(255, 54, 104, 255), size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
         centerTitle: true,
         title: const Text(
           'Add Product',
@@ -90,7 +88,7 @@ class _AddPageState extends State<AddPage> {
               const SnackBar(content: Text('Product added successfully')),
             );
             context.read<HomePageBloc>().add(FetchAllProductsEvent());
-            Navigator.pushNamed(context, '/');
+            Navigator.pushNamed(context, '/home');
           } else if (state is AddPageErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),

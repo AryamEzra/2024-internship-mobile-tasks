@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 
@@ -26,25 +25,28 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<Either<Failure, ProductModel>> addProduct(
-      ProductModel productModel, String imagePath) async {
-    if (await networkInfo.isConnected) {
-      try {
-        if (imagePath.isNotEmpty) {
-          final remoteProduct =
-              await remoteDataSource.addProduct(productModel, imagePath);
-          await localDataSource.addProduct(remoteProduct);
-          return Right(remoteProduct);
-                } else {
-          return Left(ServerFailure(message: 'Image path is empty.'));
-        }
-      } on ServerException {
-        return Left(ServerFailure(message: 'Server failure.'));
+    ProductModel productModel, String imagePath) async {
+  if (await networkInfo.isConnected) {
+    try {
+      if (imagePath.isNotEmpty) {
+        final remoteProduct = await remoteDataSource.addProduct(productModel, imagePath);
+        await localDataSource.addProduct(remoteProduct);
+        return Right(remoteProduct);
+      } else {
+        return Left(ServerFailure(message: 'Image path is empty.'));
       }
-    } else {
-      await localDataSource.addProduct(productModel);
-      return Left(NetworkFailure(message: 'No internet connection.'));
+    } on ServerException catch (e) {
+      print('ServerException: $e');
+      return Left(ServerFailure(message: 'Server failure.'));
+    } catch (e) {
+      print('Unexpected error: $e');
+      return Left(ServerFailure(message: 'Unexpected error occurred.'));
     }
+  } else {
+    await localDataSource.addProduct(productModel);
+    return Left(NetworkFailure(message: 'No internet connection.'));
   }
+}
 
   @override
   Future<Either<Failure, ProductModel>> updateProduct(ProductModel product) async {

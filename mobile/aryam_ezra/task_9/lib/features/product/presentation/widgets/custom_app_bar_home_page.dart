@@ -9,6 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('yMMMMd').format(DateTime.now());
     return AppBar(
+      automaticallyImplyLeading: false,
       title: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -82,6 +83,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
+  
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);

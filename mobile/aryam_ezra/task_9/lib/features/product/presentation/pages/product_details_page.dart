@@ -24,7 +24,7 @@ class DetailsPage extends StatelessWidget {
               const SnackBar(content: Text('Product deleted successfully')),
             );
             context.read<HomePageBloc>().add(FetchAllProductsEvent());
-            Navigator.pushNamed(context, '/');
+            Navigator.pushNamed(context, '/home');
           } else if (state is DetailsPageErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),

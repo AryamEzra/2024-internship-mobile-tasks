@@ -34,7 +34,7 @@ void main() {
         .thenAnswer((_) async => const Right(product));
 
     // Act
-    final result = await usecase(GetProductParams(id: product.id));
+    final result = await usecase(GetProductParams(product.id));
 
     // Assert
     expect(result, equals(const Right(product)));

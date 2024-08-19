@@ -22,7 +22,7 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
     result.fold(
       (failure) => emit(const SearchPageErrorState('Failed to fetch products')),
       (products)  {
-        this.orginal = products;
+        orginal = products;
         emit(SearchPageLoadedState(products));
         },
     );
@@ -32,7 +32,7 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
     emit(SearchPageLoadingState());
 
     final result = orginal;
-    if(event.query.trim() == "") {
+    if(event.query.trim() == '') {
      emit(SearchPageLoadedState(orginal));
     }
     

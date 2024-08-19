@@ -47,7 +47,10 @@ class HomePage extends StatelessWidget {
                             Navigator.pushNamed(context, '/details',
                               arguments: state.products[index]);
                           },
-                          child: ProductItemCard(product: state.products[index]));
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ProductItemCard(product: state.products[index]),
+                          ));
                       },
                     );
                   } else if (state is HomePageErrorState) {
@@ -61,10 +64,10 @@ class HomePage extends StatelessWidget {
           ],
         ),
         floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 20.0), // Adjust the value as needed
+          padding: const EdgeInsets.only(bottom: 10.0), // Adjust the value as needed
           child: FloatingActionButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/add_update');
+              Navigator.pushNamed(context, '/add');
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),

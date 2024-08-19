@@ -4,7 +4,7 @@ import 'item_card.dart';
 class ProductList extends StatelessWidget {
   final List<Product> products;
 
-  const ProductList({Key? key, required this.products}) : super(key: key);
+  const ProductList({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +20,10 @@ class ProductList extends StatelessWidget {
               arguments: product,
             );
           },
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: ProductItemCard(product: product),
-          ),
+          
+
+          child: ProductItemCard(product: product),
+          
         );
       },
     );

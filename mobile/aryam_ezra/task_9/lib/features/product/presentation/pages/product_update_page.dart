@@ -39,7 +39,7 @@ class _UpdatePageState extends State<UpdatePage> {
     }
 
     final product = ProductModel(
-      id: widget.product?.id ?? '',
+      id: widget.product.id,
       name: _name.text,
       description: _description.text,
       price: double.parse(_price.text),
@@ -82,13 +82,13 @@ class _UpdatePageState extends State<UpdatePage> {
         const SnackBar(content: Text('Product updated successfully')),
       );
       context.read<HomePageBloc>().add(FetchAllProductsEvent());
-      Navigator.pushNamed(context, '/');
+      Navigator.pushNamed(context, '/home');
     } else if (state is UpdatePageDeletedState) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Product deleted successfully')),
       );
       context.read<HomePageBloc>().add(FetchAllProductsEvent());
-      Navigator.pushNamed(context, '/');
+      Navigator.pushNamed(context, '/home');
     } else if (state is UpdatePageErrorState) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(state.message)),
