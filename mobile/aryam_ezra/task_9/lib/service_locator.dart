@@ -18,11 +18,15 @@ import 'features/product/presentation/bloc/details_page/details_page_bloc.dart';
 import 'features/product/presentation/bloc/home_page/home_page_bloc.dart';
 import 'features/product/presentation/bloc/search_page/search_page_bloc.dart';
 import 'features/product/presentation/bloc/update_page/update_page_bloc.dart';
+import 'features/user/data/data_sources/user_local_data_source.dart';
 import 'features/user/data/data_sources/user_remote_data_source.dart';
 import 'features/user/data/repositories/user_respository_impl.dart';
 import 'features/user/domain/repositories/user_repository.dart';
+import 'features/user/domain/use_case/loggedin_user.dart';
 import 'features/user/domain/use_case/login_user.dart';
+import 'features/user/domain/use_case/logout_user.dart';
 import 'features/user/domain/use_case/register_user.dart';
+import 'features/user/presentation/bloc/authentication/authentication_bloc.dart';
 import 'features/user/presentation/bloc/sign_in_page/sign_in_page_bloc.dart';
 import 'features/user/presentation/bloc/sign_up_page/sign_up_page_bloc.dart';
 
@@ -77,12 +81,23 @@ Future<void> setupLocator() async {
     () => UserRemoteDataSourceImpl(client: getIt()),
   );
 
+  getIt.registerLazySingleton<UserLocalDataSource>(
+    () => UserLocalDataSourceImpl(sharedPreferences: getIt()),
+  );
+  
   getIt.registerSingleton<UserRepository>(
-      UserRepositoryImpl(remoteDataSource: getIt()));
+      UserRepositoryImpl(remoteDataSource: getIt(), localDataSource: getIt()));
+    
+
 
   getIt.registerFactory(() => LoginUser(getIt()));
   getIt.registerFactory(() => RegisterUser(getIt()));
 
   getIt.registerFactory(() => SignInPageBloc(userRepository: getIt()));
   getIt.registerFactory(() => SignUpPageBloc(userRepository: getIt()));
+
+  getIt.registerFactory(() => IsLoggedIn(getIt()));
+  getIt.registerFactory(() => LogOut(getIt()));
+
+  getIt.registerFactory(() => AuthenticationBloc(getIt()));
 }

@@ -17,6 +17,8 @@ import 'features/product/presentation/pages/product_home_page.dart';
 import 'features/product/presentation/pages/product_search_page.dart';
 import 'features/product/presentation/pages/product_update_page.dart';
 import 'features/product/presentation/widgets/navigation_animation.dart';
+import 'features/user/data/data_sources/user_local_data_source.dart';
+import 'features/user/presentation/bloc/authentication/authentication_bloc.dart';
 import 'features/user/presentation/pages/sign_in.dart';
 import 'features/user/presentation/pages/sign_up.dart';
 import 'features/user/presentation/pages/splash_screen.dart';
@@ -30,6 +32,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    final localDataSource = getIt<UserLocalDataSource>();
     return MultiBlocProvider(
       providers: [
         BlocProvider<HomePageBloc>(
@@ -38,6 +41,9 @@ class MyApp extends StatelessWidget {
             bloc.add(FetchAllProductsEvent());
             return bloc;
           },
+        ),
+        BlocProvider<AuthenticationBloc>(
+          create: (context) => AuthenticationBloc(localDataSource)..add(CheckCurrentStatus()),
         ),
         // Add other providers here if needed
       ],

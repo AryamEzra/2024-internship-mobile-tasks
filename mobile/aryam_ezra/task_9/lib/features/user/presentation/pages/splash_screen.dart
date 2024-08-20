@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../bloc/authentication/authentication_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,24 +17,33 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // Timer(const Duration(seconds: 3), () {
+    //   Navigator.pushReplacementNamed(context, '/signin');
+    // });
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/signin');
+      context.read<AuthenticationBloc>().add(CheckCurrentStatus());
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+        body: BlocListener<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        if (state is LoggedInState) {
+          Navigator.pushReplacementNamed(context, '/home');
+        } else if (state is LoggedOutState) {
+          Navigator.pushReplacementNamed(context, '/signin');
+        }
+      },
+      child: Stack(
         children: [
-          
           Container(
             height: double.infinity,
             width: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                    'assets/images/back_ground_lady.png'), 
+                image: AssetImage('assets/images/back_ground_lady.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -88,6 +100,6 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 }

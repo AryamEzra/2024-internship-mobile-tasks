@@ -260,46 +260,49 @@ class _SignUpPageState extends State<SignUpPage> {
                         children: [
                           state is SignUpPageLoading
                               ? const CircularProgressIndicator()
-                              : ElevatedButton(
-                                  onPressed: () {
-                                    if (!isChecked) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                            content: Text(
-                                                'Please agree to the terms and conditions')),
-                                      );
-                                    } else {
-                                      context.read<SignUpPageBloc>().add(
-                                            SignUpPageButtonPressed(
-                                              email: emailController.text,
-                                              password: passwordController.text,
-                                              confirmPassword:
-                                                  confirmPasswordController
-                                                      .text,
-                                              name: nameController.text,
-                                            ),
-                                          );
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 16.0),
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 54, 104, 255),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
+                              : SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      if (!isChecked) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text(
+                                                  'Please agree to the terms and conditions')),
+                                        );
+                                      } else {
+                                        context.read<SignUpPageBloc>().add(
+                                              SignUpPageButtonPressed(
+                                                email: emailController.text,
+                                                password: passwordController.text,
+                                                confirmPassword:
+                                                    confirmPasswordController
+                                                        .text,
+                                                name: nameController.text,
+                                              ),
+                                            );
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding:
+                                          const EdgeInsets.symmetric(vertical: 16.0),
+                                      backgroundColor:
+                                          const Color.fromARGB(255, 54, 104, 255),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'SIGN UP',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
-                                  child: Text(
-                                    'SIGN UP',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
+                              ),
                           const SizedBox(height: 30.0),
                           // Sign In text
                           Row(

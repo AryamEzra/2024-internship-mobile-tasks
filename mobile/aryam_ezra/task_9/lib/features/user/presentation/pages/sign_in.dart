@@ -157,31 +157,34 @@ class SignInPage extends StatelessWidget {
                         children: [
                           state is SignInPageLoading
                               ? const CircularProgressIndicator()
-                              : ElevatedButton(
-                                  onPressed: () {
-                                    context.read<SignInPageBloc>().add(
-                                          SignInPageButtonPressed(
-                                            email: emailController.text,
-                                            password: passwordController.text,
-                                          ),
-                                        );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                    backgroundColor: const Color.fromARGB(255, 54, 104, 255),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
+                              : SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      context.read<SignInPageBloc>().add(
+                                            SignInPageButtonPressed(
+                                              email: emailController.text,
+                                              password: passwordController.text,
+                                            ),
+                                          );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                      backgroundColor: const Color.fromARGB(255, 54, 104, 255),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'SIGN IN',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
-                                  child: const Text(
-                                    'SIGN IN',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
+                              ),
                         ],
                       );
                     },

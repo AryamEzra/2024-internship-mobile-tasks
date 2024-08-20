@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/failure/failure.dart';
 import '../../../../core/use_cases/use_case.dart';
-import '../entities/user.dart';
 import '../repositories/user_repository.dart';
 
 class LoginParams {

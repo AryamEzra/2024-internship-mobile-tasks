@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:task_9/service_locator.dart';
+
+import '../../../user/data/data_sources/user_local_data_source.dart';
+import '../../../user/domain/use_case/logout_user.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('yMMMMd').format(DateTime.now());
+
+    final localDataSource = getIt<UserLocalDataSource>();
+    final logOut = LogOut(localDataSource);
     return AppBar(
       automaticallyImplyLeading: false,
       title: Padding(
@@ -69,10 +77,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               child: IconButton(
-                icon: const Icon(Icons.notifications_outlined,
+                icon: const Icon(Icons.logout_outlined,
                     color: Color.fromARGB(255, 164, 157, 157), size: 30),
-                onPressed: () {
-                  // todo
+                onPressed: () async {
+                   await logOut();
+          // Optionally, navigate to the login screen or show a message
+          Navigator.pushReplacementNamed(context, '/signin');
                 },
               ),
             ),

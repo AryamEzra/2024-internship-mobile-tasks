@@ -5,7 +5,6 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../core/failure/failure.dart';
-import '../../../domain/entities/user.dart';
 import '../../../domain/repositories/user_repository.dart';
 
 part 'sign_in_page_event.dart';
