@@ -39,19 +39,24 @@ class HomePage extends StatelessWidget {
                   if (state is HomePageLoadingState) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is HomePageLoadedState) {
-                    return ListView.builder(
-                      itemCount: state.products.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/details',
-                              arguments: state.products[index]);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ProductItemCard(product: state.products[index]),
-                          ));
+                    return RefreshIndicator(
+                      onRefresh: () async{
+                        context.read<HomePageBloc>().add(FetchAllProductsEvent());
                       },
+                      child: ListView.builder(
+                        itemCount: state.products.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/details',
+                                arguments: state.products[index]);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ProductItemCard(product: state.products[index]),
+                            ));
+                        },
+                      ),
                     );
                   } else if (state is HomePageErrorState) {
                     return Center(child: Text(state.message));

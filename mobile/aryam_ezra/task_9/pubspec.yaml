@@ -54,6 +54,8 @@ dependencies:
   connectivity_plus:
   internet_connection_checker:
   injectable:
+  flutter_secure_storage:
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -89,7 +91,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/images/
+     - assets/images/back_ground_lady.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

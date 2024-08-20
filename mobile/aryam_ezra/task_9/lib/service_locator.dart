@@ -19,6 +19,7 @@ import 'features/product/presentation/bloc/home_page/home_page_bloc.dart';
 import 'features/product/presentation/bloc/search_page/search_page_bloc.dart';
 import 'features/product/presentation/bloc/update_page/update_page_bloc.dart';
 import 'features/user/data/data_sources/user_local_data_source.dart';
+import 'features/user/data/data_sources/user_name.dart';
 import 'features/user/data/data_sources/user_remote_data_source.dart';
 import 'features/user/data/repositories/user_respository_impl.dart';
 import 'features/user/domain/repositories/user_repository.dart';
@@ -89,7 +90,6 @@ Future<void> setupLocator() async {
       UserRepositoryImpl(remoteDataSource: getIt(), localDataSource: getIt()));
     
 
-
   getIt.registerFactory(() => LoginUser(getIt()));
   getIt.registerFactory(() => RegisterUser(getIt()));
 
@@ -100,4 +100,7 @@ Future<void> setupLocator() async {
   getIt.registerFactory(() => LogOut(getIt()));
 
   getIt.registerFactory(() => AuthenticationBloc(getIt()));
+
+  getIt.registerLazySingleton<Future<String> Function()>(() => fetchUserName);
+
 }

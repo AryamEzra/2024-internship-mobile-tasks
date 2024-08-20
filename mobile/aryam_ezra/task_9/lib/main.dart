@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           },
         ),
         BlocProvider<AuthenticationBloc>(
-          create: (context) => AuthenticationBloc(localDataSource)..add(CheckCurrentStatus()),
+          create: (context) => AuthenticationBloc(localDataSource),
         ),
         // Add other providers here if needed
       ],
@@ -53,9 +53,9 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.poppinsTextTheme(),
         ),
         title: 'Product App',
-        initialRoute: '/',
+        initialRoute: '/splash',
         routes: {
-          '/': (context) => const SplashScreen(),
+          '/splash': (context) => const SplashScreen(),
           '/signin': (context) =>  const SignInPage(),
           '/signup': (context) => const SignUpPage(),
         },

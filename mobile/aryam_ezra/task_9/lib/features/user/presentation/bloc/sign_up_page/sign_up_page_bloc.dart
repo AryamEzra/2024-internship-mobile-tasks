@@ -22,7 +22,7 @@ class SignUpPageBloc extends Bloc<SignUpPageEvent, SignUpPageState> {
 
   FutureOr<void> _onsignupbuttonpressed(SignUpPageButtonPressed event, Emitter<SignUpPageState> emit)async {
     if (event.password != event.confirmPassword) {
-        emit (SignUpPageFailure(error: 'Passwords do not match'));
+        emit (const SignUpPageFailure(error: 'Passwords do not match'));
       }
 
       emit (SignUpPageLoading());

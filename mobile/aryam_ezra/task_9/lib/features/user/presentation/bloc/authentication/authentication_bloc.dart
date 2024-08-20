@@ -9,7 +9,7 @@ part 'authentication_state.dart';
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserLocalDataSource localDataSource;
 
-  AuthenticationBloc(this.localDataSource) : super(LoggedOutState()) {
+  AuthenticationBloc(this.localDataSource) : super(AuthenticationInitial()) {
     on<CheckCurrentStatus>((event, emit) async {
       final token = await localDataSource.getAccessToken();
       if (token != null) {

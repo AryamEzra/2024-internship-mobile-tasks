@@ -1,13 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:task_9/service_locator.dart';
+import '../../../../service_locator.dart';
 
 import '../../../user/data/data_sources/user_local_data_source.dart';
+import '../../../user/data/data_sources/user_name.dart';
 import '../../../user/domain/use_case/logout_user.dart';
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
+  @override
+  _CustomAppBarState createState() => _CustomAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  String userName = 'Name';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserName();
+  }
+
+  Future<void> _loadUserName() async {
+  try {
+    
+    final name = await fetchUserName();
+    setState(() {
+      userName = name;
+    });
+  } catch (e) {
+      print('Failed to load user name: $e');
+      setState(() {
+        userName = 'Guest'; // Fallback in case of an error
+      });
+  }
+}
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('yMMMMd').format(DateTime.now());
@@ -54,9 +86,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                               color: const Color.fromRGBO(102, 102, 102, 1),
                               fontWeight: FontWeight.w500,
                             )),
-                        const Text(
-                          'Aryam',
-                          style: TextStyle(
+                        Text(
+                          userName,
+                          style: const TextStyle(
                             fontSize: 15,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -80,9 +112,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 icon: const Icon(Icons.logout_outlined,
                     color: Color.fromARGB(255, 164, 157, 157), size: 30),
                 onPressed: () async {
-                   await logOut();
-          // Optionally, navigate to the login screen or show a message
-          Navigator.pushReplacementNamed(context, '/signin');
+                  await logOut();
+                  // Optionally, navigate to the login screen or show a message
+                  Navigator.pushReplacementNamed(context, '/signin');
                 },
               ),
             ),
@@ -91,8 +123,4 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
