@@ -13,10 +13,10 @@ class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, User>> loginUser(String email, String password) async {
+  Future<Either<Failure, String>> loginUser(String email, String password) async {
     try {
-      final userModel = await remoteDataSource.loginUser(email, password);
-      return Right(userModel);
+      final access_token = await remoteDataSource.loginUser(email, password);
+      return Right(access_token);
     } on ServerException {
       return Left(ServerFailure(message: 'Failed to login'));
     }

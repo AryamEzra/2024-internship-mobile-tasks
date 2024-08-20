@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Container(
             height: double.infinity,
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
                     'assets/images/back_ground_lady.png'), 
@@ -41,8 +41,8 @@ class _SplashScreenState extends State<SplashScreen> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromARGB(255, 25, 78, 239).withOpacity(0.9),
-                  Color.fromARGB(255, 54, 104, 255).withOpacity(0.4),
+                  const Color.fromARGB(255, 25, 78, 239).withOpacity(0.9),
+                  const Color.fromARGB(255, 54, 104, 255).withOpacity(0.4),
                 ],
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,

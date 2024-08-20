@@ -12,13 +12,13 @@ class UserModel extends User {
   final String email;
   @override
   // ignore: overridden_fields
-  final String password;
+  final String? password;
 
   const UserModel({
     this.id,
     this.name,
     required this.email,
-    required this.password,
+    this.password,
   }) : super(
           email: '',
           password: '',
@@ -31,7 +31,6 @@ class UserModel extends User {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      password: json['password'],
     );
   }
   Map<String, dynamic> toJson() {

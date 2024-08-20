@@ -1,14 +1,27 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../service_locator.dart';
 import '../../../product/presentation/widgets/custom_back_button.dart';
-import '../widgets/check_box.dart';
+import '../../domain/repositories/user_repository.dart';
+import '../bloc/sign_up_page/sign_up_page_bloc.dart';
 
-
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,14 +34,14 @@ class SignUpPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
-              width:60,
-              height:40,
-              padding:
-                  const EdgeInsets.only(left:5, right:5),
+              width: 60,
+              height: 40,
+              padding: const EdgeInsets.only(left: 5, right: 5),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(color: Color.fromARGB(255, 54, 104, 255), width: 2),
+                border: Border.all(
+                    color: const Color.fromARGB(255, 54, 104, 255), width: 2),
               ),
               child: Center(
                 child: Text(
@@ -36,14 +49,14 @@ class SignUpPage extends StatelessWidget {
                   style: GoogleFonts.caveatBrush(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 54, 104, 255),
+                    color: const Color.fromARGB(255, 54, 104, 255),
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
             ),
           ),
-          SizedBox(width:6)
+          const SizedBox(width: 6)
         ],
       ),
       body: SingleChildScrollView(
@@ -52,7 +65,7 @@ class SignUpPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 24.0),
+              const SizedBox(height: 24.0),
               // Create your account text
               Text(
                 'Create your account',
@@ -63,11 +76,11 @@ class SignUpPage extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 24.0),
+              const SizedBox(height: 24.0),
               Text(
                 'Name',
                 style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400,
                     color: Color.fromRGBO(111, 111, 111, 1),
@@ -78,10 +91,11 @@ class SignUpPage extends StatelessWidget {
               ),
 
               TextField(
+                controller: nameController,
                 decoration: InputDecoration(
                   hintText: 'ex: Jon Smith',
                   hintStyle: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(111, 111, 111, 1),
                     ),
@@ -99,7 +113,7 @@ class SignUpPage extends StatelessWidget {
               Text(
                 'Email',
                 style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400,
                     color: Color.fromRGBO(111, 111, 111, 1),
@@ -110,10 +124,11 @@ class SignUpPage extends StatelessWidget {
               ),
 
               TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   hintText: 'ex: jon.smith@email.com',
                   hintStyle: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(111, 111, 111, 1),
                     ),
@@ -130,7 +145,7 @@ class SignUpPage extends StatelessWidget {
               Text(
                 'Password',
                 style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400,
                     color: Color.fromRGBO(111, 111, 111, 1),
@@ -141,11 +156,12 @@ class SignUpPage extends StatelessWidget {
               ),
 
               TextField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: '********',
                   hintStyle: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(111, 111, 111, 1),
                     ),
@@ -159,11 +175,10 @@ class SignUpPage extends StatelessWidget {
                 ),
               ),
 
-
               Text(
                 'Confirm Password',
                 style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400,
                     color: Color.fromRGBO(111, 111, 111, 1),
@@ -174,11 +189,12 @@ class SignUpPage extends StatelessWidget {
               ),
 
               TextField(
+                controller: confirmPasswordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: '********',
                   hintStyle: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(111, 111, 111, 1),
                     ),
@@ -194,7 +210,16 @@ class SignUpPage extends StatelessWidget {
               // Terms and policy checkbox
               Row(
                 children: [
-                  CheckboxWidget(),
+                  Checkbox(
+                    value: isChecked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isChecked = value!;
+                      });
+                    },
+                    activeColor: const Color.fromARGB(255, 54, 104, 255),
+                    checkColor: Colors.white,
+                  ),
                   RichText(
                     text: TextSpan(
                       text: 'I understood the ',
@@ -202,64 +227,107 @@ class SignUpPage extends StatelessWidget {
                       children: <TextSpan>[
                         TextSpan(
                           text: 'terms & policy.',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color.fromARGB(255, 54, 104, 255),
                           ),
                           recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  print('Terms & Policy tapped');
-                },
+                            ..onTap = () {
+                              // print('Terms & Policy tapped');
+                            },
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 16.0),
-              // Sign Up button
-              ElevatedButton(
-                onPressed: () {
-                   Navigator.pushNamed(context, '/home');
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  backgroundColor: const Color.fromARGB(255, 54, 104, 255),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Text(
-                  'SIGN UP',
-                  style: GoogleFonts.poppins(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              SizedBox(height: 30.0),
-              // Sign In text
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Have an account?',
-                    style: GoogleFonts.poppins(color: Colors.grey),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/signin');
+              const SizedBox(height: 32.0),
+              BlocProvider(
+                  create: (context) => SignUpPageBloc(
+                      userRepository: getIt<UserRepository>()),
+                  child: BlocListener<SignUpPageBloc, SignUpPageState>(
+                    listener: (context, state) {
+                      if (state is SignUpPageFailure) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(state.error)),
+                        );
+                      } else if (state is SignUpPageSuccess) {
+                        Navigator.pushReplacementNamed(context, '/signin');
+                      }
                     },
-                    child: Text(
-                      'SIGN IN',
-                      style: GoogleFonts.poppins(
-                        color: const Color.fromARGB(255, 54, 104, 255),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                    child: BlocBuilder<SignUpPageBloc, SignUpPageState>(
+                        builder: (context, state) {
+                      return Column(
+                        children: [
+                          state is SignUpPageLoading
+                              ? const CircularProgressIndicator()
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    if (!isChecked) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'Please agree to the terms and conditions')),
+                                      );
+                                    } else {
+                                      context.read<SignUpPageBloc>().add(
+                                            SignUpPageButtonPressed(
+                                              email: emailController.text,
+                                              password: passwordController.text,
+                                              confirmPassword:
+                                                  confirmPasswordController
+                                                      .text,
+                                              name: nameController.text,
+                                            ),
+                                          );
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 16.0),
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 54, 104, 255),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'SIGN UP',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                          const SizedBox(height: 30.0),
+                          // Sign In text
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Have an account?',
+                                style: GoogleFonts.poppins(color: Colors.grey),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/signin');
+                                },
+                                child: Text(
+                                  'SIGN IN',
+                                  style: GoogleFonts.poppins(
+                                    color:
+                                        const Color.fromARGB(255, 54, 104, 255),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    }),
+                  ))
             ],
           ),
         ),

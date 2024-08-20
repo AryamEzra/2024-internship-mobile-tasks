@@ -13,13 +13,13 @@ class LoginParams {
 }
 
 
-class LoginUser extends UseCase< User, LoginParams> {
+class LoginUser extends UseCase< String, LoginParams> {
   final UserRepository userRepository;
 
   LoginUser(this.userRepository);
 
   @override
-  Future<Either<Failure, User>> call(LoginParams params) async {
+  Future<Either<Failure, String>> call(LoginParams params) async {
     return userRepository.loginUser(params.email, params.password);
   }
 }

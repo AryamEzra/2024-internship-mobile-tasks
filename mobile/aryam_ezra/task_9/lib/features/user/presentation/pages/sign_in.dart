@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../service_locator.dart';
+import '../../domain/repositories/user_repository.dart';
+import '../bloc/sign_in_page/sign_in_page_bloc.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -15,7 +23,7 @@ class SignInPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 70),
+              const SizedBox(height: 70),
               Center(
                 child: Container(
                   height: 50,
@@ -24,12 +32,12 @@ class SignInPage extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
                     border: Border.all(
-                        color: Color.fromARGB(255, 54, 104, 255), width: 2),
+                        color: const Color.fromARGB(255, 54, 104, 255), width: 2),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black
                             .withOpacity(0.25), // Shadow color with opacity
-                        offset: Offset(0, 4), // Horizontal and vertical offset
+                        offset: const Offset(0, 4), // Horizontal and vertical offset
                         blurRadius: 4.0, // Blur radius
                         spreadRadius: 0.0, // Spread radius
                       ),
@@ -39,10 +47,10 @@ class SignInPage extends StatelessWidget {
                     child: Text(
                       'ECOM',
                       style: GoogleFonts.caveatBrush(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 48.0,
                           fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 54, 104, 255),
+                          color: Color.fromARGB(255, 54, 104, 255),
                           height: 24.26 / 48.0,
                           letterSpacing: 2 / 100 * 48.0,
                         ),
@@ -51,9 +59,9 @@ class SignInPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 50.0),
+              const SizedBox(height: 50.0),
               // Sign into your account text
-              Text(
+              const Text(
                 'Sign into your account',
                 textAlign: TextAlign.left,
                 style: TextStyle(
@@ -63,11 +71,11 @@ class SignInPage extends StatelessWidget {
                 ),
 
               ),
-              SizedBox(height: 32.0),
+              const SizedBox(height: 32.0),
               Text(
                 'Email',
                 style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400,
                     color: Color.fromRGBO(111, 111, 111, 1),
@@ -78,10 +86,11 @@ class SignInPage extends StatelessWidget {
               ),
 
               TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   hintText: 'ex: jon.smith@email.com',
                   hintStyle: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(111, 111, 111, 1),
                     ),
@@ -94,12 +103,12 @@ class SignInPage extends StatelessWidget {
                   fillColor: Colors.grey[200],
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
 
               Text(
                 'Password',
                 style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400,
                     color: Color.fromRGBO(111, 111, 111, 1),
@@ -110,11 +119,12 @@ class SignInPage extends StatelessWidget {
               ),
 
               TextField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: '********',
                   hintStyle: GoogleFonts.poppins(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(111, 111, 111, 1),
                     ),
@@ -127,34 +137,62 @@ class SignInPage extends StatelessWidget {
                   fillColor: Colors.grey[200],
                 ),
               ),
-              SizedBox(height: 32.0),
-              // Sign In button
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/home');
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  backgroundColor: Color.fromARGB(255, 54, 104, 255),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Text(
-                  'SIGN IN',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+              const SizedBox(height: 32.0),
+
+              BlocProvider(
+                create: (context) => SignInPageBloc(userRepository: getIt<UserRepository>()),
+                child: BlocListener<SignInPageBloc, SignInPageState>(
+                  listener: (context, state) {
+                    if (state is SignInPageFailure) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.error)),
+                      );
+                    } else if (state is SignInPageSuccess) {
+                      Navigator.pushReplacementNamed(context, '/home');
+                    }
+                  },
+                  child: BlocBuilder<SignInPageBloc, SignInPageState>(
+                    builder: (context, state) {
+                      return Column(
+                        children: [
+                          state is SignInPageLoading
+                              ? const CircularProgressIndicator()
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    context.read<SignInPageBloc>().add(
+                                          SignInPageButtonPressed(
+                                            email: emailController.text,
+                                            password: passwordController.text,
+                                          ),
+                                        );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                    backgroundColor: const Color.fromARGB(255, 54, 104, 255),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'SIGN IN',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),
-              SizedBox(height: 100.0),
-              // Sign Up text
+              const SizedBox(height: 100.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Don't have an account?",
                     style: TextStyle(
                       color: Colors.grey,
@@ -164,10 +202,10 @@ class SignInPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, '/signup');
                     },
-                    child: Text(
+                    child: const Text(
                       'SIGN UP',
                       style: TextStyle(
-                        color: const Color.fromARGB(255, 54, 104, 255),
+                        color: Color.fromARGB(255, 54, 104, 255),
                         fontWeight: FontWeight.w600,
                       ),
                     ),

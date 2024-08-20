@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:task_9/features/product/data/models/product_model.dart';
 
 import 'package:task_9/features/product/domain/entities/product.dart';
 import 'package:task_9/features/product/domain/repository/product_repository.dart';
@@ -33,15 +34,15 @@ void main() {
 
   test('should update a product from the repository', () async {
     //Arrange
-    when(productRepository.updateProduct(product))
+    when(productRepository.updateProduct(product as ProductModel?))
         .thenAnswer((_) async => const Right(product));
 
     //Act
-    final result = await usecase(product);
+    final result = await usecase(product as UpdateProductParams);
 
     //Assert
     expect(result, const Right(product));
-    verify(productRepository.updateProduct(product));
+    verify(productRepository.updateProduct(product as ProductModel?));
     verifyNoMoreInteractions(productRepository);
   });
 }

@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:task_9/features/product/data/models/product_model.dart';
 
 import 'package:task_9/features/product/domain/entities/product.dart';
 import 'package:task_9/features/product/domain/repository/product_repository.dart';
@@ -32,15 +33,15 @@ void main() {
 
   test('should add a product to the repository', () async {
     //Arrange
-    when(productRepository.addProduct(product))
+    when(productRepository.addProduct(product as ProductModel?))
         .thenAnswer((_) async => const Right(product));
 
     //Act
-    final result = await usecase(product);
+    final result = await usecase(product as AddProductParams);
 
     //Assert
     expect(result, const Right(product));
-    verify(productRepository.addProduct(product));
+    verify(productRepository.addProduct(product as ProductModel?));
     verifyNoMoreInteractions(productRepository);
   });
 }

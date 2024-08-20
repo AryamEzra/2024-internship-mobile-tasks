@@ -64,7 +64,7 @@ void main() {
   when(mockLocalDataSource.addProduct(any)).thenAnswer((_) async => tProductModel);
   
   // Act
-  final result = await repository.addProduct(tProductModel);
+  final result = await repository.addProduct(tProductModel, tImagePath);
   
   // Assert
   expect(result, Left(NetworkFailure(message: 'No internet connection.')));

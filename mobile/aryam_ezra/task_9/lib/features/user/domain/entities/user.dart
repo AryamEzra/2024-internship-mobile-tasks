@@ -4,13 +4,13 @@ class User extends Equatable{
   final String? id;
   final String? name;
   final String email;
-  final String password;
+  final String? password;
 
   const User({
     this.id,
     this.name,
     required this.email,
-    required this.password,
+    this.password,
   });
   
   @override
