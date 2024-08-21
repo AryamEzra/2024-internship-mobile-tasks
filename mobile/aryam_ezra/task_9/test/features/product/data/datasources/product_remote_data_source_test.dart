@@ -109,23 +109,25 @@ final resp = jsonDecode(File(
     expect(result, isA<ProductModel>());
   });
 
-//   test('should throw ProductNotFoundException when the response code is 404',
-//     () async {
-//   // Arrange
-//   when(mockHttpClient.get(
-//     Uri.parse(Urls.getProduct('non-existing-id')),
-//     headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': 'Bearer $accessToken',
-//       },
-//   )).thenAnswer((_) async => http.Response('Not Found', 404));
 
-//   // Act
-//   final call = dataSource.getProductById('non-existing-id');
 
-//   // Assert
-//   expect(() => call, throwsA(isA<ProductNotFoundException>()));
-// });
+  test('should throw ProductNotFoundException when the response code is 404',
+    () async {
+  // Arrange
+  when(mockHttpClient.get(
+    Uri.parse(Urls.getProduct('non-existing-id')),
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+  )).thenAnswer((_) async => http.Response('Not Found', 404));
+
+  // Act
+  final call = dataSource.getProductById('non-existing-id');
+
+  // Assert
+  expect(() => call, throwsA(isA<ProductNotFoundException>()));
+});
 
 
     test('should throw ServerException when an unexpected error occurs',
@@ -199,32 +201,33 @@ final resp = jsonDecode(File(
   });
 
   group('addProduct', () {
-//     test('should send a POST request to add a product', () async {
-//   // Arrange
-//   final expectedUrl = Uri.parse(Urls.addProduct());
-//   when(mockHttpClient.post(
-//     expectedUrl,
-//     headers: {
-//       'Content-Type': 'multipart/form-data',
-//       'Authorization': 'Bearer $accessToken',
-//     },
-//     body: anyNamed('body'),
-//   )).thenAnswer(
-//       (_) async => http.Response('{"status": "success"}', 201));
+    test('should send a POST request to add a product', () async {
+  // Arrange
+  final expectedUrl = Uri.parse(Urls.addProduct());
+  when(mockHttpClient.post(
+    expectedUrl,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer $accessToken',
+    },
+    body: anyNamed('body'),
+  )).thenAnswer(
+      (_) async => http.Response('{"data": {}}', 201));
 
-//   // Act
-//   await dataSource.addProduct(tProductModel, tImagePath);
+  // Act
+  final result = await dataSource.addProduct(tProductModel, tImagePath);
 
-//   // Assert
-//   verify(mockHttpClient.post(
-//     expectedUrl,
-//     headers: {
-//       'Content-Type': 'multipart/form-data',
-//       'Authorization': 'Bearer $accessToken',
-//     },
-//     body: anyNamed('body'),
-//   ));
-// });
+  // Assert
+  verify(mockHttpClient.post(
+    expectedUrl,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': 'Bearer $accessToken',
+    },
+    body: anyNamed('body'),
+  ));
+  expect(result, isA<ProductModel>());
+});
     test('should throw a ServerException when the response code is not 201',
         () async {
       // Arrange

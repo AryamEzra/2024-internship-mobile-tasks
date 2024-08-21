@@ -31,6 +31,7 @@ class UserModel extends User {
       id: json['id'],
       name: json['name'],
       email: json['email'],
+      password: json['password'],
     );
   }
   Map<String, dynamic> toJson() {
