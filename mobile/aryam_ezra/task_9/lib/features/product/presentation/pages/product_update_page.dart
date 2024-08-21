@@ -12,6 +12,7 @@ class UpdatePage extends StatefulWidget {
   const UpdatePage({super.key, required this.product});
 
   @override
+  // ignore: library_private_types_in_public_api
   _UpdatePageState createState() => _UpdatePageState();
 }
 

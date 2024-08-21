@@ -4,12 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:task_9/features/product/data/models/product_model.dart';
-
-import 'package:task_9/features/product/domain/entities/product.dart';
 import 'package:task_9/features/product/domain/repository/product_repository.dart';
 import 'package:task_9/features/product/domain/use_case/update_product.dart';
-
-import 'update_product_test.mocks.dart';
+import 'add_product_test.mocks.dart';
 
 
 class MockFile extends Mock implements File {}
@@ -23,7 +20,7 @@ void main() {
     productRepository = MockProductRepository();
     usecase = UpdateProduct(productRepository);
   });
-  const product = Product(
+    const productModel = ProductModel(
     name: 'Boots',
     id: '1',
     price: 200,
@@ -32,17 +29,18 @@ void main() {
         'These boots are made for walking and that\'s just what they\'ll do one of these days these boots are gonna walk all over you',
   );
 
-  test('should update a product from the repository', () async {
-    //Arrange
-    when(productRepository.updateProduct(product as ProductModel?))
-        .thenAnswer((_) async => const Right(product));
 
-    //Act
-    final result = await usecase(product as UpdateProductParams);
+  test('should update a product to the repository', () async {
+    // Arrange
+    when(productRepository.updateProduct(productModel))
+        .thenAnswer((_) async => const Right(productModel));
 
-    //Assert
-    expect(result, const Right(product));
-    verify(productRepository.updateProduct(product as ProductModel?));
+    // Act
+    final result = await usecase(UpdateProductParams(productModel));
+
+    // Assert
+    expect(result, const Right(productModel));
+    verify(productRepository.updateProduct(productModel));
     verifyNoMoreInteractions(productRepository);
   });
 }

@@ -44,8 +44,12 @@ Future<void> setupLocator() async {
   getIt.registerSingleton<http.Client>(client);
   getIt.registerSingleton<InternetConnectionChecker>(internetConnectionChecker);
 
+  getIt.registerLazySingleton<UserLocalDataSource>(
+    () => UserLocalDataSourceImpl(sharedPreferences: getIt()),
+  );
+
   getIt.registerLazySingleton<ProductRemoteDataSource>(
-    () => ProductRemoteDataSourceImpl(client: getIt()),
+    () => ProductRemoteDataSourceImpl(client: getIt(), userLocalDataSource: getIt(),),
   );
   getIt.registerLazySingleton<ProductLocalDataSource>(
     () => ProductLocalDataSourceImpl(sharedPreferences: getIt()),
@@ -82,9 +86,7 @@ Future<void> setupLocator() async {
     () => UserRemoteDataSourceImpl(client: getIt()),
   );
 
-  getIt.registerLazySingleton<UserLocalDataSource>(
-    () => UserLocalDataSourceImpl(sharedPreferences: getIt()),
-  );
+  
   
   getIt.registerSingleton<UserRepository>(
       UserRepositoryImpl(remoteDataSource: getIt(), localDataSource: getIt()));

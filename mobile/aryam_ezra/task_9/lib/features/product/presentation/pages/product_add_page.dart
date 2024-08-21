@@ -14,6 +14,7 @@ class AddPage extends StatefulWidget {
   final Product? product;
   const AddPage({super.key, this.product});
   @override
+  // ignore: library_private_types_in_public_api
   _AddPageState createState() => _AddPageState();
 }
 class _AddPageState extends State<AddPage> {

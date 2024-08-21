@@ -181,8 +181,7 @@ class DetailsPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 100),
-                    Container(
-                      child: Row(
+                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const SizedBox(height: 30),
@@ -194,7 +193,7 @@ class DetailsPage extends StatelessWidget {
                           ), // Use UpdateButton widget
                           const SizedBox(height: 30),
                         ],
-                      ),
+                      
                     ),
                   ],
                 ),

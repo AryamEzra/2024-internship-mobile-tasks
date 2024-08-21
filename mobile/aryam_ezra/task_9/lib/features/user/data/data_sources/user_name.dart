@@ -20,9 +20,6 @@ Future<String> fetchUserName() async {
 
   if (response.statusCode == 200) {
     final data = json.decode(response.body)['data'];
-    print('API Response: $data'); // Debugging line
-
-    // Check if 'name' exists and is not null
     if (data['name'] != null) {
       return data['name'];
     } else {

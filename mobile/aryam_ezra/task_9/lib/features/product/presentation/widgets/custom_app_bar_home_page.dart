@@ -11,6 +11,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _CustomAppBarState createState() => _CustomAppBarState();
 
   @override
@@ -34,7 +35,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
       userName = name;
     });
   } catch (e) {
-      print('Failed to load user name: $e');
       setState(() {
         userName = 'Guest'; // Fallback in case of an error
       });
@@ -114,6 +114,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 onPressed: () async {
                   await logOut();
                   // Optionally, navigate to the login screen or show a message
+                  // ignore: use_build_context_synchronously
                   Navigator.pushReplacementNamed(context, '/signin');
                 },
               ),

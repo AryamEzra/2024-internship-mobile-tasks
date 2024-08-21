@@ -13,12 +13,10 @@ class _SizeSelectorState extends State<SizeSelector> {
 
   @override
   Widget build(BuildContext context) {
-    print('Building SizeSelector');
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [38, 39, 40, 41, 42, 43, 44, 45].map((size) {
-          print('Creating ChoiceChip for size $size');
           return Padding(
             padding: const EdgeInsets.all(3.0),
             child: ChoiceChip(

@@ -36,11 +36,9 @@ class ProductRepositoryImpl implements ProductRepository {
       } else {
         return Left(ServerFailure(message: 'Image path is empty.'));
       }
-    } on ServerException catch (e) {
-      print('ServerException: $e');
+    } on ServerException {
       return Left(ServerFailure(message: 'Server failure.'));
     } catch (e) {
-      print('Unexpected error: $e');
       return Left(ServerFailure(message: 'Unexpected error occurred.'));
     }
   } else {
@@ -51,15 +49,20 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<Either<Failure, ProductModel>> updateProduct(ProductModel product) async {
+
     try {
-      final updatedProduct = await remoteDataSource.updateProduct(product.id, product);
+      if (await networkInfo.isConnected) {
+        final updatedProduct = await remoteDataSource.updateProduct(product.id, product);
       await localDataSource.updateProduct(product);
       return Right(updatedProduct);
-    } on ServerException {
-      return Left(ServerFailure(message: 'Server Failure'));
-    } on CacheException {
-      return Left(CacheFailure(message: 'Cache Failure'));
+      } else {
+        final localProducts = await localDataSource.updateProduct(product);
+        return Right(localProducts);
+      }
+    } catch (e) {
+      return Left(ServerFailure(message: 'Failed to fetch products.'));
     }
+  
   }
 
   @override

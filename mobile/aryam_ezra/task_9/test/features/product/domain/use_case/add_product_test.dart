@@ -4,8 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:task_9/features/product/data/models/product_model.dart';
-
-import 'package:task_9/features/product/domain/entities/product.dart';
 import 'package:task_9/features/product/domain/repository/product_repository.dart';
 import 'package:task_9/features/product/domain/use_case/add_product.dart';
 import 'add_product_test.mocks.dart';
@@ -22,7 +20,7 @@ void main() {
     productRepository = MockProductRepository();
     usecase = AddProduct(productRepository);
   });
-  const product = Product(
+    const productModel = ProductModel(
     name: 'Boots',
     id: '1',
     price: 200,
@@ -31,17 +29,19 @@ void main() {
         'These boots are made for walking and that\'s just what they\'ll do one of these days these boots are gonna walk all over you',
   );
 
+  const imagePath = 'assets/images/boots.jpg';
+
   test('should add a product to the repository', () async {
-    //Arrange
-    when(productRepository.addProduct(product as ProductModel?))
-        .thenAnswer((_) async => const Right(product));
+    // Arrange
+    when(productRepository.addProduct(productModel, imagePath))
+        .thenAnswer((_) async => const Right(productModel));
 
-    //Act
-    final result = await usecase(product as AddProductParams);
+    // Act
+    final result = await usecase(AddProductParams(productModel, imagePath));
 
-    //Assert
-    expect(result, const Right(product));
-    verify(productRepository.addProduct(product as ProductModel?));
+    // Assert
+    expect(result, const Right(productModel));
+    verify(productRepository.addProduct(productModel, imagePath));
     verifyNoMoreInteractions(productRepository);
   });
 }

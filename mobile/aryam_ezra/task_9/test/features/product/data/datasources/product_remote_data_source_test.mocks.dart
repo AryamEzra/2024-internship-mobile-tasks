@@ -10,6 +10,8 @@ import 'dart:typed_data' as _i6;
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
+import 'package:task_9/features/user/data/data_sources/user_local_data_source.dart'
+    as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -279,4 +281,43 @@ class MockClient extends _i1.Mock implements _i2.Client {
         ),
         returnValueForMissingStub: null,
       );
+}
+
+/// A class which mocks [UserLocalDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUserLocalDataSource extends _i1.Mock
+    implements _i7.UserLocalDataSource {
+  MockUserLocalDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<void> saveAccessToken(String? token) => (super.noSuchMethod(
+        Invocation.method(
+          #saveAccessToken,
+          [token],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+
+  @override
+  _i3.Future<String?> getAccessToken() => (super.noSuchMethod(
+        Invocation.method(
+          #getAccessToken,
+          [],
+        ),
+        returnValue: _i3.Future<String?>.value(),
+      ) as _i3.Future<String?>);
+
+  @override
+  _i3.Future<void> deleteAccessToken() => (super.noSuchMethod(
+        Invocation.method(
+          #deleteAccessToken,
+          [],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }
