@@ -23,6 +23,7 @@ class ProductList extends StatelessWidget {
 
 
           child: ProductItemCard(product: product),
+          
 
         );
       },

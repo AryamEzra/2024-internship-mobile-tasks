@@ -7,7 +7,6 @@ import '../../data/models/product_model.dart';
 import '../../domain/entities/product.dart';
 import '../bloc/add_page/add_page_bloc.dart';
 import '../bloc/home_page/home_page_bloc.dart';
-import '../widgets/custom_back_button.dart';
 import '../widgets/image_upload.dart';
 
 class AddPage extends StatefulWidget {
@@ -38,32 +37,79 @@ class _AddPageState extends State<AddPage> {
     });
   }
   void _submitProduct() {
-    if (_name.text.isEmpty ||
-        _description.text.isEmpty ||
-        _price.text.isEmpty ||
-        _selectedImage == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill all fields and select an image')),
-      );
-      
-    }
-    final product = ProductModel(
-      id: widget.product?.id ?? '',
-      name: _name.text,
-      description: _description.text,
-      price: double.parse(_price.text),
-      imageUrl: _selectedImage!.path,
+  if (_name.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please fill in the name')),
     );
-    BlocProvider.of<AddPageBloc>(context).add(
-      AddProductEvent(product, _selectedImage!.path),
-    );
+    return;
   }
+
+  if (_price.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please fill in the price')),
+    );
+    return;
+  }
+
+  if (_description.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please fill in the description')),
+    );
+    return;
+  }
+
+  if (_selectedImage == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please select a picture')),
+    );
+    return;
+  }
+
+  final product = ProductModel(
+    id: widget.product?.id ?? '',
+    name: _name.text,
+    description: _description.text,
+    price: double.parse(_price.text),
+    imageUrl: _selectedImage!.path,
+  );
+
+  BlocProvider.of<AddPageBloc>(context).add(
+    AddProductEvent(product, _selectedImage!.path),
+  );
+}
+  // void _submitProduct() {
+  //   if (_name.text.isEmpty ||
+  //       _description.text.isEmpty ||
+  //       _price.text.isEmpty ||
+  //       _selectedImage == null) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text('Please fill all fields and select an image')),
+  //     );
+      
+  //   }
+  //   final product = ProductModel(
+  //     id: widget.product?.id ?? '',
+  //     name: _name.text,
+  //     description: _description.text,
+  //     price: double.parse(_price.text),
+  //     imageUrl: _selectedImage!.path,
+  //   );
+  //   BlocProvider.of<AddPageBloc>(context).add(
+  //     AddProductEvent(product, _selectedImage!.path),
+  //   );
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: const CustomBackButton(),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new,
+              color: Color.fromARGB(255, 54, 104, 255), size: 20),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         centerTitle: true,
         title: const Text(
           'Add Product',
@@ -104,7 +150,7 @@ class _AddPageState extends State<AddPage> {
                 TextField(
                   controller: _name,
                   decoration: InputDecoration(
-                    fillColor: const Color.fromRGBO(243, 243, 243, 1),
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? const Color.fromARGB(255, 138, 134, 134) : const Color.fromRGBO(243, 243, 243, 1),
                     filled: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -121,14 +167,13 @@ class _AddPageState extends State<AddPage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const SizedBox(height: 16),
                 const Text('Price', style: TextStyle(fontSize: 16)),
                 const SizedBox(height: 16),
                 TextField(
                   controller: _price,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    fillColor: const Color.fromRGBO(243, 243, 243, 1),
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? const Color.fromARGB(255, 138, 134, 134) : const Color.fromRGBO(243, 243, 243, 1),
                     filled: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -154,7 +199,7 @@ class _AddPageState extends State<AddPage> {
                   controller: _description,
                   maxLines: 6,
                   decoration: InputDecoration(
-                    fillColor: const Color.fromRGBO(243, 243, 243, 1),
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? const Color.fromARGB(255, 138, 134, 134) : const Color.fromRGBO(243, 243, 243, 1),
                     filled: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -170,7 +215,7 @@ class _AddPageState extends State<AddPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 30),
                 // AddButton(
                 //   nameController: _name,
                 //   priceController: _price,

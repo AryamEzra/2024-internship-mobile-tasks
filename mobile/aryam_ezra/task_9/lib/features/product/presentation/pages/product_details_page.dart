@@ -105,18 +105,18 @@ class DetailsPage extends StatelessWidget {
                                           const SizedBox(height: 10),
                                           Text(
                                             product.name,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 20,
-                                              color: Colors.black,
+                                              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           const SizedBox(height: 10),
                                           Text(
                                             product.description,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 16,
-                                              color: Colors.black,
+                                              color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                                             ),
                                           ),
                                         ],
@@ -127,16 +127,15 @@ class DetailsPage extends StatelessWidget {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       children: [
-                                        const Row(
+                                        Row(
                                           children: [
-                                            Icon(Icons.star,
+                                            const Icon(Icons.star,
                                                 color: Colors.yellow, size: 16),
                                             Text(
                                               '(4.0)',
                                               style: TextStyle(
                                                 fontSize: 13,
-                                                color: Color.fromARGB(
-                                                    255, 210, 205, 205),
+                                                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                                               ),
                                             ),
                                           ],
@@ -146,8 +145,9 @@ class DetailsPage extends StatelessWidget {
                                           children: [
                                             Text(
                                               'Price: ${product.price.toString()}',
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 16,
+                                                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                                               ),
                                             ),
                                           ],
@@ -163,10 +163,11 @@ class DetailsPage extends StatelessWidget {
                       ),
                     ),
 
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Text('Size:',
                           style: TextStyle(
+                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                               fontSize: 18, fontWeight: FontWeight.w500)),
                     ),
                     const SizeSelector(), // Replace with SizeSelector widget
@@ -175,9 +176,10 @@ class DetailsPage extends StatelessWidget {
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
                         product.description,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 14,
-                            color: Color.fromRGBO(102, 102, 102, 1)),
+                            // color: Color.fromRGBO(102, 102, 102, 1)),
+                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,)
                       ),
                     ),
                     const SizedBox(height: 100),

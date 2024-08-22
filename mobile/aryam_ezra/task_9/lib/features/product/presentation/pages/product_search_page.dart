@@ -25,6 +25,10 @@ class SearchPage extends StatelessWidget {
         ),
         title: const Text(
           'Search Product',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
         ),
         centerTitle: true,
       ),
@@ -87,30 +91,39 @@ class SearchPage extends StatelessWidget {
                   if (state is SearchPageLoadingState) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is SearchPageLoadedState) {
-                    return ListView.builder(
-                      itemCount: state.products.length,
-                      itemBuilder: (context, index) {
-                        final product = state.products[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BlocProvider(
-                                  create: (context) => DetailsPageBloc(
-                                    getIt<GetProduct>(),
-                                    getIt<DeleteProduct>(),
-                                  )..add(FetchProductByIdEvent(GetProductParams(product.id))),
-                                  child: DetailsPage(id: product.id),
-                                ),
-                              ),
-                            );
-                          },
-                          child: ProductItemCard(
-                            product: product,
-                          ),
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        // Re-trigger the search with the current query
+                        context.read<SearchPageBloc>().add(
+                          FetchAllProductsSearchEvent(),
                         );
                       },
+                      child: ListView.builder(
+                        itemCount: state.products.length,
+                        itemBuilder: (context, index) {
+                          final product = state.products[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BlocProvider(
+                                    create: (context) => DetailsPageBloc(
+                                      getIt<GetProduct>(),
+                                      getIt<DeleteProduct>(),
+                                    )..add(FetchProductByIdEvent(GetProductParams(product.id))),
+                                    child: DetailsPage(id: product.id),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: ProductItemCard(
+                              product: product,
+                            ),
+                            
+                          );
+                        },
+                      ),
                     );
                   } else if (state is SearchPageErrorState) {
                     return Center(child: Text(state.message));

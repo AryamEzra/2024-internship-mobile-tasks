@@ -6,7 +6,6 @@ import '../../../../core/error/exceptions.dart';
 import '../../../user/data/data_sources/user_local_data_source.dart';
 import '../models/product_model.dart';
 
-
 abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getAllProducts();
   Future<ProductModel> getProductById(String id);
@@ -34,6 +33,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
+  
   Future<ProductModel> addProduct(ProductModel product, String imagePath) async {
     try {
       var request = http.MultipartRequest(
@@ -88,31 +88,57 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<ProductModel> getProductById(String id) async {
-  try {
-    final response = await client.get(
-      Uri.parse(Urls.getProduct(id)),
-      headers: await _createHeaders(), // Add authorization header
-    );
+    try {
+      final response = await client.get(
+        Uri.parse(Urls.getProduct(id)),
+        headers: await _createHeaders(), // Add authorization header
+      );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> jsonResponse = json.decode(response.body);
-      final productJson = jsonResponse['data'];
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+        final productJson = jsonResponse['data'];
 
-      if (productJson != null) {
-        return ProductModel.fromJson(productJson);
+        if (productJson != null) {
+          return ProductModel.fromJson(productJson);
+        } else {
+          throw ProductNotFoundException();
+        }
+      } else if (response.statusCode == 404) {
+        throw ProductNotFoundException();
       } else {
-        throw ProductNotFoundException(); // Product data is null
+        throw ServerException();
       }
-    } else if (response.statusCode == 404) {
-      throw ProductNotFoundException(); // Product not found
-    } else {
-      throw ServerException(); // Handle other status codes
-    }
-  } catch (e) {
+    } on ProductNotFoundException {
+      rethrow; // Re-throw the ProductNotFoundException
+    } catch (e) {
       throw ServerException();
+    }
   }
-}
+//   Future<ProductModel> getProductById(String id) async {
+//   try {
+//     final response = await client.get(
+//       Uri.parse(Urls.getProduct(id)),
+//       headers: await _createHeaders(), // Add authorization header
+//     );
 
+//     if (response.statusCode == 200) {
+//       final Map<String, dynamic> jsonResponse = json.decode(response.body);
+//       final productJson = jsonResponse['data'];
+
+//       if (productJson != null) {
+//         return ProductModel.fromJson(productJson);
+//       } else {
+//         throw ProductNotFoundException(); // Product data is null
+//       }
+//     } else if (response.statusCode == 404) {
+//       throw ProductNotFoundException(); // Product not found
+//     } else {
+//       throw ServerException(); // Handle other status codes
+//     }
+//   } catch (e) {
+//       throw ServerException();
+//   }
+// }
 
   @override
   Future<void> deleteProduct(String id) async {
@@ -138,22 +164,48 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<ProductModel> updateProduct(String id, ProductModel product) async {
-  try {
-    final response = await client.put(
-      Uri.parse(Urls.updateProduct(id)),
-      headers: await _createHeaders(),
-      body: jsonEncode(product.toJson()),
-    );
-    if (response.statusCode == 200) {
-      return ProductModel.fromJson(jsonDecode(response.body)['data']);
-    } else {
+    try {
+      final response = await client.put(
+        Uri.parse(Urls.updateProduct(id)),
+        headers: await _createHeaders(), // Add authorization header
+        body: jsonEncode(product.toJson()),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+        final productJson = jsonResponse['data'];
+
+        if (productJson != null) {
+          return ProductModel.fromJson(productJson);
+        } else {
+          throw ProductNotFoundException();
+        }
+      } else if (response.statusCode == 404) {
+        throw ProductNotFoundException();
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
+      // Log the error or handle it as needed
       throw ServerException();
     }
-  } catch (e) {
-    throw ServerException();
   }
-}
-
+//   Future<ProductModel> updateProduct(String id, ProductModel product) async {
+//   try {
+//     final response = await client.put(
+//       Uri.parse(Urls.updateProduct(id)),
+//       headers: await _createHeaders(),
+//       body: jsonEncode(product.toJson()),
+//     );
+//     if (response.statusCode == 200) {
+//       return ProductModel.fromJson(jsonDecode(response.body)['data']);
+//     } else {
+//       throw ServerException();
+//     }
+//   } catch (e) {
+//     throw ServerException();
+//   }
+// }
 }
 
 // this is verison 1 the one above is verion 2

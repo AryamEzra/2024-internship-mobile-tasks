@@ -111,6 +111,7 @@ class SignInPage extends StatelessWidget {
                   textStyle: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400,
+                    // color: Theme.of(context).brightness == Brightness.dark ? Color.fromRGBO(111, 111, 111, 1) : Color.fromRGBO(111, 111, 111, 1),
                     color: Color.fromRGBO(111, 111, 111, 1),
                     height: 49.85 / 16.0,
                     letterSpacing: 2 / 100 * 16.0,
@@ -120,6 +121,7 @@ class SignInPage extends StatelessWidget {
 
               TextField(
                 controller: passwordController,
+                
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: '********',
@@ -143,9 +145,28 @@ class SignInPage extends StatelessWidget {
                 create: (context) => SignInPageBloc(userRepository: getIt<UserRepository>()),
                 child: BlocListener<SignInPageBloc, SignInPageState>(
                   listener: (context, state) {
+                    // if (state is SignInPageFailure) {
+                    //   ScaffoldMessenger.of(context).showSnackBar(
+                    //     SnackBar(content: Text(state.error)),
+                    //   );
+                    // } else if (state is SignInPageSuccess) {
+                    //   Navigator.pushReplacementNamed(context, '/home');
+                    // }
                     if (state is SignInPageFailure) {
+                      String errorMessage;
+                      // Check for password mismatch error
+                      if (state.error == 'Password does not match') {
+                        errorMessage =
+                            'Password does not match. Please try again.';
+                      } else {
+                        errorMessage =
+                            'Failed to sign in. Please check your credentials and try again.';
+                      }
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.error)),
+                        SnackBar(
+                          content: Text(errorMessage),
+                          backgroundColor: const Color.fromARGB(255, 84, 80, 79),
+                        ),
                       );
                     } else if (state is SignInPageSuccess) {
                       Navigator.pushReplacementNamed(context, '/home');

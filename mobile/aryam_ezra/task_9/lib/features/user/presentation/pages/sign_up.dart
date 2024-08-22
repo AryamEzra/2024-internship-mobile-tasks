@@ -231,9 +231,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           style: const TextStyle(
                             color: Color.fromARGB(255, 54, 104, 255),
                           ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                            },
+                          recognizer: TapGestureRecognizer()..onTap = () {},
                         ),
                       ],
                     ),
@@ -242,8 +240,8 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               const SizedBox(height: 32.0),
               BlocProvider(
-                  create: (context) => SignUpPageBloc(
-                      userRepository: getIt<UserRepository>()),
+                  create: (context) =>
+                      SignUpPageBloc(userRepository: getIt<UserRepository>()),
                   child: BlocListener<SignUpPageBloc, SignUpPageState>(
                     listener: (context, state) {
                       if (state is SignUpPageFailure) {
@@ -261,8 +259,29 @@ class _SignUpPageState extends State<SignUpPage> {
                           state is SignUpPageLoading
                               ? const CircularProgressIndicator()
                               : SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    // onPressed: () {
+                                    //   if (!isChecked) {
+                                    //     ScaffoldMessenger.of(context)
+                                    //         .showSnackBar(
+                                    //       const SnackBar(
+                                    //           content: Text(
+                                    //               'Please agree to the terms and conditions')),
+                                    //     );
+                                    //   } else {
+                                    //     context.read<SignUpPageBloc>().add(
+                                    //           SignUpPageButtonPressed(
+                                    //             email: emailController.text,
+                                    //             password: passwordController.text,
+                                    //             confirmPassword:
+                                    //                 confirmPasswordController
+                                    //                     .text,
+                                    //             name: nameController.text,
+                                    //           ),
+                                    //         );
+                                    //   }
+                                    // },
                                     onPressed: () {
                                       if (!isChecked) {
                                         ScaffoldMessenger.of(context)
@@ -271,11 +290,20 @@ class _SignUpPageState extends State<SignUpPage> {
                                               content: Text(
                                                   'Please agree to the terms and conditions')),
                                         );
+                                      } else if (passwordController.text !=
+                                          confirmPasswordController.text) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text(
+                                                  'Passwords do not match')),
+                                        );
                                       } else {
                                         context.read<SignUpPageBloc>().add(
                                               SignUpPageButtonPressed(
                                                 email: emailController.text,
-                                                password: passwordController.text,
+                                                password:
+                                                    passwordController.text,
                                                 confirmPassword:
                                                     confirmPasswordController
                                                         .text,
@@ -285,12 +313,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 16.0),
-                                      backgroundColor:
-                                          const Color.fromARGB(255, 54, 104, 255),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16.0),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 54, 104, 255),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
                                     ),
                                     child: Text(
@@ -302,7 +331,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       ),
                                     ),
                                   ),
-                              ),
+                                ),
                           const SizedBox(height: 30.0),
                           // Sign In text
                           Row(

@@ -6,6 +6,7 @@ import '../../../../service_locator.dart';
 import '../../../user/data/data_sources/user_local_data_source.dart';
 import '../../../user/data/data_sources/user_name.dart';
 import '../../../user/domain/use_case/logout_user.dart';
+import 'dark_mode_toggle.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -56,7 +57,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: const Color.fromRGBO(204, 204, 204, 1),
+                // (204, 204, 204, 1)
+                // Color(0xFF121212)
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : const Color.fromRGBO(204, 204, 204, 1),
               ),
               height: 50,
               width: 50,
@@ -88,9 +91,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             )),
                         Text(
                           userName,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
-                            color: Colors.black,
+                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -100,6 +103,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 ),
               ),
             ),
+            const DarkThemeToggle(),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),

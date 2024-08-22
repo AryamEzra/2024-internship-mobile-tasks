@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageUploadWidget extends StatefulWidget {
@@ -38,7 +39,7 @@ class _ImageUploadWidgetState extends State<ImageUploadWidget> {
         height: 300,
         width: 400,
         decoration: BoxDecoration(
-          color: const Color.fromRGBO(243, 243, 243, 1),
+          color: Theme.of(context).brightness == Brightness.dark ? const Color.fromARGB(255, 138, 134, 134) : const Color.fromRGBO(243, 243, 243, 1),
           borderRadius: BorderRadius.circular(10),
           image: widget.imageFile != null
               ? DecorationImage(
@@ -49,18 +50,18 @@ class _ImageUploadWidgetState extends State<ImageUploadWidget> {
         ),
         padding: const EdgeInsets.all(8.0),
         child: widget.imageFile == null
-            ? const Center(
+            ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.image, color: Colors.black, size: 30),
-                    SizedBox(height: 10),
+                    const Icon(Icons.image, color: Colors.black, size: 30),
+                    const SizedBox(height: 10),
                     Text(
                       'Upload image',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: GoogleFonts.poppins(
+                      color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
+                    fontSize: 18,
+                    ),
                     ),
                   ],
                 ),

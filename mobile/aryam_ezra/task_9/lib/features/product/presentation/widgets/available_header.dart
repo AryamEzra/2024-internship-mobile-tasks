@@ -5,7 +5,7 @@ class AvailableProductsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
@@ -16,12 +16,13 @@ class AvailableProductsHeader extends StatelessWidget {
                 Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'Available products',
+                        
                         style: TextStyle(
                             fontSize: 25,
-                            color: Colors.black,
+                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                             fontWeight: FontWeight.bold),
                       ),
                     ),

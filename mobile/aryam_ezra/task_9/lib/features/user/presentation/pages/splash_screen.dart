@@ -19,8 +19,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // Wait for 5 seconds, then trigger authentication status check
-    Timer(const Duration(seconds: 5), () {
+  
+    Timer(const Duration(seconds: 3), () {
       // Navigator.pushReplacementNamed(context, '/home');
 
       if (mounted) {

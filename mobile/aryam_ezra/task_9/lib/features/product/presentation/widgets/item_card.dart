@@ -13,6 +13,14 @@ class ProductItemCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 1), // changes position of shadow
+            ),
+          ],
         ),
         child: Column(
           children: [
@@ -32,9 +40,9 @@ class ProductItemCard extends StatelessWidget {
               ),
             ),
             Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: Theme.of(context).brightness == Brightness.dark ? const Color.fromARGB(255, 40, 39, 39) : Colors.white,
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
@@ -50,9 +58,9 @@ class ProductItemCard extends StatelessWidget {
                         children: [
                           Text(
                             product.name,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 20,
-                                color: Colors.black,
+                                color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 5),
@@ -71,7 +79,8 @@ class ProductItemCard extends StatelessWidget {
                         Row(
                           children: [
                             Text('\$${product.price}',
-                                style: const TextStyle(
+                                style: TextStyle(
+                                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                                   fontSize: 16,
                                 )),
                           ],

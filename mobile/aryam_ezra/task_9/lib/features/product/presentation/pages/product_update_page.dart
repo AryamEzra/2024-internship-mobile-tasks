@@ -71,7 +71,7 @@ class _UpdatePageState extends State<UpdatePage> {
         title: const Text(
           'Update Product',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: 20,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -109,7 +109,8 @@ class _UpdatePageState extends State<UpdatePage> {
                 TextField(
                   controller: _name,
                   decoration: InputDecoration(
-                    fillColor: const Color.fromRGBO(243, 243, 243, 1),
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? const Color.fromARGB(255, 138, 134, 134) : const Color.fromRGBO(243, 243, 243, 1),
+                    // fillColor: const Color.fromRGBO(243, 243, 243, 1),
                     filled: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -132,7 +133,7 @@ class _UpdatePageState extends State<UpdatePage> {
                   controller: _price,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    fillColor: const Color.fromRGBO(243, 243, 243, 1),
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? const Color.fromARGB(255, 138, 134, 134) : const Color.fromRGBO(243, 243, 243, 1),
                     filled: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -155,9 +156,9 @@ class _UpdatePageState extends State<UpdatePage> {
                 const SizedBox(height: 8),
                 TextField(
                   controller: _description,
-                  maxLines: 6,
+                  maxLines: 7,
                   decoration: InputDecoration(
-                    fillColor: const Color.fromRGBO(243, 243, 243, 1),
+                    fillColor: Theme.of(context).brightness == Brightness.dark ? const Color.fromARGB(255, 138, 134, 134) : const Color.fromRGBO(243, 243, 243, 1),
                     filled: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -173,7 +174,7 @@ class _UpdatePageState extends State<UpdatePage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 30),
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -196,7 +197,7 @@ class _UpdatePageState extends State<UpdatePage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
                   height: 50,
