@@ -54,6 +54,8 @@ class SearchPage extends StatelessWidget {
                       },
                     ),
                   ),
+                  
+        
                   const SizedBox(width: 15),
                   Container(
                     padding: const EdgeInsets.all(8),
@@ -95,8 +97,8 @@ class SearchPage extends StatelessWidget {
                       onRefresh: () async {
                         // Re-trigger the search with the current query
                         context.read<SearchPageBloc>().add(
-                          FetchAllProductsSearchEvent(),
-                        );
+                              FetchAllProductsSearchEvent(),
+                            );
                       },
                       child: ListView.builder(
                         itemCount: state.products.length,
@@ -111,7 +113,8 @@ class SearchPage extends StatelessWidget {
                                     create: (context) => DetailsPageBloc(
                                       getIt<GetProduct>(),
                                       getIt<DeleteProduct>(),
-                                    )..add(FetchProductByIdEvent(GetProductParams(product.id))),
+                                    )..add(FetchProductByIdEvent(
+                                        GetProductParams(product.id))),
                                     child: DetailsPage(id: product.id),
                                   ),
                                 ),
@@ -120,7 +123,6 @@ class SearchPage extends StatelessWidget {
                             child: ProductItemCard(
                               product: product,
                             ),
-                            
                           );
                         },
                       ),
