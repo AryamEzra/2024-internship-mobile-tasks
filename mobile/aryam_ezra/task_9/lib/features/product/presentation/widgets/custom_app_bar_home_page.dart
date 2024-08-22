@@ -8,6 +8,7 @@ import '../../../user/data/data_sources/user_name.dart';
 import '../../../user/domain/use_case/logout_user.dart';
 import 'dark_mode_toggle.dart';
 
+
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
@@ -64,6 +65,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               height: 50,
               width: 50,
             ),
+            
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(8),

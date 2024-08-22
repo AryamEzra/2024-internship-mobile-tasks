@@ -66,6 +66,7 @@ class ProductItemCard extends StatelessWidget {
                           const SizedBox(height: 5),
                           Text(
                             product.description,
+                            maxLines: 1,
                             style: const TextStyle(
                               fontSize: 13,
                               color: Color.fromARGB(255, 210, 205, 205),

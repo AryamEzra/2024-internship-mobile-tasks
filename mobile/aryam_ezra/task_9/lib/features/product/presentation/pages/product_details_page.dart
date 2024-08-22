@@ -114,6 +114,7 @@ class DetailsPage extends StatelessWidget {
                                           const SizedBox(height: 10),
                                           Text(
                                             product.description,
+                                            maxLines: 1,
                                             style: TextStyle(
                                               fontSize: 16,
                                               color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
