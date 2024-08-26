@@ -55,6 +55,8 @@ dependencies:
   internet_connection_checker:
   injectable:
   flutter_secure_storage:
+  socket_io_client:
+  bloc_concurrency:
 
 
 

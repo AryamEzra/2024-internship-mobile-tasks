@@ -3,7 +3,17 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'core/connectivity/http.dart';
 import 'core/connectivity/network_info.dart';
+import 'features/chat/data/data_source/chat_remote_data_source.dart';
+import 'features/chat/data/repositories/chat_repository_impl.dart';
+import 'features/chat/domain/repositories/chat_repositories.dart';
+import 'features/chat/domain/use_cases/get_chat_messages.dart';
+import 'features/chat/domain/use_cases/get_my_chats.dart';
+import 'features/chat/domain/use_cases/initiate_chat.dart';
+import 'features/chat/domain/use_cases/send_messages.dart';
+import 'features/chat/presentaion/bloc/chat/chat_bloc.dart';
+import 'features/chat/presentaion/bloc/message/message_bloc.dart';
 import 'features/product/data/data_sources/product_local_data_source.dart';
 import 'features/product/data/data_sources/product_remote_data_source.dart';
 import 'features/product/data/repositories/product_repository_impl.dart';
@@ -105,4 +115,33 @@ Future<void> setupLocator() async {
 
   getIt.registerLazySingleton<Future<String> Function()>(() => fetchUserName);
 
+  getIt.registerFactory(() => ChatsBloc(
+        getMyChats: getIt(),
+        initiateChat: getIt(),
+      ));
+  getIt.registerFactory(() => MessageBloc(
+        getChatMessages: getIt(),
+        sendMessage: getIt(),
+      ));
+getIt.registerLazySingleton(() => GetMyChats(getIt()));
+  getIt.registerLazySingleton(() => InitiateChat(getIt()));
+  getIt.registerLazySingleton(() => GetChatMessages(getIt()));
+  getIt.registerLazySingleton(() => SendMessage(getIt()));
+
+  // Repository
+  getIt.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(
+      networkInfo: getIt(),
+      remoteDataSource: getIt(),));
+
+  // Data
+
+  getIt.registerLazySingleton<ChatRemoteDataSource>(
+        () => ChatRemoteDataSourceImpl(client: getIt()) as ChatRemoteDataSource);
+
+
+  //! External -----------------------------------------------------------------
+
+  getIt.registerLazySingleton(() => HttpClient(
+      multipartRequestFactory: multipartRequestFactory,
+      client: getIt()));
 }

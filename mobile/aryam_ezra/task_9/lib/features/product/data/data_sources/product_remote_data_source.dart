@@ -163,12 +163,39 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
+
+//   Future<ProductModel> updateProduct(String id, ProductModel product) async {
+//   try {
+//     final headers = await _createHeaders();
+//     final response = await client.put(
+//       Uri.parse(Urls.updateProduct(id)),
+//       headers: headers,
+//       body: jsonEncode({
+//         'name': product.name,
+//         'description': product.description,
+//         'price': product.price,
+//       }),
+//     );
+//     if (response.statusCode == 200) {
+//       return ProductModel.fromJson(jsonDecode(response.body));
+//     } else {
+//       throw ServerException();
+//     }
+//   } catch (e) {
+//     throw ServerException();
+//   }
+// }
   Future<ProductModel> updateProduct(String id, ProductModel product) async {
     try {
       final response = await client.put(
         Uri.parse(Urls.updateProduct(id)),
         headers: await _createHeaders(), // Add authorization header
-        body: jsonEncode(product.toJson()),
+         body: jsonEncode(product.toJson()),
+      //   body: jsonEncode({
+      //   'name': product.name,
+      //   'description': product.description,
+      //   'price': product.price,
+      // }),
       );
 
       if (response.statusCode == 200) {

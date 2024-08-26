@@ -41,8 +41,16 @@ class UserModel extends User {
       'email': email,
       'password': password,
     };
-  }
 
+
+  }
+static UserModel fromEntity(User user) {
+    return UserModel(
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    );
+  }
   // factory UserModel.fromEntity(User user) {
   //   return UserModel(
   //     id: user.id,

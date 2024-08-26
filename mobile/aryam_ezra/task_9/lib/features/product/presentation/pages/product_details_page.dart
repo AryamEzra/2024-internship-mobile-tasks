@@ -195,9 +195,19 @@ class DetailsPage extends StatelessWidget {
                             product: product,
                           ), // Use UpdateButton widget
                           const SizedBox(height: 30),
+                          ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          '/mychat' as Route<Object?>,
+        );
+      },
+      child: Text('Go to My Chat'),
+    ),
                         ],
                       
                     ),
+
                   ],
                 ),
               );

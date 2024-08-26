@@ -45,6 +45,7 @@ class _UpdatePageState extends State<UpdatePage> {
       description: _description.text,
       price: double.parse(_price.text),
       imageUrl: widget.product.imageUrl,
+      seller: widget.product.seller,
     );
 
     BlocProvider.of<UpdatePageBloc>(context).add(

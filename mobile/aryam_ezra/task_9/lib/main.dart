@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'features/chat/presentaion/bloc/chat/chat_bloc.dart';
+import 'features/chat/presentaion/bloc/message/message_bloc.dart';
+import 'features/chat/presentaion/pages/inbox.dart';
+import 'features/chat/presentaion/pages/my_chats.dart';
 import 'features/product/domain/entities/product.dart';
 import 'features/product/domain/use_case/add_product.dart';
 import 'features/product/domain/use_case/delete_product.dart';
@@ -23,11 +27,12 @@ import 'features/user/presentation/bloc/authentication/authentication_bloc.dart'
 import 'features/user/presentation/pages/sign_in.dart';
 import 'features/user/presentation/pages/sign_up.dart';
 import 'features/user/presentation/pages/splash_screen.dart';
+import 'service_locator.dart'as di;
 import 'service_locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await setupLocator();
+  await setupLocator() ;
   runApp(const MyApp());
 }
 
@@ -56,6 +61,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<ThemeCubit>(
           create: (context) => ThemeCubit(),
         ),
+        BlocProvider(
+            create: (context) =>
+                di.getIt<ChatsBloc>()..add(ChatsLoadRequested())),
+        BlocProvider(create: (context) => di.getIt<MessageBloc>()),
         // Add other providers here if needed
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
@@ -79,6 +88,8 @@ class MyApp extends StatelessWidget {
               '/splash': (context) => const SplashScreen(),
               '/signin': (context) => const SignInPage(),
               '/signup': (context) => const SignUpPage(),
+              '/inbox' :(context) => ChatInboxPage(chat: getIt(),),
+              '/mychat' : (context) => const ChatsPage(),
             },
             onGenerateRoute: (settings) {
               switch (settings.name) {
